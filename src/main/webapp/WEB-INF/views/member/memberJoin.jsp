@@ -15,218 +15,169 @@
   <!-- Google fonts-->
   <!-- Core theme CSS (includes Bootstrap)-->
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
+  <style>
+  	.was-validated {
+		  position: absolute;
+		  left: 50%;
+		  transform: translate(-50%);
+		  margin-top: 60px;
+		  margin-bottom: 60px;
+		  background: #ffffff;
+		  border: 1px solid #aacdff;
+		  box-shadow: 7px 7px 39px rgba(0, 104, 255, 0.25);
+		  border-radius: 20px;
+		  padding: 50px;
+		}
+  </style>
   <script>
     'use strict';
-    // 아이디와 닉네임 중복버튼을 클릭했는지의 여부를 확인하기위한 변수(버튼 클릭후에는 내용 수정처리 못하도록 처리)
+    
     let idCheckSw = 0;
     let nickCheckSw = 0;
     
-    function fCheck() {
-    	// 유효성 검사.....
-    	// 아이디,닉네임,성명,이메일,홈페이지,전화번호,비밀번호 등등....
-    	
-    	let regMid = /^[a-zA-Z0-9_]{4,20}$/;
-    	let regPwd = /(?=.*[0-9a-zA-Z]).{4,20}$/;
-      let regNickName = /^[가-힣]+$/;
-      let regName = /^[가-힣a-zA-Z]+$/;
-      let regEmail =/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
-      let regURL = /^(https?:\/\/)?([a-z\d\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?$/;
-    	let regTel = /\d{2,3}-\d{3,4}-\d{4}$/g;
-    	
-    	let mid = myform.mid.value.trim();
-    	let pwd = myform.pwd.value;
-    	let nickName = myform.nickName.value;
-    	let name = myform.name.value;
-    	let email1 = myform.email1.value.trim();
-    	let email2 = myform.email2.value;
-    	let email = email1 + "@" + email2;
-    	let homePage = myform.homePage.value;
-    	let tel1 = myform.tel1.value;
-    	let tel2 = myform.tel2.value.trim();
-    	let tel3 = myform.tel3.value.trim();
-    	let tel = tel1 + "-" + tel2 + "-" + tel3;
-    	
-    	let submitFlag = 0;		// 모든 체크가 정상으로 종료되게되면 submitFlag는 1로 변경처리될수 있게 한다.
-    	
-    	
-    	// 앞의 정규식으로 정의된 부분에 대한 유효성체크
-    	if(!regMid.test(mid)) {
-    		alert("아이디는 4~20자리의 영문 소/대문자와 숫자, 언더바(_)만 사용가능합니다.");
-    		myform.mid.focus();
-    		return false;
-    	}
-    	else if(!regPwd.test(pwd)) {
-        alert("비밀번호는 1개이상의 문자와 특수문자 조합의 6~24 자리로 작성해주세요.");
-        myform.pwd.focus();
-        return false;
-      }
-      else if(!regNickName.test(nickName)) {
-        alert("닉네임은 한글만 사용가능합니다.");
-        myform.nickName.focus();
-        return false;
-      }
-      else if(!regName.test(name)) {
-        alert("성명은 한글과 영문대소문자만 사용가능합니다.");
-        myform.name.focus();
-        return false;
-      }
-      else if(!regEmail.test(email)) {
-        alert("이메일 형식에 맞지않습니다.");
-        myform.email1.focus();
-        return false;
-      }
-      else if((homePage != "http://" && homePage != "")) {
-        if(!regURL.test(homePage)) {
-	        alert("작성하신 홈페이지 주소가 URL 형식에 맞지않습니다.");
-	        myform.homePage.focus();
-	        return false;
-        }
-        else {
-	    	  submitFlag = 1;
-	      }
-      }
-    	
-    	if(tel2 != "" && tel3 != "") {
-    	  if(!regTel.test(tel)) {
-	    		alert("전화번호형식을 확인하세요.(000-0000-0000)");
-	    		myform.tel2.focus();
-	    		return false;
-    	  }
-    	  else {
-    		  submitFlag = 1;
-    	  }
-    	}
-    	else {		// 전화번호를 입력하지 않을시 DB에는 '010- - '의 형태로 저장하고자 한다.
-    		tel2 = " ";
-    		tel3 = " ";
-    		tel = tel1 + "-" + tel2 + "-" + tel3;
-    		submitFlag = 1;
-    	}
-    	
-    	// 전송전에 '주소'를 하나로 묶어서 전송처리 준비한다.
-    	let postcode = myform.postcode.value + " ";
-    	let roadAddress = myform.roadAddress.value + " ";
-    	let detailAddress = myform.detailAddress.value + " ";
-    	let extraAddress = myform.extraAddress.value + " ";
-  		myform.address.value = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress + "/";
-    	
-  		// 전송전에 파일에 관한 사항들을 체크한다.
-  		let fName = document.getElementById("file").value;
-    	 
-    	if(fName.trim() != "") {
-	    	let ext = fName.substring(fName.lastIndexOf(".")+1).toLowerCase();
-	    	let maxSize = 1024 * 1024 * 5;
-	    	let fileSize = document.getElementById("file").files[0].size;
-	    	
-	    	if(ext != 'jpg' && ext != 'gif' && ext != 'png' && ext != 'zip' && ext != 'hwp' && ext != 'ppt' && ext != 'pptx' && ext != 'xlsx') {
-	    		alert("업로드 가능한 파일은 'jgp/gif/png/zip/hwp/ppt/pptx/xlsx' 만 가능합니다.");
-	    	}
-	    	else if(fileSize > maxSize) {
-	    		alert("업로드할 파일의 최대용량은 5MByte입니다.");
-	    	}
-	    	submitFlag == 1;
-    	}
-  		
-  		
-    	// 전송전에 모든 체크가 끝나면 submitFlag가 1로 되게된다. 이때 값들을 서버로 전송처리한다.
-    	if(submitFlag == 1) {
-    		if(idCheckSw == 0) {
-    			alert("아이디 중복체크버튼을 눌러주세요!");
-    			document.getElementById("midBtn").focus();
-    		}
-    		else if(nickCheckSw == 0) {
-    			alert("닉네임 중복체크버튼을 눌러주세요!");
-    			document.getElementById("nickNameBtn").focus();
-    		}
-    		else {
-	    		myform.email.value = email;
-	    		myform.tel.value = tel;
-	    		
-		    	myform.submit();
-    		}
-    	}
-    	else {
-    		alert("회원가입 실패~~ 폼의 내용을 확인하세요.");
-    	}
-    	
-    }
-    
-    // 아이디 중복체크
-    function idCheck() {
+    /* 아이디 중복 체크 */
+    function idCheck(){
     	let mid = myform.mid.value;
     	
-    	if(mid.trim() == "" || mid.length < 4 || mid.length > 20) {
-    		alert("아이디를 확인하세요(아이디는 4~20자 이내)");
+    	if(mid.trim() == "" || mid.length < 5 || mid.length > 20) {
+    		alert("아이디를 확인 후 다시 입력하세요.(5~20자 이내)");
     		myform.mid.focus();
     		return false;
     	}
     	
     	$.ajax({
-    		type  : "post",
-    		url   : "${ctp}/member/memberIdCheck",
-    		data  : {mid : mid},
-    		success:function(res) {
-    			if(res == "1") {
-    				alert("이미 사용중인 아이디 입니다. 다시 아이디를 입력하세요.");
+    		url : "${ctp}/member/memberIdCheck",
+    		type : "post",
+    		data : {mid:mid},
+    		success : function(res){
+    			if(res == "1"){
+    				alert("이미 사용 중인 아이디입니다. 다른 아이디를 입력해 주세요.");
     				$("#mid").focus();
-    			}
-    			else {
-    				alert("사용 가능한 아이디 입니다.");
+    			} else {
+    				alert("사용 가능한 아이디입니다.");
     				idCheckSw = 1;
-  	    		myform.mid.readOnly = true;
-  	    		$("#pwd").focus();
+    				myform.mid.readOnly = true;
     			}
     		},
-    		error : function() {
-    			alert("전송오류!");
+    		error : function(){
+    			alert("전송 오류");
     		}
     	});
     }
     
-    // 닉네임 중복체크
-    function nickCheck() {
+    /* 닉네임 중복 체크 */
+    function nickCheck(){
     	let nickName = myform.nickName.value;
     	
     	if(nickName.trim() == "" || nickName.length < 2 || nickName.length > 20) {
-    		alert("닉네임을 확인하세요(닉네임은 2~20자 이내)");
+    		alert("닉네임을 확인하세요.(2~20자 이내)");
     		myform.nickName.focus();
     		return false;
     	}
     	
     	$.ajax({
-    		type  : "post",
-    		url   : "${ctp}/member/memberNickCheck",
+    		url : "${ctp}/member/memberNickCheck",
+    		type : "post",
     		data  : {nickName : nickName},
-    		success:function(res) {
-    			if(res == "1") {
-    				alert("이미 사용중인 닉네임 입니다. 다시 닉네임을 입력하세요.");
+    		success : function(res){
+    			if(res == "1"){
+    				alert("이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해 주세요.");
     				$("#nickName").focus();
-    			}
-    			else {
-    				alert("사용 가능한 닉네임 입니다.");
+    			}	else {
+    				alert("사용 가능한 닉네임입니다.");
     				nickCheckSw = 1;
   	    		myform.nickName.readOnly = true;
-  	    		$("#name").focus();
     			}
     		},
-    		error : function() {
-    			alert("전송오류!");
+    		error : function(){
+    			alert("전송 오류");
     		}
     	});
     }
     
-    // 선택된 그림 미리보기
-    function imgCheck(e) {
-    	if(e.files && e.files[0]) {
-    		let reader = new FileReader();
-    		reader.onload = function(e) {
-    			document.getElementById("photoDemo").src = e.target.result;
-    		}
-    		reader.readAsDataURL(e.files[0]);
+    /* 로그인 체크 */
+    function fCheck(){
+    	/* 정규식 */
+    	let regMid = /^[a-zA-Z0-9]{5,20}$/;
+    	let regPwd = /(?=.*[0-9a-zA-Z]).{4,15}$/;
+      let regNickName = /^[가-힣]+$/;
+      let regName = /^[가-힣a-zA-Z]+$/;
+      let regEmail =/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+      let regTel = /\d{2,3}-\d{3,4}-\d{4}$/g;
+      
+      /* 변수값 담기 */
+      let mid = myform.mid.value.trim();
+	  	let pwd = myform.pwd.value;
+	  	let nickName = myform.nickName.value;
+	  	let name = myform.name.value;
+	  	
+	  	let email1 = myform.email1.value.trim();
+	  	let email2 = myform.email2.value;
+	  	let email = email1 + "@" + email2;
+	  	
+	  	let tel1 = myform.tel1.value;
+    	let tel2 = myform.tel2.value.trim();
+    	let tel3 = myform.tel3.value.trim();
+    	let tel = tel1 + "-" + tel2 + "-" + tel3;
+    	
+    	let postcode = myform.postcode.value + " ";
+    	let roadAddress = myform.roadAddress.value + " ";
+    	let detailAddress = myform.detailAddress.value + " ";
+    	let extraAddress = myform.extraAddress.value + " ";
+    	let address = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress + "/";
+    	
+    	/* 정규식으로 유효성 체크 */
+    	if(!regMid.test(mid)) {
+    		alert("아이디는 5~20자리의 영문 소/대문자와 숫자만 사용 가능합니다.");
+    		myform.mid.focus();
+    		return false;
     	}
-    	else {
-    		document.getElementById("photoDemo").src = "";
+    	if(!regPwd.test(pwd)) {
+        alert("비밀번호는 특수문자 포함 4~15자리로 작성해 주세요.");
+        myform.pwd.focus();
+        return false;
+      } 
+    	if(!regNickName.test(nickName)) {
+        alert("닉네임은 한글만 사용 가능합니다.");
+        myform.nickName.focus();
+        return false;
     	}
+    	if(!regName.test(name)) {
+        alert("성명은 한글과 영문 대/소문자만 사용 가능합니다.");
+        myform.name.focus();
+        return false;
+      } 
+			if(!regEmail.test(email)) {
+        alert("이메일 형식에 맞지 않습니다.");
+        myform.email1.focus();
+        return false;
+      }
+			if(tel2 != "" && tel3 != "") {
+    	  if(!regTel.test(tel)) {
+	    		alert("전화번호 형식을 확인하세요.(000-0000-0000)");
+	    		myform.tel2.focus();
+  	  	} else {
+	  	  	tel2 = " ";
+					tel3 = " ";
+					tel = tel1 + "-" + tel2 + "-" + tel3;
+  	  	} 
+  	  } 
+			
+			if(idCheckSw == 0) {
+				alert("아이디 중복체크 버튼을 눌러주세요.");
+  			document.getElementById("midBtn").focus();
+  			return false;
+  		} else if (nickCheckSw == 0){
+  			alert("닉네임 중복체크 버튼을 눌러주세요.");
+  			document.getElementById("nickNameBtn").focus();
+  			return false;
+  		}
+			myform.email.value = email;
+			myform.tel.value = tel;
+			myform.address.value = address;
+			
+			myform.submit();
+
     }
   </script>
 </head>
@@ -234,30 +185,39 @@
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
 <p><br/></p>
 <p><br/></p>
-<p><br/></p>
-<div class="container">
+<div class="container" style="height:950px">
   <!-- <form name="myform" method="post" class="was-validated" enctype="multipart/form-data"> -->
-  <form name="myform" method="post" class="was-validated">
+  <form name="myform" method="post" class="was-validated" style="width:800px">
     <h2 class="text-center">회 원 가 입</h2>
     <br/>
+		<div class="form-group">
+		  <label for="mid">아이디</label>
+		  <div class="input-group mb-1">
+		    <input type="text" name="mid" id="mid" placeholder="아이디를 입력하세요." class="form-control" required>
+		    <div class="input-group-append">
+		      <input type="button" onclick="idCheck()" id="midBtn" value="중복체크" class="btn btn-secondary">
+		    </div>
+		  </div>
+		</div>
     <div class="form-group">
-      <label for="mid">아이디 : &nbsp; &nbsp;<input type="button" value="아이디 중복체크" id="midBtn" class="btn btn-secondary btn-sm" onclick="idCheck()"/></label>
-      <input type="text" class="form-control" name="mid" id="mid" placeholder="아이디를 입력하세요." required autofocus/>
-    </div>
-    <div class="form-group">
-      <label for="pwd">비밀번호 :</label>
+      <label for="pwd">비밀번호</label>
       <input type="password" class="form-control" id="pwd" placeholder="비밀번호를 입력하세요." name="pwd" required />
     </div>
     <div class="form-group">
-      <label for="nickName">닉네임 : &nbsp; &nbsp;<input type="button" id="nickNameBtn" value="닉네임 중복체크" class="btn btn-secondary btn-sm" onclick="nickCheck()"/></label>
-      <input type="text" class="form-control" id="nickName" placeholder="별명을 입력하세요." name="nickName" required />
-    </div>
+		  <label for="nickName">닉네임</label>
+		  <div class="input-group mb-1">
+		    <input type="text" name="nickName" id="nickName" placeholder="사용하실 닉네임을 입력하세요." class="form-control" required>
+		    <div class="input-group-append">
+		      <input type="button" onclick="nickCheck()" id="nickNameBtn" value="중복체크" class="btn btn-secondary">
+		    </div>
+		  </div>
+		</div>
     <div class="form-group">
-      <label for="name">성명 :</label>
+      <label for="name">성명</label>
       <input type="text" class="form-control" id="name" placeholder="성명을 입력하세요." name="name" required />
     </div>
     <div class="form-group">
-      <label for="email1">Email address:</label>
+      <label for="email1">Email address</label>
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Email을 입력하세요." id="email1" name="email1" required />
           <div class="input-group-append">
@@ -274,7 +234,7 @@
     </div>
     <div class="form-group">
       <div class="form-check-inline">
-        <span class="input-group-text">성별 :</span> &nbsp; &nbsp;
+        <span class="input-group-text">성별</span>
         <label class="form-check-label">
           <input type="radio" class="form-check-input" name="gender" value="남자" checked>남자
         </label>
@@ -286,13 +246,9 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="birthday">생일</label>
-      <input type="date" name="birthday" value="<%=java.time.LocalDate.now() %>" class="form-control"/>
-    </div>
-    <div class="form-group">
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text">전화번호 :</span> &nbsp;&nbsp;
+          <span class="input-group-text">전화번호</span> &nbsp;&nbsp;
             <select name="tel1" class="custom-select">
               <option value="010" selected>010</option>
               <option value="02">서울</option>
@@ -327,15 +283,16 @@
         </div>
       </div>
     </div>
-`    <button type="button" class="btn btn-secondary" onclick="fCheck()">회원가입</button> &nbsp;
-    <button type="reset" class="btn btn-secondary">다시작성</button> &nbsp;
-    <button type="button" class="btn btn-secondary" onclick="location.href='memberLogin';">돌아가기</button>
-    
+    <div class="text-center mt-3">
+	    <button type="button" class="btn btn-secondary" onclick="fCheck()">회원가입</button> &nbsp;
+	    <button type="button" class="btn btn-secondary" onclick="location.href='memberLogin';">돌아가기</button>
+    </div>
     <input type="hidden" name="email" />
     <input type="hidden" name="tel" />
     <input type="hidden" name="address" />
   </form>
 </div>
+<p><br /></p>
 <p><br /></p>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
