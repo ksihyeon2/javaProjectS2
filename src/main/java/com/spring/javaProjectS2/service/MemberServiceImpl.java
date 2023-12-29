@@ -10,20 +10,20 @@ import com.spring.javaProjectS2.vo.MemberVO;
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
-	MemberDAO memberDao;
+	MemberDAO memberDAO;
 
 	@Override
 	public MemberVO getMemberIdCheck(String mid) {
-		return memberDao.getMemberIdCheck(mid);
+		return memberDAO.getMemberIdCheck(mid);
 	}
 
 	@Override
 	public MemberVO getMemberNickCheck(String nickName) {
-		return memberDao.getMemberNickCheck(nickName);
+		return memberDAO.getMemberNickCheck(nickName);
 	}
 
 	@Override
 	public int setMemberInput(MemberVO vo) {
-		return memberDao.setMemberInput(vo);
+		return memberDAO.setMemberInput(vo);
 	}
 }

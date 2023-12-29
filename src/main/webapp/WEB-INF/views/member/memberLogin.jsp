@@ -86,22 +86,17 @@
   	'use strict';
   	
   	function loginCheck(){
-  		/* 정규식 */
-    	let regMid = /^[a-zA-Z0-9]{5,20}$/;
-    	let regPwd = /(?=.*[0-9a-zA-Z]).{4,15}$/;
-    	
-    	/* 변수값 담기 */
     	let mid = myform.mid.value.trim();
 	  	let pwd = myform.pwd.value;
     	
 	  	/* 정규식으로 유효성 체크 */
-    	if(!regMid.test(mid)) {
-    		alert("아이디는 5~20자리의 영문 소/대문자와 숫자만 사용 가능합니다.");
+    	if(mid.trim() == "") {
+    		alert("아이디를 입력하세요.");
     		myform.mid.focus();
     		return false;
     	}
-    	if(!regPwd.test(pwd)) {
-        alert("비밀번호는 특수문자 포함 4~15자리로 작성해 주세요.");
+    	if(pwd.trim() == "") {
+        alert("비밀번호를 입력하세요.");
         myform.pwd.focus();
         return false;
       }
@@ -117,11 +112,11 @@
 	<div class="login-wrapper text-center">
 		<form name="myform" method="post" id="login-form">
 			<h2 class="mb-4">Login</h2>
-			<input type="text" name="mid" id="mid" placeholder="ID" class="mt-4">
+			<input type="text" name="mid" id="mid" value="${mid}" placeholder="ID" class="mt-4">
 			<input type="password" name="pwd" id="pwd" placeholder="Password">
 			<label for="remember-check">
-				<input type="checkbox" id="idSave" class="mb-4" checked>아이디 저장하기<br />
-				<a href="">[아이디/비밀번호 찾기]</a> &nbsp|&nbsp
+				<input type="checkbox" name="idSave" id="idSave" class="mb-4" checked>아이디 저장하기<br />
+				<a href="memberFind">[아이디/비밀번호 찾기]</a> &nbsp|&nbsp
 				<a href="memberJoin">[회원가입]</a>
 			</label>
 			<input type="button" value="Login" onclick="loginCheck()">

@@ -35,21 +35,21 @@
                     <i class="fas fa-circle fa-stack-2x text-primary"></i>
                     <a href="#"><i class="fas fa-hotel fa-stack-1x fa-inverse"></i></a>
                 </span>
-                <h4 class="my-3">숙박</h4>
+                <h4 class="my-3"></h4>
             </div>
             <div class="col-md-4">
                 <span class="fa-stack fa-4x">
                     <i class="fas fa-circle fa-stack-2x text-primary"></i>
                     <a href="#"><i class="fas fa-plane fa-stack-1x fa-inverse"></i></a>
                 </span>
-                <h4 class="my-3">항공권</h4>
+                <h4 class="my-3">운동법</h4>
             </div>
             <div class="col-md-4">
                 <span class="fa-stack fa-4x">
                     <i class="fas fa-circle fa-stack-2x text-primary"></i>
                     <a href="#"><i class="fas fa-car-side fa-stack-1x fa-inverse"></i></a>
                 </span>
-                <h4 class="my-3">렌트&기차</h4>
+                <h4 class="my-3">기타</h4>
             </div>
         </div>
     </div>

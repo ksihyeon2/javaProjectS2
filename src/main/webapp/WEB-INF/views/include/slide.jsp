@@ -7,13 +7,26 @@
 	'use strict';
 	
   function fCheck() {
-		  
+	  let area = document.getElementById("area").value;
+	  let gymName = document.getElementById("gymName").value;
+	  
+	  if(area == ""){
+		  alert("검색하실 지역을 선택해 주세요.");
+		  $("#area").focus();
+		  return false;
+	  } else if (gymName == ""){
+		  alert("검색하실 지점을 입력해 주세요.");
+		  $("#gymName").focus();
+	  	return false;
+	  } 
+	  
+	  gymForm.submit();
   }
 </script>
 <header class="masthead">
     <div class="container">
         <div class="masthead-subheading">내 주변 지점을 검색해보세요.</div>
-        <form name="myform">
+        <form name="gymForm" method="post" action="${ctp}/gym/gymSearch">
 	        <div class="mb-4">
 	        	<select name="area"	id="area" style="width:10%;height:35px">
 	      			<option value="">지역선택</option>
@@ -27,10 +40,10 @@
 	      			<option>전라남도</option>
 	      			<option>제주특별자치도</option>
 	      		</select>
-	        	<input type="text" placeholder="지점명 검색" style="width:30%;height:35px"/>
+	        	<input type="text" name="gymName" id="gymName" placeholder="지점명 검색" style="width:30%;height:35px"/>
 	        	<button class="btn btn-success" type="button" onclick="fCheck()"><i class='fas fa-search' style='font-size:25px'></i></button>  
 	        </div>
         </form>
-        <a class="btn btn-primary btn-lg text-uppercase mt-4" href="#services">둘러보기</a>
+        <a class="btn btn-primary btn-lg text-uppercase mt-4" href="${ctp}/gym/gymList">모든 지점 보기</a>
     </div>
 </header>
