@@ -10,4 +10,8 @@ public interface MemberService {
 
 	public int setMemberInput(MemberVO vo);
 
+	public void setMemberUpdate(MemberVO vo);
+
+	public MemberVO memberMidSearch(String name);
+
 }

@@ -17,6 +17,7 @@ public class MemberVO {
 	public int point;
 	public int level;
 	public int visitcnt;
+	public int totalCnt;
 	public int todayCnt;
 	public String startDate;
 	public String lastDate;

@@ -26,4 +26,14 @@ public class MemberServiceImpl implements MemberService {
 	public int setMemberInput(MemberVO vo) {
 		return memberDAO.setMemberInput(vo);
 	}
+
+	@Override
+	public void setMemberUpdate(MemberVO vo) {
+		memberDAO.setMemberUpdate(vo);
+	}
+
+	@Override
+	public MemberVO memberMidSearch(String email) {
+		return memberDAO.memberMidSearch(email);
+	}
 }

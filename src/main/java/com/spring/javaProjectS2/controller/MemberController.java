@@ -1,5 +1,8 @@
 package com.spring.javaProjectS2.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -92,6 +95,36 @@ public class MemberController {
 				}
 			}
 			model.addAttribute("nickName", vo.getNickName());
+			
+			// 일자별 방문 횟수 증가 : 하루 최초 한 번만 증가 가능
+			if(vo.getTodayCnt() == 0) {
+				vo.setTotalCnt(vo.getTotalCnt()+1);
+			}
+			
+			// 등업 기준 : 일자 방문횟수 10번 이상 등업, 포인트 1000포인트 누적
+			if(vo.getLevel() > 0 && vo.getLevel() < 4) {
+				if(vo.getTotalCnt() / 10 != 0 && vo.getTotalCnt() % 10 == 0) {
+					vo.setLevel(vo.getLevel() - 1);
+					vo.setPoint(vo.getPoint() + 1000);
+				}
+			}
+			
+			// 하루 방문 횟수 증가
+			Date today = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String strToday = sdf.format(today);
+			
+			if(strToday.equals(vo.getLastDate().substring(0,10))) {
+				// 오늘 재방문
+				vo.setTodayCnt(vo.getTodayCnt()+1);
+			}	else {
+				// 처음 처음 방문
+				vo.setTodayCnt(1);
+			}
+			
+			// DB 저장
+			memberService.setMemberUpdate(vo);
+			
 			return "redirect:/message/memberLoginOk";
 		} else {
 			return "redirect:/message/memberLoginNo";
@@ -162,6 +195,37 @@ public class MemberController {
 	@RequestMapping(value = "/memberFind", method = RequestMethod.GET)
 	public String memberFindGet() {
 		return "/member/memberFind";
+	}
+	
+	// 아이디 찾기
+	@ResponseBody
+	@RequestMapping(value = "/memberMidSearch", method = RequestMethod.POST, produces="application/text; charset=utf8")
+	public String memberMidSearchPost(
+			@RequestParam(name = "name", defaultValue = "", required = false) String name,
+			@RequestParam(name = "email", defaultValue = "", required = false)String email) {
+		
+		MemberVO vo = memberService.memberMidSearch(email);
+		
+		String str = "";
+		if(vo.getEmail().equals(email) && vo.getName().equals(name)) {
+			str = vo.getMid() + "/" + vo.getStartDate();
+		} 
+		return str;
+	}
+	
+	// 비밀번호 찾기
+	
+	@RequestMapping(value = "/memberPwdSearch", method = RequestMethod.POST)
+	public String memberPwdSearchPost(
+			@RequestParam(name = "name", defaultValue = "", required = false) String name,
+			@RequestParam(name = "mid", defaultValue = "", required = false) String mid,
+			@RequestParam(name = "email", defaultValue = "", required = false)String email) {
+		MemberVO vo = memberService.memberMidSearch(email);
+		
+		if(vo.getEmail().equals(email) && vo.getName().equals(name) && vo.getMid().equals(mid)) {
+			
+		}
+		return "";
 	}
 	
 	// 마이페이지

@@ -14,6 +14,7 @@ create table member(
 	point		  int default 5000,														 /* 포인트 : 가입 시 최초 5000point 지급 */
 	level     int default 3,															 /* 등급 : 0 관리자, 1 우수회원, 2 정회원, 3 준회원 99 비회원 */
 	visitcnt	int default 0,															 /* 총 방문 횟수 */
+	totalCnt	int default 0,															 /* 일자별 방문 횟수 : 하루에 한 번씩만 증가 가능 */
 	todayCnt  int default 0,															 /* 오늘 방문 횟수 */
 	startDate datetime default now(),											 /* 가입 날짜 */
 	lastDate  datetime default now()											 /* 마지막 접속일 */
@@ -27,3 +28,5 @@ insert into member values(default,'관리자','admin','1234','관리맨','여성
 select * from member where nickName='관리맨';
 
 desc member;
+
+select * from member where name = '관리자' and email = 'tlugs1426@naver.com';

@@ -12,4 +12,8 @@ public interface MemberDAO {
 
 	int setMemberInput(@Param("vo") MemberVO vo);
 
+	void setMemberUpdate(@Param("vo") MemberVO vo);
+
+	MemberVO memberMidSearch(@Param("email") String email);
+
 }
