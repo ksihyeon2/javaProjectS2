@@ -27,6 +27,9 @@ public class MessageController {
 		} else if(msgFlag.equals("memberLogout")) {
 			model.addAttribute("msg", nickName + "님 로그아웃 되셨습니다.");
 			model.addAttribute("url", "/");
+		}	else if(msgFlag.equals("memberPwdChange")) {
+			model.addAttribute("msg", nickName + "님 비밀번호를 변경해 주세요.");
+			model.addAttribute("url", "/"); // 비밀번호 변경창으로 이동 수정
 		}
 		return "include/message";
 	}

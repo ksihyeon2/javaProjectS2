@@ -2,14 +2,19 @@ package com.spring.javaProjectS2.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.spring.javaProjectS2.service.MemberService;
 import com.spring.javaProjectS2.vo.MemberVO;
@@ -125,7 +132,11 @@ public class MemberController {
 			// DB 저장
 			memberService.setMemberUpdate(vo);
 			
-			return "redirect:/message/memberLoginOk";
+			if(session.getAttribute("imsiPwd") != null) {
+				return "redirect:/message/memberPwdChange";
+			} else {
+				return "redirect:/message/memberLoginOk";
+			}
 		} else {
 			return "redirect:/message/memberLoginNo";
 		}
@@ -207,31 +218,96 @@ public class MemberController {
 		MemberVO vo = memberService.memberMidSearch(email);
 		
 		String str = "";
-		if(vo.getEmail().equals(email) && vo.getName().equals(name)) {
-			str = vo.getMid() + "/" + vo.getStartDate();
-		} 
+		//if(vo.getEmail().equals(email) && vo.getName().equals(name)) {
+		if(vo != null) {
+			if(vo.getEmail().equals(email) && vo.getName().equals(name)) {
+				str = vo.getMid() + "/" + vo.getStartDate();
+			} 
+		}
 		return str;
 	}
 	
 	// 비밀번호 찾기
-	
+	@ResponseBody
 	@RequestMapping(value = "/memberPwdSearch", method = RequestMethod.POST)
-	public String memberPwdSearchPost(
+	public String memberPwdSearchPost(HttpSession session,
 			@RequestParam(name = "name", defaultValue = "", required = false) String name,
 			@RequestParam(name = "mid", defaultValue = "", required = false) String mid,
-			@RequestParam(name = "email", defaultValue = "", required = false)String email) {
+			@RequestParam(name = "email", defaultValue = "", required = false)String email) throws MessagingException {
 		MemberVO vo = memberService.memberMidSearch(email);
 		
-		if(vo.getEmail().equals(email) && vo.getName().equals(name) && vo.getMid().equals(mid)) {
-			
+		if(vo != null) {
+			if(vo.getEmail().equals(email) && vo.getName().equals(name) && vo.getMid().equals(mid)) {
+				// 메일로 임시 비밀번호 발급 후 DB저장 및 전송처리
+				// 임시 비밀번호 6자리
+				UUID uid = UUID.randomUUID();
+				String pwd = uid.toString().substring(0,6);   
+				
+				// DB저장
+				memberService.setMemberImsiPwd(mid, passwordEncoder.encode(pwd));
+				
+				// 임시 비밀번호 메일 주소로 전송처리
+				String title = "임시 비밀번호";
+				String mailFlag = "임시 비밀번호 : " + pwd;
+				String res = mailSend(email,title,mailFlag);
+				
+				if(res == "1") {
+					// 세션에 임시 비밀번호 발급 유무 설정
+					session.setAttribute("imsiPwd", 1);
+					return "1";
+				}
+			}
 		}
-		return "";
+		return "0";
 	}
 	
-	// 마이페이지
+	// 메일 전송을 위한 메소드
+	private String mailSend(String email, String title, String mailFlag) throws MessagingException {
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		String content = "";
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper messageHelper = new MimeMessageHelper(message,true,"UTF-8");
+		
+		messageHelper.setTo(email);
+		messageHelper.setSubject(title);
+		messageHelper.setText(content);
+		
+		content = content.replace("\n", "<br />");
+		content += "<br /><hr /><h3>임시 비밀번호가 발급되었습니다.해당 비밀번호로 가입 후 비밀번호 재설정을 해주세요.</h3>";
+		content += "<br /><h3>"+mailFlag+"</h3><hr /><br />";
+		content += "<p><img src=\"cid:main.jpg\" width='500px'></p><br />";
+		content += "<p><h4>홈페이지 이동 : <a href='49.142.157.251:9090/cjgreen'>JavaProjectS2</a></h4></p>";
+		content += "<hr />";
+		messageHelper.setText(content,true);
+		
+		FileSystemResource file = new FileSystemResource(request.getSession().getServletContext().getRealPath("/resources/images/main.jpg"));
+		messageHelper.addInline("main.jpg", file);
+		
+		mailSender.send(message);
+		
+		return "1";
+	}
+
+	// 마이페이지 폼
 	@RequestMapping(value = "/memberPage", method = RequestMethod.GET)
-	public String memberPageGet() {
+	public String memberPageGet(HttpSession session, Model model) {
+		String mid = (String)session.getAttribute("sMid");
+		
+		MemberVO vo = memberService.getMemberIdCheck(mid);
+		
+		model.addAttribute("vo",vo);
 		return "member/memberPage";
+	}
+	
+	// 정보 수정 폼
+	@RequestMapping(value = "/memberModify", method = RequestMethod.GET)
+	public String memberModifyGet(HttpSession session, Model model) {
+		String mid = (String)session.getAttribute("sMid");
+		
+		MemberVO vo = memberService.getMemberIdCheck(mid);
+		
+		model.addAttribute("vo",vo);
+		return "member/memberModify";
 	}
 	
 }

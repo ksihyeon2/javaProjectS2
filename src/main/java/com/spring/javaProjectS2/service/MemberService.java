@@ -14,4 +14,6 @@ public interface MemberService {
 
 	public MemberVO memberMidSearch(String name);
 
+	public void setMemberImsiPwd(String mid, String pwd);
+
 }

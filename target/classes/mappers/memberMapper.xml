@@ -21,4 +21,7 @@
 	<update id="setMemberUpdate">
 		update member set point = #{vo.point}, level = #{vo.level}, visitcnt = #{vo.visitcnt}+1, totalCnt = #{vo.totalCnt}, todayCnt = #{vo.todayCnt}, lastDate = now() where mid = #{vo.mid};
 	</update>
+	<update id="setMemberImsiPwd">
+		update member set pwd = #{pwd} where mid = #{mid};
+	</update>
 </mapper>

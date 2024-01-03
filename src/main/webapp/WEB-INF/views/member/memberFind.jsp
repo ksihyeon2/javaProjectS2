@@ -116,7 +116,11 @@
   			type : "post",
   			data : query,
   			success : function(res){
-  				alert("res : " + res);
+  				if(res != "1"){
+  					alert("가입하신 정보가 없습니다. 다시 확인 후 입력해 주세요.");
+  				} else {
+  					alert("해당 이메일로 임시 비밀번호를 발급하였습니다.");
+  				}
   			},
   			error : function(){
   				alert("전송 오류");
@@ -219,7 +223,7 @@
 				        <div class="input-group mb-3">
 				          <input type="text" class="form-control" placeholder="Email을 입력하세요." id="pwdEmail1" name="pwdEmail1" />
 				          <div class="input-group-append">
-				            <select name="pwdEmail2" class="custom-select">
+				            <select name="pwdEmail2" id="pwdEmail2" class="custom-select">
 				              <option value="naver.com" selected>naver.com</option>
 				              <option value="hanmail.net">hanmail.net</option>
 				              <option value="hotmail.com">hotmail.com</option>

@@ -36,4 +36,9 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO memberMidSearch(String email) {
 		return memberDAO.memberMidSearch(email);
 	}
+
+	@Override
+	public void setMemberImsiPwd(String mid, String pwd) {
+		memberDAO.setMemberImsiPwd(mid,pwd);
+	}
 }

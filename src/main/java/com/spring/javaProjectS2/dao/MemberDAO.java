@@ -16,4 +16,6 @@ public interface MemberDAO {
 
 	MemberVO memberMidSearch(@Param("email") String email);
 
+	void setMemberImsiPwd(@Param("mid")String mid, @Param("pwd") String pwd);
+
 }

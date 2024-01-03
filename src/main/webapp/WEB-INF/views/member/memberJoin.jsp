@@ -10,10 +10,9 @@
     <meta name="author" content="" />
   <title>memberJoin.jsp</title>
   <link rel="icon" type="image/x-icon" href="${ctp}/assets/favicon.ico" />
-    <!-- Font Awesome icons (free version)-->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="${ctp}/js/woo.js"></script>
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
-  <!-- Google fonts-->
-  <!-- Core theme CSS (includes Bootstrap)-->
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
   <style>
   	.was-validated {
@@ -120,10 +119,10 @@
     	let tel3 = myform.tel3.value.trim();
     	let tel = tel1 + "-" + tel2 + "-" + tel3;
     	
-    	let postcode = myform.postcode.value + " ";
-    	let roadAddress = myform.roadAddress.value + " ";
-    	let detailAddress = myform.detailAddress.value + " ";
-    	let extraAddress = myform.extraAddress.value + " ";
+    	let postcode = myform.postcode.value + "";
+    	let roadAddress = myform.roadAddress.value + "";
+    	let detailAddress = myform.detailAddress.value + "";
+    	let extraAddress = myform.extraAddress.value + "";
     	let address = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress + "/";
     	
     	/* 정규식으로 유효성 체크 */
@@ -156,12 +155,12 @@
     	  if(!regTel.test(tel)) {
 	    		alert("전화번호 형식을 확인하세요.(000-0000-0000)");
 	    		myform.tel2.focus();
-  	  	} else {
-	  	  	tel2 = " ";
-					tel3 = " ";
-					tel = tel1 + "-" + tel2 + "-" + tel3;
   	  	} 
-  	  } 
+  	  }	else {
+  	  	tel2 = " ";
+				tel3 = " ";
+				tel = tel1 + "-" + tel2 + "-" + tel3;
+			} 
 			
 			if(idCheckSw == 0) {
 				alert("아이디 중복체크 버튼을 눌러주세요.");
