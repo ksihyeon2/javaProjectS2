@@ -14,7 +14,7 @@
 	
 	<!-- insert -->
 	<insert id="setMemberInput">
-		insert into member values(default,#{vo.name},#{vo.mid},#{vo.pwd},#{vo.nickName},#{vo.gender},#{vo.tel},#{vo.address},#{vo.email},default,default,default,default,default,default,default,default);
+		insert into member values(default,#{vo.name},#{vo.mid},#{vo.pwd},#{vo.nickName},#{vo.gender},#{vo.tel},#{vo.address},#{vo.email},default,default,default,#{vo.photo},default,default,default,default,default,default);
 	</insert>
 	
 	<!-- update -->
@@ -24,4 +24,14 @@
 	<update id="setMemberImsiPwd">
 		update member set pwd = #{pwd} where mid = #{mid};
 	</update>
+	<update id="setMemberModify">
+		update member set name = #{vo.name}, nickName = #{vo.nickName}, gender = #{vo.gender}, tel = #{vo.tel}, address = #{vo.address}, email = #{vo.email}, modifyDate = now() where mid = #{vo.mid};
+	</update>
+	<update id="setMemberPwdChangeOk">
+		update member set pwd = #{pwd} where mid = #{mid};
+	</update>
+	<update id="setMemberDelOk">
+		update member set userDel = 'OK' where mid = #{mid};
+	</update>
+	
 </mapper>

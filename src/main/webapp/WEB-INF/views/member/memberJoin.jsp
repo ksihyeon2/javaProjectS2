@@ -157,8 +157,8 @@
 	    		myform.tel2.focus();
   	  	} 
   	  }	else {
-  	  	tel2 = " ";
-				tel3 = " ";
+  	  	tel2 = "";
+				tel3 = "";
 				tel = tel1 + "-" + tel2 + "-" + tel3;
 			} 
 			

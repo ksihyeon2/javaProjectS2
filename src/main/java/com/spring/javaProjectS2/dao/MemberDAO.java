@@ -18,4 +18,10 @@ public interface MemberDAO {
 
 	void setMemberImsiPwd(@Param("mid")String mid, @Param("pwd") String pwd);
 
+	int setMemberModify(@Param("vo") MemberVO vo);
+
+	void setMemberPwdChangeOk(@Param("mid") String mid, @Param("pwd") String pwd);
+
+	int setMemberDelOk(@Param("mid") String mid);
+
 }

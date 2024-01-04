@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaProjectS2.service.MemberService;
 import com.spring.javaProjectS2.vo.MemberVO;
@@ -103,11 +104,6 @@ public class MemberController {
 			}
 			model.addAttribute("nickName", vo.getNickName());
 			
-			// 일자별 방문 횟수 증가 : 하루 최초 한 번만 증가 가능
-			if(vo.getTodayCnt() == 0) {
-				vo.setTotalCnt(vo.getTotalCnt()+1);
-			}
-			
 			// 등업 기준 : 일자 방문횟수 10번 이상 등업, 포인트 1000포인트 누적
 			if(vo.getLevel() > 0 && vo.getLevel() < 4) {
 				if(vo.getTotalCnt() / 10 != 0 && vo.getTotalCnt() % 10 == 0) {
@@ -129,6 +125,11 @@ public class MemberController {
 				vo.setTodayCnt(1);
 			}
 			
+			// 일자별 방문 횟수 증가 : 하루 최초 한 번만 증가 가능
+			if(!strToday.equals(vo.getLastDate().substring(0,10))) {
+				vo.setTotalCnt(vo.getTotalCnt()+1);
+			}
+			
 			// DB 저장
 			memberService.setMemberUpdate(vo);
 			
@@ -145,13 +146,18 @@ public class MemberController {
 	
 	// 로그아웃
 	@RequestMapping(value = "/memberLogout", method = RequestMethod.GET)
-	public String memberLogoutGet(HttpSession session, Model model) {
+	public String memberLogoutGet(HttpSession session, Model model,
+			@RequestParam(name="del", defaultValue = "", required = false) String del) {
 		String nickName = (String) session.getAttribute("sNickName");
 		session.invalidate();
 		
 		model.addAttribute("nickName", nickName);
 		
-		return "redirect:/message/memberLogout";
+		if(del.equals("ok")) {
+			return "redirect:/message/memberDel";
+		} else {
+			return "redirect:/message/memberLogout";
+		}
 	}
 	
 	// 회원가입 폼 띄우기
@@ -192,6 +198,11 @@ public class MemberController {
 	@RequestMapping(value = "/memberJoin", method = RequestMethod.POST)
 	public String memberJoinPost(MemberVO vo) {
 		vo.setPwd(passwordEncoder.encode(vo.getPwd()));
+		
+		int photoIdx = (int)(Math.random()*5)+1;
+		String photo = "noimage" + photoIdx + ".jpg";
+		
+		vo.setPhoto(photo);
 		
 		int res = memberService.setMemberInput(vo);
 		
@@ -280,7 +291,7 @@ public class MemberController {
 		content += "<hr />";
 		messageHelper.setText(content,true);
 		
-		FileSystemResource file = new FileSystemResource(request.getSession().getServletContext().getRealPath("/resources/images/main.jpg"));
+		FileSystemResource file = new FileSystemResource(request.getSession().getServletContext().getRealPath("/resources/data/main.jpg"));
 		messageHelper.addInline("main.jpg", file);
 		
 		mailSender.send(message);
@@ -288,26 +299,107 @@ public class MemberController {
 		return "1";
 	}
 
-	// 마이페이지 폼
+	// 마이페이지 폼 띄우기
 	@RequestMapping(value = "/memberPage", method = RequestMethod.GET)
 	public String memberPageGet(HttpSession session, Model model) {
 		String mid = (String)session.getAttribute("sMid");
 		
 		MemberVO vo = memberService.getMemberIdCheck(mid);
 		
+		if(session.getAttribute("pwdCheck") != null) {
+			session.removeAttribute("pwdCheck");
+		}
+		
 		model.addAttribute("vo",vo);
 		return "member/memberPage";
 	}
 	
-	// 정보 수정 폼
+	// 정보 수정 폼 띄우기위한 비밀번호 확인
 	@RequestMapping(value = "/memberModify", method = RequestMethod.GET)
-	public String memberModifyGet(HttpSession session, Model model) {
+	public String memberModifyGet(String pwd, String mid, Model model) {
+		MemberVO vo = memberService.getMemberIdCheck(mid);
+		
+		if(passwordEncoder.matches(pwd, vo.getPwd())){
+			model.addAttribute("vo",vo);
+			return "member/memberModify";
+		} else {
+			return "redirect:/member/memberModifyPwdNo";
+		}
+	}
+	
+	// 정보 수정하기
+	@RequestMapping(value = "/memberModify", method = RequestMethod.POST)
+	public String memberModifyPost(MultipartFile fName, MemberVO vo) {
+		int res = memberService.setFileUpload(fName,vo.getMid());
+		
+		if(res != 0) {
+			res = memberService.setMemberModify(vo);
+			
+			if(res != 0) {
+				return "redirect:/message/memberModifyOk";
+			} else {
+				return "redirect:/message/memberModifyNo";
+			}
+			
+		} else {
+			return "redirect:/message/memberModifyNo";
+		}
+		
+	}
+	
+	// 비밀번호 수정 폼 띄우기
+	@RequestMapping(value = "/memberPwdChange", method = RequestMethod.GET)
+	public String memberPwdChangeGet(Model model,
+			@RequestParam(name="sw", defaultValue = "", required = false) String sw ) {
+		model.addAttribute("sw",sw);
+		return "member/memberPwdChange";
+	}
+	
+	// 비밀번호 수정을 위한 현재 비밀번호 체크
+	@ResponseBody
+	@RequestMapping(value = "/memberPwdCheck", method = RequestMethod.POST)
+	public String memberPwdCheckPost(String pwd, HttpSession session) {
+		String mid = (String)session.getAttribute("sMid");
+		
+		String res = "";
+		MemberVO vo = memberService.getMemberIdCheck(mid);
+		if(passwordEncoder.matches(pwd, vo.getPwd())) {
+			session.setAttribute("pwdCheck", "Ok");
+			res = "1";
+		} else {
+			session.setAttribute("pwdCheck", "No");
+		}
+		return res;
+	}
+	
+	// 비밀번호 수정
+	@RequestMapping(value = "/memberPwdChangeOk", method = RequestMethod.GET)
+	public String memberPwdChangeOkGet(HttpSession session, String pwd) {
 		String mid = (String)session.getAttribute("sMid");
 		
 		MemberVO vo = memberService.getMemberIdCheck(mid);
 		
-		model.addAttribute("vo",vo);
-		return "member/memberModify";
+		pwd = (passwordEncoder.encode(pwd));
+		
+		if(passwordEncoder.matches(pwd, vo.getPwd())) {
+			return "redirect:/message/memberPwdChangeNo";
+		} else {
+			memberService.setMemberPwdChangeOk(mid,pwd);
+			return "redirect:/message/memberPwdChangeOk";
+		}
 	}
 	
+	// 탈퇴하기 (userDel = OK로 변경)
+	@ResponseBody
+	@RequestMapping(value = "/memberDelOk", method = RequestMethod.POST)
+	public String memberDelOkPost(String pwd, String mid) {
+		MemberVO vo = memberService.getMemberIdCheck(mid);
+		
+		int res = 0;
+		
+		if(passwordEncoder.matches(pwd, vo.getPwd())) {
+			res = memberService.setMemberDelOk(mid);
+		}
+		return res+"";
+	}
 }

@@ -13,7 +13,9 @@
     let msg = '${msg}';
     let url = '${ctp}/${url}';
     
-    alert(msg);
+    if(msg != ""){
+	    alert(msg);
+    }
     location.href = url;
   </script>
 </head>

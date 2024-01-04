@@ -16,9 +16,11 @@ public class MemberVO {
 	public String userDel;
 	public int point;
 	public int level;
+	public String photo;
 	public int visitcnt;
 	public int totalCnt;
 	public int todayCnt;
 	public String startDate;
 	public String lastDate;
+	public String modifyDate;
 }

@@ -29,7 +29,31 @@ public class MessageController {
 			model.addAttribute("url", "/");
 		}	else if(msgFlag.equals("memberPwdChange")) {
 			model.addAttribute("msg", nickName + "님 비밀번호를 변경해 주세요.");
-			model.addAttribute("url", "/"); // 비밀번호 변경창으로 이동 수정
+			model.addAttribute("url", "member/memberPwdChange?sw=1"); // 비밀번호 변경창으로 이동 수정
+		} else if(msgFlag.equals("memberModifyPwdNo")) {
+			model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
+			model.addAttribute("url", "member/memberPage"); 
+		}	else if(msgFlag.equals("memberModifyOk")) {
+			model.addAttribute("msg", "회원 정보를 수정하셨습니다.");
+			model.addAttribute("url", "member/memberPage"); 
+		}	else if(msgFlag.equals("memberModifyNo")) {
+			model.addAttribute("msg", "회원 정보 수정에 실패하셨습니다.");
+			model.addAttribute("url", "member/memberModify"); 
+		} else if(msgFlag.equals("memberPwdChangeOk")) {
+			model.addAttribute("msg", "비밀번호가 변경되었습니다.");
+			model.addAttribute("url", "member/memberPage"); 
+		} else if(msgFlag.equals("memberPwdChangeNo")) {
+			model.addAttribute("msg", "비밀번호 변경에 실패하셨습니다.");
+			model.addAttribute("url", "member/memberpwdChange"); 
+		}	else if(msgFlag.equals("fileUploadOk")) {
+			model.addAttribute("msg", "프로필 사진을 변경하였습니다.");
+			model.addAttribute("url", "member/memberModify"); 
+		} else if(msgFlag.equals("fileUploadNo")) {
+			model.addAttribute("msg", "프로필 사진 변경에 실패하였습니다.");
+			model.addAttribute("url", "member/memberModify"); 
+		}  else if(msgFlag.equals("memberDel")) {
+			model.addAttribute("msg", "");
+			model.addAttribute("url", "/"); 
 		}
 		return "include/message";
 	}

@@ -120,6 +120,7 @@
 				<a href="memberJoin">[회원가입]</a>
 			</label>
 			<input type="button" value="Login" onclick="loginCheck()">
+			<a href="javascript:kakaoLoing()" style=""><img src="${ctp}/data/kakao_login_large_wide.png" /></a>
 		</form>
 	</div>
 </div>
