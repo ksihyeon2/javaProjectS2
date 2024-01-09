@@ -8,10 +8,13 @@
   <meta charset="UTF-8">
   <title>memberPage.jsp</title>
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
   <style>
   	a {
   		color:black;
+  		text-decoration-line:none;
   	}
   </style>
   <script>
@@ -55,112 +58,61 @@
 <p><br /></p>
 <p><br /></p>
 <p><br /></p>
-<div class="container" style="margin-left:20%">
-	<table class="table table-borderless">
+<div class="container" style="margin-left:27%">
+	<table class="table table-borderless" style="width:800px">
 		<tr>
 			<td colspan="2"><h2>프로필</h2><br /></td>
 		</tr>
 		<tr>
-			<td>
-			<table style="width:100%">
-				<tr>
-					<td>
-					  	<div class="card" style="width:400px">
-					    	<img class="card-img-top" src="${ctp}/member/${vo.photo}" alt="Card image" style="width:100%">
-					    	<div class="card-body">
-				      		<br />
-				      		<h4 class="card-title">닉네임 : ${vo.nickName}</h4>
-				      		<br />
-				      		<h4 class="card-title">등급 : ${strLevel}</h4>
-				      		<br />
-				      		<hr />
-				      		<ul>
-				      			<li>
-					      			<a href="memberPwdChange" >비밀번호 변경</a><br /><br />
-					      		</li>
-					      		<li>
-					      			<a href="memberModify" data-toggle="modal" data-target="#myModal">나의 정보</a><br /><br />
-					      		</li>
-					      		<li>
-					      			<a href="#">내게시물 보기</a><br /><br />
-					      		</li>
-					      		<li>
-					      			<a href="memberLogout">로그아웃</a><br /><br />
-					      		</li>
-					      		<li>
-					      			<a href="memberDelOk" style="color:red" data-toggle="modal" data-target="#delModal">탈퇴하기</a>
-					      		</li>
-				      		</ul>
-					    	</div>
-					  	</div>
-			  		</td>
-		  		</tr>
-		  	</table>
-		  </td>
-		  
-		  
-		  
-		  
-		  
-		  
-		  <td>
-		  	<table class="table table-borderless" style="width:400px;margin-top:100px">
+			<th><img src="${ctp}/member/${vo.photo}" style="width:70%;border-radius:70%;"></th>
+			<th style="width:600px;vertical-align:bottom;">
+				<h2>${vo.nickName}</h2>
+				<span style="font:12pt;color:gray">${strLevel} / ${vo.point}p</span>
+			</th>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<table class="table table-bordered text-center">
 					<tr>
-						<td>
-							<table class="table table-bordered">
-								<tr>
-									<td><b>포인트</b><br /><a href="#" style="color:gray">${vo.point} point</a></td>
-								</tr>
-							</table>
-						</td>
-						<td>
-							<table class="table table-bordered">
-								<tr>
-									<td><b>관심</b><br /><a href="#" style="color:gray">바로가기</a></td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<table class="table table-borderless">
-								<tr>
-									<td>
-										<table class="table table-bordered" style="width:150px;height:100px">
-											<tr>
-												<td>주문내역</td>
-											</tr>
-										</table>
-									</td>
-									<td>
-										<table class="table table-bordered" style="width:150px;height:100px">
-											<tr>
-												<td>나의 리뷰 & 댓글</td>
-											</tr>
-										</table>
-									</td>
-									<td>
-										<table class="table table-bordered" style="width:150px;height:100px">
-											<tr>
-												<td>작성글</td>
-											</tr>
-										</table>
-									</td>
-									<td>
-										<table class="table table-bordered" style="width:150px;height:100px">
-											<tr>
-												<td>문의</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</table>
-						</td>
+						<td class="p-3"><i class='fas fa-user-cog' style='font-size:40px'></i><br /><br /><a href="memberModify" data-toggle="modal" data-target="#myModal">나의 정보</a></td>
+						<td class="p-3"><i class='fas fa-unlock' style='font-size:40px'></i><br /><br /><a href="memberPwdChange" >비밀번호 변경</a></td>
+						<td class="p-3"><i class='fas fa-power-off' style='font-size:40px'></i><br /><br /><a href="memberLogout">로그아웃</a></td>
+						<td class="p-3"><i class='fas fa-user-alt-slash' style='font-size:40px'></i><br /><br /><a href="memberDelOk" style="color:red" data-toggle="modal" data-target="#delModal">탈퇴하기</a></td>
 					</tr>
 				</table>
-		  </td>
-		 </tr>
-  	</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="padding-left:50px;padding-right:50px">
+				<i class='fas fa-list-ul' style='font-size:36px'></i>&nbsp;&nbsp;&nbsp;<span style="font-size:24px"><a href="#">나의 게시물 확인</a></span><hr />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="padding-left:50px;padding-right:50px">
+				<i class='fas fa-list-ul' style='font-size:36px'></i>&nbsp;&nbsp;&nbsp;<span style="font-size:24px"><a href="#">최근 내역</a></span><hr />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="padding-left:50px;padding-right:50px">
+				<i class='fas fa-list-ul' style='font-size:36px'></i>&nbsp;&nbsp;&nbsp;<span style="font-size:24px"><a href="#">관심 목록</a></span><hr />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="padding-left:50px;padding-right:50px">
+				<i class='fas fa-list-ul' style='font-size:36px'></i>&nbsp;&nbsp;&nbsp;<span style="font-size:24px"><a href="#">주문 목록</a></span><hr />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="padding-left:50px;padding-right:50px">
+				<i class='fas fa-list-ul' style='font-size:36px'></i>&nbsp;&nbsp;&nbsp;<span style="font-size:24px"><a href="#">나의 리뷰 & 댓글</a></span><hr />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="padding-left:50px;padding-right:50px">
+				<i class='fas fa-list-ul' style='font-size:36px'></i>&nbsp;&nbsp;&nbsp;<span style="font-size:24px"><a href="#">문의</a></span><hr />
+			</td>
+		</tr>
+	</table>
 </div>
 
 <!-- The Modal -->

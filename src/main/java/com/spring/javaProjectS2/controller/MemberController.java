@@ -2,6 +2,9 @@ package com.spring.javaProjectS2.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -18,6 +21,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.spring.javaProjectS2.service.MemberService;
 import com.spring.javaProjectS2.vo.MemberVO;
@@ -144,6 +149,53 @@ public class MemberController {
 		
 	}
 	
+	// 카카오 로그인 처리
+	@RequestMapping(value = "/kakaoLogin", method = RequestMethod.GET)
+	public String kakaoLoginGet(HttpSession session, HttpServletRequest request, HttpServletResponse response,
+			String nickName, String email, String accessToken) {
+		
+		session.setAttribute("sAccessToken", accessToken);
+		
+		MemberVO vo = memberService.getMemberKaKaoCheck(nickName,email);
+		
+		if(vo == null) {
+			String mid = email.substring(0,email.indexOf("@"));
+			
+			MemberVO vo2 = memberService.getMemberIdCheck(mid);
+			if(vo2 != null) {
+				return "redirect:/message/midSameSearch";
+			}
+			
+			UUID uid = UUID.randomUUID();
+			String pwd = uid.toString().substring(0,8);
+			session.setAttribute("sImsiPwd", pwd);
+			
+			pwd = passwordEncoder.encode(pwd);
+			
+			memberService.setKakaoMemberInput(mid,pwd,nickName,email);
+			
+			vo = memberService.getMemberIdCheck(mid);
+		}
+		
+		String strLevel = "";
+		if(vo.getLevel() == 0) {
+			strLevel = "관리자";
+		} else if(vo.getLevel() == 1) {
+			strLevel = "우수회원";
+		} else if(vo.getLevel() == 2) {
+			strLevel = "정회원";
+		} else if(vo.getLevel() == 3) {
+			strLevel = "준회원";
+		}
+		
+		session.setAttribute("sMid", vo.getMid());
+		session.setAttribute("sNickName", vo.getNickName());
+		session.setAttribute("sLevel", vo.getLevel());
+		session.setAttribute("strLevel", strLevel);
+		
+		return "redirect:/message/kakaoLoginOk?mid="+vo.getMid();
+	}
+	
 	// 로그아웃
 	@RequestMapping(value = "/memberLogout", method = RequestMethod.GET)
 	public String memberLogoutGet(HttpSession session, Model model,
@@ -216,7 +268,7 @@ public class MemberController {
 	// 아이디, 비밀번호 찾기 폼
 	@RequestMapping(value = "/memberFind", method = RequestMethod.GET)
 	public String memberFindGet() {
-		return "/member/memberFind";
+		return "member/memberFind";
 	}
 	
 	// 아이디 찾기
@@ -329,22 +381,11 @@ public class MemberController {
 	
 	// 정보 수정하기
 	@RequestMapping(value = "/memberModify", method = RequestMethod.POST)
-	public String memberModifyPost(MultipartFile fName, MemberVO vo) {
-		int res = memberService.setFileUpload(fName,vo.getMid());
-		
-		if(res != 0) {
-			res = memberService.setMemberModify(vo);
-			
-			if(res != 0) {
-				return "redirect:/message/memberModifyOk";
-			} else {
-				return "redirect:/message/memberModifyNo";
-			}
-			
-		} else {
-			return "redirect:/message/memberModifyNo";
+	public String memberModifyPost(MemberVO vo) {
+		if(vo.getPhoto().lastIndexOf(".") != -1) {
+			memberService.imgCheck(vo.getPhoto());
 		}
-		
+		return "member/memberModify";
 	}
 	
 	// 비밀번호 수정 폼 띄우기

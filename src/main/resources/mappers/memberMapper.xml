@@ -11,10 +11,16 @@
 	<select id="memberMidSearch" resultType="com.spring.javaProjectS2.vo.MemberVO">
 		select * from member where email = #{email};
 	</select>
+	<select id="getMemberKaKaoCheck" resultType="com.spring.javaProjectS2.vo.MemberVO">
+		select * from member where nickName = #{nickName} and email = #{email};
+	</select>
 	
 	<!-- insert -->
 	<insert id="setMemberInput">
 		insert into member values(default,#{vo.name},#{vo.mid},#{vo.pwd},#{vo.nickName},#{vo.gender},#{vo.tel},#{vo.address},#{vo.email},default,default,default,#{vo.photo},default,default,default,default,default,default);
+	</insert>
+	<insert id="setKakaoMemberInput">
+		insert into member (mid,pwd,nickName,email,name) values (#{mid},#{nickName},#{email},#{nickName});
 	</insert>
 	
 	<!-- update -->

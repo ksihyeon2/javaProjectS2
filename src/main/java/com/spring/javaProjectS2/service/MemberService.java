@@ -1,7 +1,5 @@
 package com.spring.javaProjectS2.service;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.spring.javaProjectS2.vo.MemberVO;
 
 public interface MemberService {
@@ -22,8 +20,12 @@ public interface MemberService {
 
 	public void setMemberPwdChangeOk(String mid, String pwd);
 
-	public int setFileUpload(MultipartFile fName, String mid);
-
 	public int setMemberDelOk(String mid);
+
+	public MemberVO getMemberKaKaoCheck(String nickName, String email);
+
+	public void setKakaoMemberInput(String mid, String pwd, String nickName, String email);
+
+	public void imgCheck(String photo);
 
 }

@@ -7,20 +7,14 @@
 	'use strict';
 	
   function fCheck() {
-	  let area = document.getElementById("area").value;
 	  let gymName = document.getElementById("gymName").value;
 	  
-	  if(area == ""){
-		  alert("검색하실 지역을 선택해 주세요.");
-		  $("#area").focus();
-		  return false;
-	  } else if (gymName == ""){
+	  if (gymName == ""){
 		  alert("검색하실 지점을 입력해 주세요.");
 		  $("#gymName").focus();
 	  	return false;
 	  } 
 	  
-	  gymForm.submit();
   }
 </script>
 <header class="masthead">
@@ -42,8 +36,35 @@
 	      		</select>
 	        	<input type="text" name="gymName" id="gymName" placeholder="지점명 검색" style="width:30%;height:35px"/>
 	        	<button class="btn btn-success" type="button" onclick="fCheck()"><i class='fas fa-search' style='font-size:25px'></i></button>  
+	        	<a href="gymSearch" data-toggle="modal" data-target="#delModal" class="btn btn-secondary"><i class='fas fa-search' style='font-size:25px'></i></a>
 	        </div>
         </form>
         <a class="btn btn-primary btn-lg text-uppercase mt-4" href="${ctp}/gym/gymList">모든 지점 보기</a>
     </div>
+    
+    
+    
+    
+    <!-- The Modal -->
+<div class="modal fade" id="delModal">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	    <!-- Modal Header -->
+	        <div class="modal-header">
+	        	<h4 class="modal-title"><b>${vo.name}</b>님 탈퇴를 원하시면 비밀번호를 입력해 주세요.<br /><span style="color:red;font-size:10pt">탈퇴 후 같은 아이디로 1개월간 재가입 하실 수 없습니다.</span></h4>
+	          	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	        </div>
+	        <!-- Modal body -->    
+	        <div class="modal-body">
+	         	<input type="password" name="delPwd" id="delPwd" class="form-control" />
+	        	<input type="hidden" name="delMid" id="delMid" value="${sMid}" />
+	        </div>
+	        <!-- Modal footer -->
+	        <div class="modal-footer">
+	          	<button type="button" class="btn btn-primary" onclick="memberDelOk()">탈퇴</button>
+	          	<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+	        </div>
+	    </div>
+	</div>
+</div>
 </header>

@@ -51,9 +51,15 @@ public class MessageController {
 		} else if(msgFlag.equals("fileUploadNo")) {
 			model.addAttribute("msg", "프로필 사진 변경에 실패하였습니다.");
 			model.addAttribute("url", "member/memberModify"); 
-		}  else if(msgFlag.equals("memberDel")) {
+		} else if(msgFlag.equals("memberDel")) {
 			model.addAttribute("msg", "");
 			model.addAttribute("url", "/"); 
+		} else if(msgFlag.equals("boardInputOk")) {
+			model.addAttribute("msg", "게시물이 작성되었습니다.");
+			model.addAttribute("url", "board/boardList"); 
+		} else if(msgFlag.equals("boardInputNo")) {
+			model.addAttribute("msg", "게시물 작성에 실패하셨습니다. \n다시 시도해 주세요.");
+			model.addAttribute("url", "board/boardInput"); 
 		}
 		return "include/message";
 	}

@@ -8,11 +8,10 @@
   <meta charset="UTF-8">
   <title>memberModify.jsp</title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="${ctp}/js/woo.js"></script>
-  <link href="${ctp}/css/styles.css" rel="stylesheet" />
+  <link href="${ctp}/css/styles.css" rel="stylesheet" /> 
   <style>
   	.was-validated {
 		  position: absolute;
@@ -136,25 +135,7 @@
 			myform.tel.value = tel;
 			myform.address.value = address;
 			
-			myform.submit();
-  	}
-  	
-  	// 프로필 사진 수정
-  	function imgCheck(e){
-  		if(e.files && e.files[0]){
-  			let reader = new FileReader();
-  			reader.onload = function(e){
-  				document.getElementById("photo").src = e.target.result;
-  				$("#upload").show();
-  			}
-  			reader.readAsDataURL(e.files[0]);
-  		} else {
-  			document.getElementById("photo").src = "";
-  		}
-  	}
-  	
-  	function photoUpload(){
-  		// 파일 이름
+			// 파일 이름
   		let fName = document.getElementById("input-file").value;
   		// 확장자
   		let ext = fName.substring(fName.lastIndexOf(".")+1).toLowerCase();
@@ -172,9 +153,25 @@
   		} else if(fileSize > maxSize) {
   			alert("업로드 가능한 파일의 용량은 10MByte 입니다.");
   		} else {
-  			fileForm.submit();
+  			myform.photo.value = fName;
+  			myform.submit();
   		}
   	}
+  	
+  	// 프로필 사진 수정
+  	function imgCheck(e){
+  		if(e.files && e.files[0]){
+  			let reader = new FileReader();
+  			reader.onload = function(e){
+  				document.getElementById("photo").src = e.target.result;
+  				$("#upload").show();
+  			}
+  			reader.readAsDataURL(e.files[0]);
+  		} else {
+  			document.getElementById("photo").src = "";
+  		}
+  	}
+  	
   </script>
 </head>
 <body>
@@ -191,11 +188,12 @@
 			<table class="table table-borderless">
 				<tr>
 					<td class="text-center">
-						<img src="${ctp}/member/${vo.photo}" id="photo" class="w3-margin w3-circle" alt="Person" style="width:30%" /><br />
+						<img src="${ctp}/member/${vo.photo}" id="photo" class="w3-margin w3-circle" alt="Person" style="width:30%;height:30%" /><br />
 						<!-- 사진 업로드 -->
 						<label class="input-file-button" for="input-file" style="cursor:point">수정하기<i class='fas fa-pen' style='font-size:24px'></i></label>
 						<input type="file" name="fName" id="input-file" style="display:none" onchange="imgCheck(this)" />
-						<input type="button" value="업로드" name="upload" id="upload" onclick="photoUpload()" class="btn btn-secondary" />
+						<input type="hidden" name="photo">
+						<!-- <input type="button" value="업로드" name="upload" id="upload" onclick="photoUpload()" class="btn btn-secondary" /> -->
 					</td>
 					<td style="width:400px">
 						<label for="mid" class="mt-2 mb-2">아이디</label>

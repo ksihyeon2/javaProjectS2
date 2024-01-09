@@ -10,11 +10,9 @@
     <meta name="author" content="" />
   <title>memberLogin.jsp</title>
   <link rel="icon" type="image/x-icon" href="${ctp}/assets/favicon.ico" />
-    <!-- Font Awesome icons (free version)-->
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
-  <!-- Google fonts-->
-  <!-- Core theme CSS (includes Bootstrap)-->
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
+  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   <style>
   	*{
 	    padding: 0;
@@ -45,10 +43,21 @@
 	    border-radius: 6px;
 	    background-color: rgb(217,229,255);
 		}
+		
+		#login-form > div > input{
+	    width: 50%;
+	    height: 48px;
+	    padding: 0 10px;
+	    box-sizing: border-box;
+	    margin-bottom: 16px;
+	    border-radius: 6px;
+	    background-color: rgb(217,229,255);
+		}
+		
 		#login-form > input::placeholder{
 	    color: #D2D2D2;
 		}
-		#login-form > input[type="button"]{
+		#login-form > div > input[type="button"]{
 	    color: #fff;
 	    font-size: 16px;
 	    background-color: #6A24FE;
@@ -103,6 +112,28 @@
     	
     	myform.submit();
   	} 
+  	
+  	
+  	// 카카오톡 로그인
+  	window.Kakao.init("f408cea36dcd045b580ad03d1db51e05");
+  	
+  	function kakaoLoing(){
+  		// 카카오에 인증요청 처리
+  		window.Kakao.Auth.login({
+  			scope : 'profile_nickname, account_email',
+  			success : function(autoObj){
+  				//console.log(Kakao.Auth.getAccessToken(), "정상 토큰 발급 완료");
+  				window.Kakao.API.request({
+  					url : '/v2/user/me',
+  					success : function(res){
+  						const kakao_account = res.kakao_account;
+  						//console.log(kakao_account);
+  						location.href="${ctp}/member/kakaoLogin?nickName="+kakao_account.profile.nickname+"&email="+kakao_account.email+"&accessToken="+Kakao.Auth.getAccessToken();
+  					}
+  				});
+  			}
+  		});
+  	}
   </script>
 </head>
 <body>
@@ -119,8 +150,10 @@
 				<a href="memberFind">[아이디/비밀번호 찾기]</a> &nbsp|&nbsp
 				<a href="memberJoin">[회원가입]</a>
 			</label>
-			<input type="button" value="Login" onclick="loginCheck()">
-			<a href="javascript:kakaoLoing()" style=""><img src="${ctp}/data/kakao_login_large_wide.png" /></a>
+			<div class="form-group text-center">
+				<input type="button" value="Login" onclick="loginCheck()">
+				<a href="javascript:kakaoLoing()" style="width:100px"><img src="${ctp}/data/kakao_login_medium_wide.png" /></a>
+			</div>
 		</form>
 	</div>
 </div>

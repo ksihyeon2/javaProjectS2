@@ -142,7 +142,7 @@
 		<tr>
 			<td style="width:10px; background-color:gray"></td>
 			<td>
-				<input type="radio" name="searchType" id="mid" value="mid" checked> 아이디 찾기
+				<input type="radio" name="searchType" id="mid" value="mid" checked> <b>아이디 찾기</b>
 				<!-- 성명과 이메일을 통해 아이디를 조회하실 수 있습니다. -->
 			</td>
 		</tr>
@@ -201,7 +201,7 @@
 		<tr>
 			<td style="width:10px; background-color:gray"></td>
 			<td>
-				<input type="radio" name="searchType" id="pwd" value="pwd"> 비밀번호 찾기
+				<input type="radio" name="searchType" id="pwd" value="pwd"> <b>비밀번호 찾기</b>
 				<!-- 성명과 아이디, 이메일을 통해 비밀번호를 조회하실 수 있습니다. -->
 			</td>
 		</tr>

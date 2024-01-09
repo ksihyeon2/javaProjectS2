@@ -63,36 +63,24 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int setFileUpload(MultipartFile fName, String mid) {
-		int res = 0;
-		// 파일 이름에 대한 중복 처리(랜덤으로 문자 발생시킨 후 file 이름에 붙여서 중복 불허 처리하기)
-		UUID uid = UUID.randomUUID();
-		String oFilename = fName.getOriginalFilename();
-		String sFileName = mid + "_" + uid + "_" + oFilename;
-		
-		try {
-			writeFile(fName, sFileName);
-			res = 1;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-
-	private void writeFile(MultipartFile fName, String sFileName) throws IOException {
-		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
-		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/member/");
-		FileOutputStream fos = new FileOutputStream(realPath + sFileName);
-		
-		if((fName.getBytes().length) != -1) {
-			fos.write(fName.getBytes());
-		}
-		fos.flush();
-		fos.close();
+	public int setMemberDelOk(String mid) {
+		return memberDAO.setMemberDelOk(mid);
 	}
 
 	@Override
-	public int setMemberDelOk(String mid) {
-		return memberDAO.setMemberDelOk(mid);
+	public MemberVO getMemberKaKaoCheck(String nickName, String email) {
+		return memberDAO.getMemberKaKaoCheck(nickName,email);
+	}
+
+	@Override
+	public void setKakaoMemberInput(String mid, String pwd, String nickName, String email) {
+		memberDAO.setKakaoMemberInput(mid,pwd,nickName,email);
+	}
+
+	@Override
+	public void imgCheck(String photo) {
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/member");
+		// 수정
 	}
 }

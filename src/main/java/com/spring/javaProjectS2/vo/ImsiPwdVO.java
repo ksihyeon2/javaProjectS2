@@ -3,7 +3,7 @@ package com.spring.javaProjectS2.vo;
 import lombok.Data;
 
 @Data
-public class imsiPwdVO {
+public class ImsiPwdVO {
 	private String toMail;
 	private String title;
 	private String content;
