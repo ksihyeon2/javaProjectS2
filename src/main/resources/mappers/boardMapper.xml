@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaProjectS2.dao.BoardDAO">
-	<!-- select -->
+	<select id="getTotRecCnt" resultType="int">
+		select count(*) from board;
+	</select>
 	<select id="getBoardList" resultType="com.spring.javaProjectS2.vo.BoardVO">
-		select * from board;
+		select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff from board order by idx desc limit #{startIndexNo}, #{pageSize};
+	</select>
+	<select id="getBoardContent" resultType="com.spring.javaProjectS2.vo.BoardVO">
+		select * from board where idx = #{idx};
+	</select>
+	<select id="getPreNextSearch" resultType="com.spring.javaProjectS2.vo.BoardVO">
+		<if test="str == 'preVO'">
+		select idx,title from board where <![CDATA[idx<#{idx}]]> order by idx desc limit 1;
+		</if>
+		<if test="str != 'preVO'">
+		select idx,title from board where <![CDATA[idx>#{idx}]]> order by idx limit 1;
+		</if>
+	</select>
+	<select id="getBoardComplanit" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
+		select * from complaint where complaintidx = #{idx} and complaintMid = #{complaintMid};
 	</select>
 
 	<!-- insert -->
 	<insert id="setBoardInput">
-		insert into board values(default,#{vo.mid},#{vo.nickName},#{vo.title},#{vo.content},#{vo.part},#{vo.openSw},default,default,default);
+		insert into board values(default,#{vo.mid},#{vo.nickName},#{vo.title},#{vo.content},#{vo.part},#{vo.openSw},default,default,default,default,default);
 	</insert>
+	<insert id="setBoardComplaint">
+		insert into complaint values(default,#{vo.complaintidx},#{vo.complaintMid},#{vo.complaintType},#{vo.complaintText},default);
+	</insert>
+	
+	<!-- update -->
+	<update id="setReadNumPlus">
+		update board set readNum = readNum+1 where idx = #{idx};
+	</update>
+	<update id="setBoardContentDel">
+		update board set delCheck = 'OK', delDate = now() where idx = #{idx} and mid = #{mid};
+	</update>
+	<update id="setBoardContentGoodCheck">
+		<if test="goodCheck == 'OK'">
+			update board set good = good+1 where idx = #{idx};
+		</if>
+		<if test="goodCheck != 'OK'">
+			update board set good = good-1 where idx = #{idx};
+		</if>
+	</update>
+	
 </mapper>

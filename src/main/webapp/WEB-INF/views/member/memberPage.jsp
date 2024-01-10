@@ -74,10 +74,10 @@
 			<td colspan="2">
 				<table class="table table-bordered text-center">
 					<tr>
-						<td class="p-3"><i class='fas fa-user-cog' style='font-size:40px'></i><br /><br /><a href="memberModify" data-toggle="modal" data-target="#myModal">나의 정보</a></td>
+						<td class="p-3"><i class='fas fa-user-cog' style='font-size:40px'></i><br /><br /><a href="#" data-toggle="modal" data-target="#myModal">나의 정보</a></td>
 						<td class="p-3"><i class='fas fa-unlock' style='font-size:40px'></i><br /><br /><a href="memberPwdChange" >비밀번호 변경</a></td>
 						<td class="p-3"><i class='fas fa-power-off' style='font-size:40px'></i><br /><br /><a href="memberLogout">로그아웃</a></td>
-						<td class="p-3"><i class='fas fa-user-alt-slash' style='font-size:40px'></i><br /><br /><a href="memberDelOk" style="color:red" data-toggle="modal" data-target="#delModal">탈퇴하기</a></td>
+						<td class="p-3"><i class='fas fa-user-alt-slash' style='font-size:40px'></i><br /><br /><a href="#" style="color:red" data-toggle="modal" data-target="#delModal">탈퇴하기</a></td>
 					</tr>
 				</table>
 			</td>

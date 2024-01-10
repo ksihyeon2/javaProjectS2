@@ -60,6 +60,15 @@ public class MessageController {
 		} else if(msgFlag.equals("boardInputNo")) {
 			model.addAttribute("msg", "게시물 작성에 실패하셨습니다. \n다시 시도해 주세요.");
 			model.addAttribute("url", "board/boardInput"); 
+		} else if(msgFlag.equals("adminNo")) {
+			model.addAttribute("msg", "관리자만 접속 가능합니다.");
+			model.addAttribute("url", "/"); 
+		} else if(msgFlag.equals("memberLevelNo")) {
+			model.addAttribute("msg", "해당 페이지는 우수회원만 접속 가능합니다.");
+			model.addAttribute("url", "/"); 
+		} else if(msgFlag.equals("memberNo")) {
+			model.addAttribute("msg", "해당 페이지는 회원만 접속 가능합니다.");
+			model.addAttribute("url", "member/memberLogin"); 
 		}
 		return "include/message";
 	}

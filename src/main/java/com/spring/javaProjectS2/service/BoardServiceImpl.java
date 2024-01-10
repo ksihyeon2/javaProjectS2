@@ -16,6 +16,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.spring.javaProjectS2.dao.BoardDAO;
 import com.spring.javaProjectS2.vo.BoardVO;
+import com.spring.javaProjectS2.vo.ComplaintVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -77,7 +78,43 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> getBoardList() {
-		return boardDAO.getBoardList();
+	public List<BoardVO> getBoardList(int startIndexNo, int pageSize) {
+		return boardDAO.getBoardList(startIndexNo,pageSize);
 	}
+
+	@Override
+	public void setReadNumPlus(int idx) {
+		boardDAO.setReadNumPlus(idx);
+	}
+
+	@Override
+	public BoardVO getBoardContent(int idx) {
+		return boardDAO.getBoardContent(idx);
+	}
+
+	@Override
+	public BoardVO getPreNextSearch(int idx, String str) {
+		return boardDAO.getPreNextSearch(idx,str);
+	}
+
+	@Override
+	public int setBoardComplaint(ComplaintVO vo) {
+		return boardDAO.setBoardComplaint(vo);
+	}
+
+	@Override
+	public ComplaintVO getBoardComplanit(String complaintMid, int idx) {
+		return boardDAO.getBoardComplanit(complaintMid,idx);
+	}
+
+	@Override
+	public int setBoardContentDel(String mid, int idx) {
+		return boardDAO.setBoardContentDel(mid,idx);
+	}
+
+	@Override
+	public void setBoardContentGoodCheck(int idx, String goodCheck) {
+		boardDAO.setBoardContentGoodCheck(idx,goodCheck);
+	}
+
 }

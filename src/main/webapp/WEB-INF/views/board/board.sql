@@ -9,5 +9,9 @@ create table board(
 	openSw 	 char(2) default 'OK',												 /* 게시글 공개 여부 (OK:공개, NO:비공개) */
 	readNum  int not null default 0,										   /* 게시글 조회수 */
 	wDate    datetime default now(),											 /* 게시글 작성 날짜 */
-	good		 int default 0 																 /* '좋아요' 클릭 횟수 누적 */
+	good		 int default 0, 															 /* '좋아요' 클릭 횟수 누적 */
+	delCheck char(2) default 'NO',												 /* 게시글 삭제 여부 (OK:삭제, NO:미삭제) */
+	delDate	 datetime default now(),											 /* 게시글 삭제 날짜 */
 );
+
+select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff from board order by idx desc limit 1, 10;

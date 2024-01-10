@@ -2,9 +2,6 @@ package com.spring.javaProjectS2.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -21,15 +18,12 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 
 import com.spring.javaProjectS2.service.MemberService;
 import com.spring.javaProjectS2.vo.MemberVO;
@@ -281,7 +275,6 @@ public class MemberController {
 		MemberVO vo = memberService.memberMidSearch(email);
 		
 		String str = "";
-		//if(vo.getEmail().equals(email) && vo.getName().equals(name)) {
 		if(vo != null) {
 			if(vo.getEmail().equals(email) && vo.getName().equals(name)) {
 				str = vo.getMid() + "/" + vo.getStartDate();

@@ -14,7 +14,7 @@
   <style>
   	th {
       text-align: center;
-      background-color: gray;
+      background-color:gray;
     }
     
     a {
@@ -50,6 +50,13 @@
 	        <option>식단</option>
 	        <option>기타</option>
 	      </select>
+				<select name="pageSize" id="pageSize" onchange="pageSizeCheck()">
+          <option ${pageVO.pageSize==3 ? "selected" : ""}>3</option>
+          <option ${pageVO.pageSize==5 ? "selected" : ""}>5</option>
+          <option ${pageVO.pageSize==10 ? "selected" : ""}>10</option>
+          <option ${pageVO.pageSize==15 ? "selected" : ""}>15</option>
+          <option ${pageVO.pageSize==20 ? "selected" : ""}>20</option>
+        </select> 건
 			</div>
 			<div class="col-5 text-right">
 	    	<div class="input-group">
@@ -71,23 +78,29 @@
   </form>
   
   <table class="table table-hover text-center">
-  	<tr class="table-dark text-dark">
+  	<tr style="background-color:gray;height:40px;">
   		<th>No.</th>
   		<th>작성자</th>
   		<th>제목</th>
+  		<th>분류</th>
   		<th>작성일</th>
   		<th>조회수</th>
   	</tr>
+  	<tr><td colspan="6" class="p-0"></td></tr>
   	<c:set var="curScrStartNo" value="${pageVO.curScrStartNo}" />
-  	<c:forEach var="vo" items="${vos}" varStatus="st">
-  		<tr>
-  			<td>${curScrStartNo}</td>
-  			<td>${vo.nickName}</td>
-  			<td><a href="#">${vo.title}</a></td>
-  			<td>${fn:substring(vo.WDate,0,10)}</td>
-  			<td>${vo.readNum}</td>
-  		</tr>
-  	</c:forEach>
+	  	<c:forEach var="vo" items="${vos}" varStatus="st">
+		  	<c:if test="${vo.delCheck != 'OK'}">
+		  		<tr>
+		  			<td>${curScrStartNo}</td>
+		  			<td>${vo.nickName}</td>
+		  			<td><a href="boardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title}</a></td>
+		  			<td>${vo.part}</td>
+		  			<td>${fn:substring(vo.WDate,0,10)}</td>
+		  			<td>${vo.readNum}</td>
+		  		</tr>
+		  		<c:set var="curScrStartNo" value="${curScrStartNo-1}"></c:set>
+		  	</c:if>
+	  	</c:forEach>
   </table>
 </div>
 <p><br /></p>

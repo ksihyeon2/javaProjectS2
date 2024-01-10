@@ -14,6 +14,8 @@ public class BoardVO {
 	private int readNum;
 	private String wDate;
 	private int good;
+	private String delCheck;
+	private String delDate;
 	
 	private int hour_diff;
 	private int date_diff;
