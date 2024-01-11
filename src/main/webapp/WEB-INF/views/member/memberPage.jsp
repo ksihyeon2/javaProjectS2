@@ -84,7 +84,7 @@
 		</tr>
 		<tr>
 			<td colspan="2" style="padding-left:50px;padding-right:50px">
-				<i class='fas fa-list-ul' style='font-size:36px'></i>&nbsp;&nbsp;&nbsp;<span style="font-size:24px"><a href="#">나의 게시물 확인</a></span><hr />
+				<i class='fas fa-list-ul' style='font-size:36px'></i>&nbsp;&nbsp;&nbsp;<span style="font-size:24px"><a href="${ctp}/board/boardMyList">나의 게시물 확인</a></span><hr />
 			</td>
 		</tr>
 		<tr>

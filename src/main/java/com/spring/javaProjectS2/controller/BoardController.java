@@ -2,6 +2,7 @@ package com.spring.javaProjectS2.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,9 @@ import com.spring.javaProjectS2.service.BoardService;
 import com.spring.javaProjectS2.service.MemberService;
 import com.spring.javaProjectS2.vo.BoardVO;
 import com.spring.javaProjectS2.vo.ComplaintVO;
+import com.spring.javaProjectS2.vo.GoodcheckVO;
 import com.spring.javaProjectS2.vo.MemberVO;
+import com.spring.javaProjectS2.vo.ReplyVO;
 
 @Controller
 @RequestMapping("/board")
@@ -43,7 +46,6 @@ public class BoardController {
 	public String boardListGet(Model model, HttpSession session,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
-		
 		PageVO pageVO = pageProcess.totRecCnt(pag,pageSize,"board","","");
 		
 		List<BoardVO> vos = boardService.getBoardList(pageVO.getStartIndexNo(),pageSize);
@@ -59,6 +61,7 @@ public class BoardController {
 	public String boardContent(int idx, Model model,HttpSession session,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
+		
 		String ContentIdx = (String)session.getAttribute("sContent"+idx);
 		if(ContentIdx == null) {
 			// 조회수 증가 불허를 위한 세션 저장
@@ -72,11 +75,19 @@ public class BoardController {
 		BoardVO preVO = boardService.getPreNextSearch(idx,"preVO");
 		BoardVO nextVO = boardService.getPreNextSearch(idx,"nextVO");
 		
+		// 좋아요 여부
+		String nickName = (String)session.getAttribute("sNickName");
+		GoodcheckVO goodCheckVO = boardService.getBoardGoodCheck(idx, nickName);
+		
+		List<ReplyVO> replyVOS = boardService.getBoardReplyList(idx);
+		model.addAttribute("replyVOS",replyVOS);
+		
 		model.addAttribute("vo",vo);
 		model.addAttribute("preVO",preVO);
 		model.addAttribute("nextVO",nextVO);
 		model.addAttribute("pag",pag);
 		model.addAttribute("pageSize",pageSize);
+		model.addAttribute("goodCheckVO",goodCheckVO);
 		
 		return "board/boardContent";
 	}
@@ -143,20 +154,87 @@ public class BoardController {
 	}
 	
 	// 공감 버튼
+	@ResponseBody
 	@RequestMapping(value = "/boardContentGoodCheck", method = RequestMethod.POST)
 	public String boardContentGoodCheckPost(int idx, String goodCheck, HttpSession session) {
-		String good = (String)session.getAttribute("sGoodCheck"+idx);
+		String nickName = (String)session.getAttribute("sNickName");
+		
+		GoodcheckVO vo = boardService.getBoardGoodCheck(idx,nickName);
 		
 		int res = 0;
-		if(good == null) {
-			session.setAttribute("sGoodCheck"+idx, "OK");
-			boardService.setBoardContentGoodCheck(idx,goodCheck);
+		if(vo == null && goodCheck.equals("OK")) {
+			// board DB 저장
+			boardService.setBoardContentGoodCheck(idx, goodCheck);
+			// goodCheck DB 저장
+			boardService.setContentGoodCheck(idx,nickName);
 			res = 1;
-		} else if(good != null && goodCheck.equals("NO")) {
-			session.removeAttribute("sGoodCheck"+idx);
-			boardService.setBoardContentGoodCheck(idx,goodCheck);
+		} else {
+			boardService.setBoardContentGoodCheck(idx, goodCheck);
+			// goodCheck DB 삭제
+			boardService.setContentGoodCheckDel(idx,nickName);
 			res = 1;
 		}
+		
 		return res + "";
+	}
+	
+	// 댓글 작성
+	@ResponseBody
+	@RequestMapping(value = "/boardReplyInput", method = RequestMethod.POST)
+	public String boardReplyInputPost(ReplyVO replyVO,HttpSession session) {
+		
+		ReplyVO replyParentVO = boardService.getBoardParentReplyCheck(replyVO.getBoardIdx());
+		
+		if(replyParentVO == null) {
+			replyVO.setRe_order(1);
+		} else {
+			replyVO.setRe_order(replyParentVO.getRe_order()+1);
+		}
+		
+		replyVO.setRe_step(0);
+		
+		int res = boardService.setBoardReplyInput(replyVO);
+		
+		return res + "";
+	}
+	
+	// 답글 작성
+	@ResponseBody
+	@RequestMapping(value = "/boardReplyInputRe", method = RequestMethod.POST)
+	public String boardReplyInputRePost(ReplyVO replyVO) {
+		System.out.println();
+		// 답글의 re_step을 부모의 re_step에 +1처리
+		replyVO.setRe_step(replyVO.getRe_step()+1);
+		
+		// 부모 이외의 댓글 re_order에 +1 처리
+		boardService.setReplyOrderUpdate(replyVO.getBoardIdx(),replyVO.getRe_order());
+		
+		// 3. 답글의 re_order +1처리
+		replyVO.setRe_order(replyVO.getRe_order()+1);
+		System.out.println("replyVO : " + replyVO.getRe_order() );
+		
+		int res = boardService.setBoardReplyInput(replyVO);
+		return res + "";
+	}
+	
+	// 댓글 삭제
+	@ResponseBody
+	@RequestMapping(value = "/boardReplyDelete", method = RequestMethod.POST)
+	public String boardReplyDeletePost(int idx, HttpSession session) {
+		String nickName = (String)session.getAttribute("sNickName");
+		
+		int res = boardService.getBoardReplyDelete(idx,nickName);
+		return res + "";
+	}
+	
+	// 나의 게시물 창 띄우기
+	@RequestMapping(value = "/boardMyList", method = RequestMethod.GET)
+	public String boardMyListGet(HttpSession session, Model model) {
+		String mid = (String)session.getAttribute("sMid");
+		
+		List<BoardVO> vos = boardService.getBoardMyList(mid);
+		model.addAttribute("vos", vos);
+		
+		return "board/boardMyList";
 	}
 }

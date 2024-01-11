@@ -14,7 +14,6 @@
   <style>
   	th {
       text-align: center;
-      background-color:gray;
     }
     
     a {
@@ -78,7 +77,7 @@
   </form>
   
   <table class="table table-hover text-center">
-  	<tr style="background-color:gray;height:40px;">
+  	<tr style="background-color:rgb(213,213,213);height:40px;">
   		<th>No.</th>
   		<th>작성자</th>
   		<th>제목</th>

@@ -21,6 +21,20 @@
 	<select id="getBoardComplanit" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
 		select * from complaint where complaintidx = #{idx} and complaintMid = #{complaintMid};
 	</select>
+	<select id="getBoardGoodCheck" resultType="com.spring.javaProjectS2.vo.GoodcheckVO">
+		select * from goodcheck where contentidx = #{idx}	and nickName = #{nickName};
+	</select>
+	<select id="getBoardParentReplyCheck" resultType="com.spring.javaProjectS2.vo.ReplyVO">
+		select * from reply where boardIdx = #{boardIdx} order by idx desc limit 1;
+	</select>
+	<select id="getBoardReplyList" resultType="com.spring.javaProjectS2.vo.ReplyVO">
+		select *, datediff(wDate, now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff, (select count(*) from reply where boardIdx = #{idx}) as replyCnt from reply where boardIdx = #{idx} order by re_order desc;
+	</select>
+	<select id="getBoardMyList" resultType="com.spring.javaProjectS2.vo.BoardVO">
+		select * from board where mid = #{mid};
+	</select>
+
+
 
 	<!-- insert -->
 	<insert id="setBoardInput">
@@ -29,6 +43,14 @@
 	<insert id="setBoardComplaint">
 		insert into complaint values(default,#{vo.complaintidx},#{vo.complaintMid},#{vo.complaintType},#{vo.complaintText},default);
 	</insert>
+	<insert id="setContentGoodCheck">
+		insert into goodcheck values(default,#{idx},#{nickName},now());
+	</insert>
+	<insert id="setBoardReplyInput">
+		insert into reply values(default,#{replyVO.boardIdx},#{replyVO.re_step},#{replyVO.re_order},#{replyVO.nickName},default,#{replyVO.content});
+	</insert>
+	
+	
 	
 	<!-- update -->
 	<update id="setReadNumPlus">
@@ -45,5 +67,18 @@
 			update board set good = good-1 where idx = #{idx};
 		</if>
 	</update>
+	<update id="setReplyOrderUpdate">
+		update reply set re_order = re_order + 1 where boardIdx = #{boardIdx} and re_order > #{re_order};
+	</update>
+	
+	
+	
+	<!-- delete -->
+	<delete id="setContentGoodCheckDel">
+		delete from goodcheck where contentidx = #{idx} and nickName = #{nickName}; 
+	</delete>
+	<delete id="getBoardReplyDelete">
+		delete from reply where idx = #{idx} and nickName = #{nickName};
+	</delete>
 	
 </mapper>

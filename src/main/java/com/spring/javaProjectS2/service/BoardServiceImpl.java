@@ -17,6 +17,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.spring.javaProjectS2.dao.BoardDAO;
 import com.spring.javaProjectS2.vo.BoardVO;
 import com.spring.javaProjectS2.vo.ComplaintVO;
+import com.spring.javaProjectS2.vo.GoodcheckVO;
+import com.spring.javaProjectS2.vo.ReplyVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -113,8 +115,53 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public GoodcheckVO getBoardGoodCheck(int idx, String nickName) {
+		return boardDAO.getBoardGoodCheck(idx,nickName);
+	}
+
+	@Override
 	public void setBoardContentGoodCheck(int idx, String goodCheck) {
 		boardDAO.setBoardContentGoodCheck(idx,goodCheck);
+	}
+
+	@Override
+	public void setContentGoodCheck(int idx, String nickName) {
+		boardDAO.setContentGoodCheck(idx,nickName);
+	}
+
+	@Override
+	public void setContentGoodCheckDel(int idx, String nickName) {
+		boardDAO.setContentGoodCheckDel(idx,nickName);
+	}
+
+	@Override
+	public ReplyVO getBoardParentReplyCheck(int boardIdx) {
+		return boardDAO.getBoardParentReplyCheck(boardIdx);
+	}
+
+	@Override
+	public int setBoardReplyInput(ReplyVO replyVO) {
+		return boardDAO.setBoardReplyInput(replyVO);
+	}
+
+	@Override
+	public List<ReplyVO> getBoardReplyList(int idx) {
+		return boardDAO.getBoardReplyList(idx);
+	}
+
+	@Override
+	public void setReplyOrderUpdate(int boardIdx, int re_order) {
+		boardDAO.setReplyOrderUpdate(boardIdx,re_order);
+	}
+
+	@Override
+	public int getBoardReplyDelete(int idx, String nickName) {
+		return boardDAO.getBoardReplyDelete(idx,nickName);
+	}
+
+	@Override
+	public List<BoardVO> getBoardMyList(String mid) {
+		return boardDAO.getBoardMyList(mid);
 	}
 
 }

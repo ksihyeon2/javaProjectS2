@@ -11,12 +11,17 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
+  <style>
+  	a {
+    	text-decoration-line:none;
+    }
+  </style>
   <script>
   	'use strict';
   	
   	$(function(){
-  		$("#goodOk").hide();
-  		$("#ReplyOk").hide();
+  		$("#replyOk").hide();
+  		$(".replyCloseBtn").hide();
   	});
   	
   	// 신고 접수
@@ -111,10 +116,7 @@
   	}
   	
   	// 공감 버튼 
-  	function goodNoCheck() {
-  		$("#goodOk").show();
-  		$("#goodNo").hide();
-  		
+  	function goodOkCheck() {
   		let idx = ${vo.idx};
   		let goodCheck = "OK";
   		
@@ -139,10 +141,7 @@
   	}
   	
   	// 공감 버튼 취소
-  	function goodOkCheck() {
-  		$("#goodOk").hide();
-  		$("#goodNo").show();
-  		
+  	function goodNoCheck() {
   		let idx = ${vo.idx};
   		let goodCheck = "NO";
   		
@@ -166,14 +165,124 @@
   		});
   	}
   	
-  	function replyOpen(){
-  		$("#ReplyOk").show();
-  		$("#ReplyNo").hide();
+  	// 댓글창 열기
+ 		function replyOpen(){
+  		$("#replyOk").hide();
+  		$("#replyNo").show();
+  		$(".replyTable").show();
   	}
   	
+  	// 댓글창 닫기
   	function replyClose(){
-  		$("#ReplyOk").hide();
-  		$("#ReplyNo").show();
+  		$("#replyOk").show();
+  		$("#replyNo").hide();
+  		$(".replyTable").hide();
+  	} 
+  	
+  	// 댓글 작성
+  	function replyCheck(){
+  		let content = $("#content").val();
+  		
+  		if(content.trim() == ""){
+  			alert("댓글을 입력해 주세요.");
+  			$("#content").focus();
+  			return false;
+  		}
+  		
+  		let query = {
+  				boardIdx:${vo.idx},
+  				nickName:'${sNickName}',
+  				content:content
+  		};
+  		
+  		$.ajax({
+  			url : "${ctp}/board/boardReplyInput",
+  			type : "post",
+  			data : query,
+  			success : function(res){
+  				if (res != "0"){
+  					location.reload();
+  				} else {
+  					alert("댓글 입력에 실패하셨습니다.");
+  				}
+  			},
+  			error : function(){
+  				alert("전송 오류");
+  			}
+  		});
+  	}
+  	
+  	// 답글 테이블 보여주기
+  	function replyShow(idx){
+  		$("#replyShowBtn"+idx).hide();
+			$("#replyCloseBtn"+idx).show();
+			$("#replyDemo"+idx).slideDown(200);
+			$("#contentRe"+idx).focus();
+  	}  	
+  	
+  	// 답글 테이블 닫기
+  	function replyShowClose(idx){
+			$("#replyShowBtn"+idx).show();
+			$("#replyCloseBtn"+idx).hide();
+			$("#replyDemo"+idx).slideUp(100);
+		}
+  	
+  	// 답글 작성
+  	function replyCheckRe(idx,re_step,re_order){
+  		let content = $("#contentRe"+idx).val();
+  		if(content.trim() == "") {
+  			alert("답변글을 입력해 주세요.");
+  			$("#contentRe"+idx).focus();
+  			return false;
+  		}
+  		
+  		let query = {
+  				boardIdx:${vo.idx},
+  				re_step:re_step,
+  				re_order:re_order,
+  				nickName:'${vo.nickName}',
+  				content:content
+  		};
+  		
+  		$.ajax({
+  			url : "${ctp}/board/boardReplyInputRe",
+  			type : "post",
+  			data : query,
+  			success : function(res){
+  				if (res != "0"){
+  					location.reload();
+  				} else {
+  					alert("댓글 입력에 실패하셨습니다.");
+  				}
+  			},
+  			error : function(){
+  				alert("전송 오류");
+  			}
+  		});
+  	}
+  	
+  	// 댓글 삭제
+  	function replyDelete(idx){
+  		let ans = confirm("해당 댓글을 삭제하시겠습니까?");
+  		if(!ans){
+  			return false;
+  		}
+  		
+  		$.ajax({
+  			url : "${ctp}/board/boardReplyDelete",
+  			type : "post",
+  			data : {idx:idx},
+  			success : function(res){
+  				if(res != "0"){
+  					location.reload();
+  				} else {
+  					alert("댓글 삭제에 실패하셨습니다.");
+  				}
+  			},
+  			error : function(){
+  				alert("전송 오류");
+  			}
+  		});
   	}
   </script>
 </head>
@@ -195,31 +304,25 @@
 	
 	<table class="table table-bordered text-center">
 		<tr>
-			<th>작성자</th>
+			<th style="background-color:rgb(213,213,213);">작성자</th>
 			<td>${vo.nickName}</td>
-			<th>작성일</th>
+			<th style="background-color:rgb(213,213,213);">작성일</th>
 			<td>${fn:substring(vo.WDate,0,10)}</td>
 		</tr>
 		<tr>
-			<th>제 목</th>
-			<td colspan="2" class="text-left">${vo.title}</td>
-			<td>
-				<table class="table table-borderless m-0">
-					<tr>
-						<th>분류</th>
-						<td>${vo.part}</td>
-					</tr>
-				</table>
-			</td>
+			<th style="background-color:rgb(213,213,213);">제 목</th>
+			<td>${vo.title}</td>
+			<th style="background-color:rgb(213,213,213);">분류</th>
+			<td>${vo.part}</td>
 		</tr>
 		<tr>
-			<th>조회수</th>
+			<th style="background-color:rgb(213,213,213);">조회수</th>
 			<td>${vo.readNum}</td>
-			<th>공감</th>
+			<th style="background-color:rgb(213,213,213);">공감</th>
 			<td>${vo.good}</td>
 		</tr>
 		<tr>
-			<th>내용</th>
+			<th style="background-color:rgb(213,213,213);">내용</th>
 			<td colspan="3" style="height:220px;text-align:left;">
 				${fn:replace(vo.content,newLine,"<br />")}
 			</td>
@@ -229,19 +332,23 @@
 				<table class="table table-borderless m-0">
 					<tr>
 						<td>
-							<a href="javascript:goodNoCheck()"><i class='far fa-thumbs-up' style='font-size:30px;color:black;' id="goodNo"></i></a>
-							<a href="javascript:goodOkCheck()"><i class='fas fa-thumbs-up' style='font-size:30px;color:black;' id="goodOk"></i></a>
+							<c:if test="${empty goodCheckVO}">
+								<a href="javascript:goodOkCheck()"><i class='far fa-thumbs-up' style='font-size:30px;color:black;' id="goodOk" title="공감하기"></i></a>
+							</c:if>
+							<c:if test="${!empty goodCheckVO}">
+								<a href="javascript:goodNoCheck()"><i class='fas fa-thumbs-up' style='font-size:30px;color:black;' id="goodNo" title="공감 취소"></i></a>
+							</c:if>
 						</td>
 						<td>
-							<a href="javascript:replyOpen()"><i class='far fa-comment-dots' style='font-size:30px;color:black;' id="ReplyNo"></i></a>
-							<a href="javascript:replyClose()"><i class='fas fa-comment-dots' style='font-size:30px;color:black;' id="ReplyOk"></i></a>
+							<a href="javascript:replyOpen()"><i class='far fa-comment-dots' style='font-size:30px;color:black;' id="replyOk" title="댓글창 열기"></i></a>
+							<a href="javascript:replyClose()"><i class='fas fa-comment-dots' style='font-size:30px;color:black;' id="replyNo" title="댓글창 닫기"></i></a>
 						</td>
 						<td>
 							<c:if test="${sMid != vo.mid}">
-								<a href="#" data-toggle="modal" data-target="#complaintModal" style="margin-right:20px;"><i class="material-icons" style="font-size:35px;color:red">room_service</i></a>
+								<a href="#" data-toggle="modal" data-target="#complaintModal" style="margin-right:20px;"><i class="material-icons" style="font-size:35px;color:red" title="신고하기">room_service</i></a>
 							</c:if>
 							<c:if test="${sMid == vo.mid}">
-								<a href="#" data-toggle="modal" data-target="#delModal" style="margin-right:20px;"><i class='far fa-trash-alt' style='font-size:30px;color:black;'></i></a>
+								<a href="#" data-toggle="modal" data-target="#delModal" style="margin-right:20px;"><i class='far fa-trash-alt' style='font-size:30px;color:black;' title="삭제하기"></i></a>
 							</c:if>
 						</td>
 					</tr>
@@ -249,7 +356,88 @@
 			</td>
 		</tr>
 	</table>
-	
+	<br />
+	<hr />
+	<br />
+	<!-- 댓글창 -->
+	<table class="table table-hover replyTable">
+		<tr  class="text-center" style="background-color:rgb(213,213,213);">
+			<th colspan="4"><h5>댓글 관리</h5></th>
+		</tr>
+		<c:if test="${empty replyVOS}">
+			<tr>
+				<td colspan="4" style="text-align:center;">아직 댓글이 없습니다. 댓글을 작성해 보세요.</td>
+			</tr>
+		</c:if>
+		<c:forEach var="replyVO" items="${replyVOS}" varStatus="st">
+			<table class="table table-borderless replyTable">
+				<tr>
+					<td>
+						<c:if test="${replyVO.re_step >= 1}">
+							<c:forEach var="i" begin="1" end="${replyVO.re_step}">&nbsp;&nbsp;</c:forEach> └
+						</c:if>
+						<b>${replyVO.nickName}</b>
+						<c:if test="${replyVO.hour_diff > 24}">
+							<span style="font-size:0.8em">${fn:substring(replyVO.WDate,0,10)}</span>
+						</c:if>
+						<c:if test="${replyVO.hour_diff <= 24}">
+							<span style="font-size:0.8em">${replyVO.date_diff == 0 ? fn:substring(replyVO.WDate,11,16) : fn:substring(replyVO.WDate,0,16)}</span>
+							<span class="badge badge-danger" style="font-size:0.5em">N</span>
+						</c:if>
+					</td>
+					<td class="text-right">
+						<a href="javascript:replyShow(${replyVO.idx})" id="replyShowBtn${replyVO.idx}" class="badge badge-secondary">답글</a> 
+						<a href="javascript:replyShowClose(${replyVO.idx})" id="replyCloseBtn${replyVO.idx}" class="badge badge-secondary replyCloseBtn">닫기</a> 
+						<c:if test="${replyVO.nickName == sNickName || sLevel == 0 }">
+							<a href="javascript:replyDelete(${replyVO.idx})" class="badge badge-danger">삭제</a> 
+						</c:if>
+						<c:if test="${replyVO.nickName != sNickName}">
+							<a href="javascript:replyComplaint(${replyVO.idx})" class="badge badge-danger">신고</a> 
+						</c:if>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						${fn:replace(replyVO.content,newLine,"<br />")}
+					</td>
+				</tr>
+				<tr>
+					<td colspan="5" class="m-0 p-0">
+						<div id="replyDemo${replyVO.idx}" style="display:none">
+							<table class="table table-center">
+								<tr>
+									<td style="width:85%" class="text-left">
+										<textarea rows="4" name="contentRe" id="contentRe${replyVO.idx}" class="form-control" style="background-color:rgb(234,234,234) "></textarea>
+									</td>
+									<td style="width:15%">
+										<br /><br /><br />
+										<p><input type="button" value="답글달기" onclick="replyCheckRe(${replyVO.idx},${replyVO.re_step},${replyVO.re_order})" class="btn btn-info btn-sm" /></p>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<hr />
+					</td>
+				</tr>
+			</table>
+			<tr><td colspan="5" class="m-0 p-0"></td></tr>
+		</c:forEach>
+	</table>
+	<!-- 댓글 입력창 -->
+		<form name="replyForm">
+			<table class="table table-center replyTable">
+				<tr style="background-color:rgb(213,213,213);">
+					<td style="width:85%" class="text-left">
+						댓글 입력
+						<textarea rows="4" name="content" id="content" class="form-control"></textarea>
+					</td>
+					<td style="width:15%">
+						<br /><br /><br /><br />
+						<p><input type="button" value="댓글작성" onclick="replyCheck()" class="btn btn-info btn-sm" /></p>
+					</td>
+				</tr>
+			</table>
+		</form>
 </div>
 
 <!-- 신고 Modal -->
