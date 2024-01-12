@@ -47,6 +47,10 @@ public interface BoardDAO {
 
 	public int getBoardReplyDelete(@Param("idx") int idx, @Param("nickName") String nickName);
 
-	public List<BoardVO> getBoardMyList(@Param("mid") String mid);
+	public List<BoardVO> getboardDelBox(@Param("nickName") String nickName);
+
+	public int setBoardMyContentDel(@Param("mid") String mid, @Param("delidx") String delidx);
+
+	public List<BoardVO> getboardMyList(@Param("mid") String mid);
 
 }

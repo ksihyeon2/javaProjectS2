@@ -160,8 +160,24 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> getBoardMyList(String mid) {
-		return boardDAO.getBoardMyList(mid);
+	public List<BoardVO> getboardDelBox(String nickName) {
+		return boardDAO.getboardDelBox(nickName);
 	}
+
+	@Override
+	public int setBoardMyContentDel(String mid, String delidx) {
+		return boardDAO.setBoardMyContentDel(mid,delidx);
+	}
+
+	@Override
+	public List<BoardVO> getboardMyList(String mid) {
+		return boardDAO.getboardMyList(mid);
+	}
+
+//	@Override
+//	public void imgBackup(String content) {
+//		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+//		
+//	}
 
 }

@@ -20,14 +20,14 @@
   <script>
   	'use strict';
   	
-  	function boardInputClose(){
+  	function boardInputClose(user){
   		let ans = confirm("게시물 작성을 취소하시겠습니까?");
-  		
   		if(!ans){
   			return false;
   		}
   		
-  		location.href="${ctp}/board/boardList";
+			location.href="${ctp}/board/boardList?user=${user}";
+  		
   	}
   </script>
 </head>
@@ -39,7 +39,7 @@
 <div class="container" style="width:60%">
 	<div class="row mb-4">
 		<div class="col-3 text-left">
-			<a class="btn btn-secondary mb-4" href="javascript:boardInputClose()" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
+			<a class="btn btn-secondary mb-4" href="javascript:boardInputClose()" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px' title="뒤로가기"></i></a>
 		</div>
 		<div class="col-6 text-center">
 			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">게 시 판 글 작 성</span>

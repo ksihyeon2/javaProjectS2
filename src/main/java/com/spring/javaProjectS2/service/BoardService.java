@@ -45,6 +45,12 @@ public interface BoardService {
 
 	public int getBoardReplyDelete(int idx, String nickName);
 
-	public List<BoardVO> getBoardMyList(String mid);
+	public List<BoardVO> getboardDelBox(String nickName);
+
+	public int setBoardMyContentDel(String mid, String delidx);
+
+	public List<BoardVO> getboardMyList(String mid);
+
+//	public void imgBackup(String content);
 
 }

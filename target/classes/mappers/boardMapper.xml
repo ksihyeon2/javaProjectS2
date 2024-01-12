@@ -5,7 +5,7 @@
 		select count(*) from board;
 	</select>
 	<select id="getBoardList" resultType="com.spring.javaProjectS2.vo.BoardVO">
-		select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff from board order by idx desc limit #{startIndexNo}, #{pageSize};
+		select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff, (select count(*) from reply where boardIdx = board.idx) as replyCnt from board order by idx desc limit #{startIndexNo}, #{pageSize};
 	</select>
 	<select id="getBoardContent" resultType="com.spring.javaProjectS2.vo.BoardVO">
 		select * from board where idx = #{idx};
@@ -28,12 +28,14 @@
 		select * from reply where boardIdx = #{boardIdx} order by idx desc limit 1;
 	</select>
 	<select id="getBoardReplyList" resultType="com.spring.javaProjectS2.vo.ReplyVO">
-		select *, datediff(wDate, now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff, (select count(*) from reply where boardIdx = #{idx}) as replyCnt from reply where boardIdx = #{idx} order by re_order desc;
+		select *, datediff(wDate, now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff from reply where boardIdx = #{idx} order by re_order desc;
 	</select>
-	<select id="getBoardMyList" resultType="com.spring.javaProjectS2.vo.BoardVO">
-		select * from board where mid = #{mid};
+	<select id="getboardDelBox" resultType="com.spring.javaProjectS2.vo.BoardVO">
+		select * from board where nickName = #{nickName} and delCheck = 'OK' order by idx;
 	</select>
-
+	<select id="getboardMyList" resultType="com.spring.javaProjectS2.vo.BoardVO">
+		select * from board where mid = #{mid} order by idx;
+	</select>
 
 
 	<!-- insert -->
@@ -69,6 +71,9 @@
 	</update>
 	<update id="setReplyOrderUpdate">
 		update reply set re_order = re_order + 1 where boardIdx = #{boardIdx} and re_order > #{re_order};
+	</update>
+	<update id="setBoardMyContentDel">
+		update board set delCheck = 'OK', delDate = now() where mid = #{mid} and idx = #{delidx};
 	</update>
 	
 	

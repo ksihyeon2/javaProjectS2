@@ -14,6 +14,4 @@ public class ReplyVO {
 	
 	private int hour_diff;
 	private int date_diff;
-	
-	private int replyCnt;
 }

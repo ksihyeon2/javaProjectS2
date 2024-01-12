@@ -6,15 +6,33 @@
 <script>
 	'use strict';
 	
-  function fCheck() {
-	  let gymName = document.getElementById("gymName").value;
-	  
+  function gymSearch(){
+	  let area = $("#area").val();
+ 		let gymName = document.getElementById("gymName").value;
+ 		
 	  if (gymName == ""){
 		  alert("검색하실 지점을 입력해 주세요.");
 		  $("#gymName").focus();
+		  location.reload();
 	  	return false;
-	  } 
+	  }
 	  
+	  let query = {
+			  area:area,
+			  gymName:gymName
+	  }
+	  
+	  $.ajax({
+		  url : "${ctp}/gym/gmySearchList",
+		  type : "post",
+		  data : query,
+		  success : function(res){
+			  
+		  },
+		  error : function(){
+			  alert("전송 오류");
+		  }
+	  });
   }
 </script>
 <header class="masthead">
@@ -35,8 +53,7 @@
 	      			<option>제주특별자치도</option>
 	      		</select>
 	        	<input type="text" name="gymName" id="gymName" placeholder="지점명 검색" style="width:30%;height:35px"/>
-	        	<button class="btn btn-success" type="button" onclick="fCheck()"><i class='fas fa-search' style='font-size:25px'></i></button>  
-	        	<a href="gymSearch" data-toggle="modal" data-target="#delModal" class="btn btn-secondary"><i class='fas fa-search' style='font-size:25px'></i></a>
+	        	<a href="#" onclick="gymSearch()" data-toggle="modal" data-target="#delModal" class="btn btn-secondary"><i class='fas fa-search' style='font-size:25px'></i></a>
 	        </div>
         </form>
         <a class="btn btn-primary btn-lg text-uppercase mt-4" href="${ctp}/gym/gymList">모든 지점 보기</a>
@@ -61,7 +78,7 @@
 	        </div>
 	        <!-- Modal footer -->
 	        <div class="modal-footer">
-	          	<button type="button" class="btn btn-primary" onclick="memberDelOk()">탈퇴</button>
+	          	<button type="button" class="btn btn-primary" onclick="memberDelOk()">확인</button>
 	          	<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
 	        </div>
 	    </div>

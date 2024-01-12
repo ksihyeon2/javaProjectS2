@@ -45,7 +45,8 @@ public class BoardController {
 	@RequestMapping(value = "/boardList", method = RequestMethod.GET)
 	public String boardListGet(Model model, HttpSession session,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
-			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="user", defaultValue = "", required = false) String user) {
 		PageVO pageVO = pageProcess.totRecCnt(pag,pageSize,"board","","");
 		
 		List<BoardVO> vos = boardService.getBoardList(pageVO.getStartIndexNo(),pageSize);
@@ -53,14 +54,20 @@ public class BoardController {
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("vos",vos);
 		
-		return "board/boardList";
+		if(user.trim().equals("")) {
+			return "board/boardList";
+		} else {
+			return "board/boardMyList";
+		}
 	}
 	
 	// 선택 게시물 창 띄우기
 	@RequestMapping(value = "/boardContent", method = RequestMethod.GET)
 	public String boardContent(int idx, Model model,HttpSession session,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
-			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="mid", defaultValue = "", required = false) String mid,
+			@RequestParam(name="del", defaultValue = "", required = false) String del) {
 		
 		String ContentIdx = (String)session.getAttribute("sContent"+idx);
 		if(ContentIdx == null) {
@@ -88,13 +95,17 @@ public class BoardController {
 		model.addAttribute("pag",pag);
 		model.addAttribute("pageSize",pageSize);
 		model.addAttribute("goodCheckVO",goodCheckVO);
+		model.addAttribute("mid",mid);
+		model.addAttribute("del",del);
 		
 		return "board/boardContent";
 	}
 	
 	// 게시물 작성 창 띄우기
 	@RequestMapping(value = "/boardInput", method = RequestMethod.GET)
-	public String boardInputGet() {
+	public String boardInputGet(Model model, 
+			@RequestParam(name="user", defaultValue = "", required = false) String user) {
+		model.addAttribute("user",user);
 		return "board/boardInput";
 	}
 	
@@ -142,12 +153,19 @@ public class BoardController {
 	// 게시물 삭제
 	@ResponseBody
 	@RequestMapping(value = "/boardContentDel", method = RequestMethod.POST)
-	public String boardContentDelPost(String pwd, String mid, int idx) {
+	public String boardContentDelPost(String pwd, String mid,
+			@RequestParam(name="idx", defaultValue = "0", required = false) int idx,
+			@RequestParam(name="delidx", defaultValue = "", required = false) String delidx) {
 		MemberVO vo = memberService.getMemberIdCheck(mid);
-		
+		System.out.println("pwd : " + pwd + " mid : " + mid);
+		System.out.println("idx : " + idx + " delidx : " + delidx);
 		int res = 0;
 		if(passwordEncoder.matches(pwd, vo.getPwd())) {
-			res = boardService.setBoardContentDel(mid,idx);
+			if(idx != 0) {
+				res = boardService.setBoardContentDel(mid,idx);
+			} else if(delidx != "") {
+				res = boardService.setBoardMyContentDel(mid,delidx);
+			}
 		}
 		
 		return res + "";
@@ -227,14 +245,51 @@ public class BoardController {
 		return res + "";
 	}
 	
-	// 나의 게시물 창 띄우기
+	// 나의 게시물 폼 띄우기
 	@RequestMapping(value = "/boardMyList", method = RequestMethod.GET)
-	public String boardMyListGet(HttpSession session, Model model) {
+	public String boardMyListGet(HttpSession session, Model model,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
 		String mid = (String)session.getAttribute("sMid");
+//		PageVO pageVO = pageProcess.totRecCnt(pag,pageSize,"board","","");
 		
-		List<BoardVO> vos = boardService.getBoardMyList(mid);
-		model.addAttribute("vos", vos);
+//		List<BoardVO> vos = boardService.getBoardList(pageVO.getStartIndexNo(),pageSize);
+		
+//		model.addAttribute("pageVO", pageVO);
+		
+		List<BoardVO> vos = boardService.getboardMyList(mid);
+		
+		model.addAttribute("vos",vos);
 		
 		return "board/boardMyList";
 	}
+	
+	// 나의 휴지통 폼 띄우기
+	@RequestMapping(value = "/boardDelBox", method = RequestMethod.GET)
+	public String boardDelBoxGet(HttpSession session, Model model) {
+		String nickName = (String)session.getAttribute("sNickName");
+		
+		List<BoardVO> vos = boardService.getboardDelBox(nickName);
+		
+		model.addAttribute("vos",vos);
+		return "board/boardDelBox";
+	}
+	
+//	// 나의 게시물 수정 폼 띄우기
+//	@RequestMapping(value = "/boardUpdate", method = RequestMethod.GET)
+//	public String boardUpdateGet(Model model, int idx,
+//			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+//			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
+//		// 수정 할 원본 자료에 그림 파일이 존재하면, 그림 파일을 ckeditor 폴더로 복사 처리
+//		BoardVO vo = boardService.getBoardContent(idx);
+//		if(vo.getContent().indexOf("src=\"/") != -1) {
+//			boardService.imgBackup(vo.getContent());
+//		}
+//		
+//		model.addAttribute("vo",vo);
+//		model.addAttribute("pag",pag);
+//		model.addAttribute("pageSize",pageSize);
+//		
+//		return "board/boardUpdate";
+//	}
 }

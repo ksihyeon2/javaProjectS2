@@ -294,11 +294,21 @@
 <div class="container">
 	<div class="row mb-4">
 		<div class="col-3 text-left">
-			<c:if test="${param.flag != 'search'}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardList?pag=${param.pag}&pageSize=${param.pageSize}" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
-			<c:if test="${param.flag == 'search'}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardSearchList?pag=${param.pag}&pageSize=${param.pageSize}&search=${param.search}&searchString=${param.searchString}" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
+			<c:if test="${del != 'OK' && empty mid && param.flag != 'search'}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardList?pag=${param.pag}&pageSize=${param.pageSize}" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
+			<c:if test="${del != 'OK' && empty mid && param.flag == 'search'}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardSearchList?pag=${param.pag}&pageSize=${param.pageSize}&search=${param.search}&searchString=${param.searchString}" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
+			<c:if test="${del != 'OK' && !empty mid && param.flag != 'search'}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardMyList?pag=${param.pag}&pageSize=${param.pageSize}" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
+			<c:if test="${del != 'OK' && !empty mid && param.flag == 'search'}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardMyList?pag=${param.pag}&pageSize=${param.pageSize}&search=${param.search}&searchString=${param.searchString}" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
+			<c:if test="${del == 'OK'}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardDelBox" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
 		</div>
 		<div class="col-6 text-center">
 			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">커 뮤 니 티</span>
+		</div>
+		<div class="col-3 text-right">
+			<c:if test="${vo.nickName == sNickName}">
+				<c:if test="${vo.delCheck == 'NO'}">
+					<a class="btn btn-secondary" href="${ctp}/board/boardUpdate?idx=${vo.idx}&pag=${pag}&pageSize=${pageSize}" style="margin-right:20px;">수정하기</a>
+				</c:if>
+			</c:if>
 		</div>
 	</div>
 	
@@ -336,7 +346,7 @@
 								<a href="javascript:goodOkCheck()"><i class='far fa-thumbs-up' style='font-size:30px;color:black;' id="goodOk" title="공감하기"></i></a>
 							</c:if>
 							<c:if test="${!empty goodCheckVO}">
-								<a href="javascript:goodNoCheck()"><i class='fas fa-thumbs-up' style='font-size:30px;color:black;' id="goodNo" title="공감 취소"></i></a>
+								<a href="javascript:goodNoCheck()"><i class='fas fa-thumbs-up' style='font-size:30px;color:black;' id="goodNo" title="공감취소"></i></a>
 							</c:if>
 						</td>
 						<td>
