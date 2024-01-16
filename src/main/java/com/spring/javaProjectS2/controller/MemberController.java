@@ -2,6 +2,7 @@ package com.spring.javaProjectS2.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -25,8 +26,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.spring.javaProjectS2.service.AdminService;
+import com.spring.javaProjectS2.service.BoardService;
 import com.spring.javaProjectS2.service.MemberService;
+import com.spring.javaProjectS2.vo.BoardVO;
 import com.spring.javaProjectS2.vo.MemberVO;
+import com.spring.javaProjectS2.vo.VisitVO;
 
 @Controller
 @RequestMapping("/member")
@@ -36,10 +41,16 @@ public class MemberController {
 	MemberService memberService;
 	
 	@Autowired
+	BoardService boardService;
+	
+	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
 	JavaMailSender mailSender;
+	
+	@Autowired
+	AdminService adminService;
 	
 	// 로그인 폼 띄우기
 	@RequestMapping(value = "/memberLogin", method = RequestMethod.GET)
@@ -131,6 +142,23 @@ public class MemberController {
 			
 			// DB 저장
 			memberService.setMemberUpdate(vo);
+			
+			// 홈페이지 방문 cnt 증가(관리자 화면에서 사용)
+//			int cnt = 0;
+//			VisitVO v = new VisitVO();
+//			List<VisitVO> visitVOS = adminService.getTodayVisit();
+//			for(VisitVO visitVO : visitVOS) {
+//				if(visitVO.getDate_diff() == 0 && visitVO.getMember().equals("회원")) {
+//					cnt = 1;
+//					v.setToday(visitVO.getToday());
+//				}
+//			}
+//			
+//			if(cnt != 1) {
+//				adminService.setTodayMember();
+//			} else if(cnt == 1) {
+//				adminService.setTodayVisitCntPlus(v.getToday(),"회원");
+//			}
 			
 			if(session.getAttribute("imsiPwd") != null) {
 				return "redirect:/message/memberPwdChange";
@@ -355,6 +383,10 @@ public class MemberController {
 			session.removeAttribute("pwdCheck");
 		}
 		
+		// 게시물 총 개수 구하기
+		int boardCnt = boardService.getBoardCnt(mid);
+		
+		model.addAttribute("boardCnt",boardCnt);
 		model.addAttribute("vo",vo);
 		return "member/memberPage";
 	}

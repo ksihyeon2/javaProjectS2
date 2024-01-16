@@ -5,7 +5,9 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>gym.jsp</title>
+  <title>gymInput.jsp</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
 </head>

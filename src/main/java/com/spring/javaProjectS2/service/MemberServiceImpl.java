@@ -1,17 +1,13 @@
 package com.spring.javaProjectS2.service;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.UUID;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.filefilter.CanWriteFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaProjectS2.dao.MemberDAO;
 import com.spring.javaProjectS2.vo.MemberVO;
@@ -82,5 +78,20 @@ public class MemberServiceImpl implements MemberService {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/member");
 		// 수정
+	}
+
+	@Override
+	public List<MemberVO> getMemberList(int startIndexNo, int pageSize) {
+		return memberDAO.getMemberList(startIndexNo,pageSize);
+	}
+
+	@Override
+	public List<MemberVO> getmemberDelList() {
+		return memberDAO.getmemberDelList();
+	}
+
+	@Override
+	public void setMemberDel(MemberVO vo) {
+		memberDAO.setMemberDel(vo);
 	}
 }

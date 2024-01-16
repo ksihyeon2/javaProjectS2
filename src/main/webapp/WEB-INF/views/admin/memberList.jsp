@@ -6,28 +6,23 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>boardList.jsp</title>
-  <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+  <title>memberList.jsp</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
   <style>
-  	th {
-      text-align: center;
-    }
-    
-    a {
-    	color:black;
-    	text-decoration-line:none;
-    }
-    
+  	a{
+  		text-decoration-line:none;
+  		color:black;
+  	}
   </style>
   <script>
   	'use strict';
   	
   	function pageSizeCheck(){
   		let pageSize = $("#pageSize").val();
-  		location.href = "boardList?pageSize="+pageSize;
+  		location.href = "memberList?pageSize="+pageSize;
   	}
   </script>
 </head>
@@ -36,20 +31,15 @@
 <p><br /></p>
 <p><br /></p>
 <p><br /></p>
-<p><br /></p>
 <div class="container">
 	<div class="row mb-4">
 		<div class="col-3 text-left">
-			<a class="btn btn-secondary mb-4" href="${ctp}/" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
+			<a class="btn btn-secondary mb-4" href="adminPage" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px' title="뒤로가기"></i></a>
 		</div>
 		<div class="col-6 text-center">
-			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">커 뮤 니 티</span>
-		</div>
-		<div class="col-3 text-right">
-			<a class="btn btn-secondary" href="${ctp}/board/boardInput" style="margin-right:20px;">글작성</a>
+			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">회 원 관 리</span>
 		</div>
 	</div>
-	
 	<form name="searchForm">
 		<div class="row mb-5">
 			<div class="col-7 text-left">
@@ -89,46 +79,45 @@
   <table class="table table-hover text-center">
   	<tr style="background-color:rgb(213,213,213);height:40px;">
   		<th>No.</th>
-  		<th>작성자</th>
-  		<th>제목</th>
-  		<th>분류</th>
-  		<th>작성일</th>
-  		<th>조회수</th>
+  		<th>아이디</th>
+  		<th>닉네임</th>
+  		<th>성명</th>
+  		<th>이메일</th>
+  		<th>탈퇴여부</th>
+  		<th>상세보기</th>
   	</tr>
-  	<tr><td colspan="6" class="p-0"></td></tr>
   	<c:set var="curScrStartNo" value="${pageVO.curScrStartNo}" />
-	  	<c:forEach var="vo" items="${vos}" varStatus="st">
-		  	<c:if test="${vo.delCheck != 'OK'}">
-		  		<tr>
-		  			<td>${curScrStartNo}</td>
-		  			<td>${vo.nickName}</td>
-		  			<td><a href="boardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title} </a> (${vo.replyCnt})</td>
-		  			<td>${vo.part}</td>
-		  			<td>
-		  				<c:if test="${vo.hour_diff > 24}">${fn:substring(vo.WDate,0,10)}</c:if>
-		  				<c:if test="${vo.hour_diff <= 24}">${vo.date_diff == 0 ? fn:substring(vo.WDate,11,16) : fn:substring(vo.WDate,0,16)}
-		  				<span class="badge badge-danger" style="font-size:0.5em">N</span>
-							</c:if>
-		  			</td>
-		  			<td>${vo.readNum}</td>
-		  		</tr>
-		  		<c:set var="curScrStartNo" value="${curScrStartNo-1}"></c:set>
-		  	</c:if>
-	  	</c:forEach>
+  	<c:forEach var="vo" items="${vos}" varStatus="st">
+  		<tr>
+  			<td>${curScrStartNo}</td>
+  			<td>${vo.mid}</td>
+  			<td>${vo.nickName}</td>
+  			<td>${vo.name}</td>
+  			<td>${vo.email}</td>
+  			<td>
+  				<c:if test="${vo.userDel == 'NO' }">미탈퇴</c:if>
+  				<c:if test="${vo.userDel != 'NO' }">
+  					<a href="#" title="탈퇴관리"><span style="color:red">탈퇴신청</span></a>
+  				</c:if>
+  			</td>
+  			<td><a href="#" title="상세보기"><i class='fas fa-info-circle'></i></a></td>
+  		</tr>  
+  		<c:set var="curScrStartNo" value="${curScrStartNo -1}"/>
+  	</c:forEach>
   </table>
 </div>
 <!-- 블록페이지 시작(1블록의 크기를 3개(3Page)로 한다. 한페이지 기본은 10개 -->
 <br/>
 <div class="text-center">
   <ul class="pagination justify-content-center">
-    <c:if test="${pageVO.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=1&pageSize=${pageVO.pageSize}">첫페이지</a></li></c:if>
-  	<c:if test="${pageVO.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">이전블록</a></li></c:if>
+    <c:if test="${pageVO.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="memberList?pag=1&pageSize=${pageVO.pageSize}">첫페이지</a></li></c:if>
+  	<c:if test="${pageVO.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="memberList?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">이전블록</a></li></c:if>
   	<c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize)+pageVO.blockSize}" varStatus="st">
-	    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="boardList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
-	    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
+	    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="memberList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
+	    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link text-secondary" href="memberList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
   	</c:forEach>
-  	<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">다음블록</a></li></c:if>
-  	<c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
+  	<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="memberList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">다음블록</a></li></c:if>
+  	<c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link text-secondary" href="memberList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
   </ul>
 </div>
 <p><br /></p>

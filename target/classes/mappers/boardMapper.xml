@@ -36,7 +36,9 @@
 	<select id="getboardMyList" resultType="com.spring.javaProjectS2.vo.BoardVO">
 		select * from board where mid = #{mid} order by idx;
 	</select>
-
+	<select id="getBoardCnt" resultType="int">
+		select count(*) from board where mid = #{mid} and delCheck = 'NO';
+	</select>
 
 	<!-- insert -->
 	<insert id="setBoardInput">

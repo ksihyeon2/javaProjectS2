@@ -42,8 +42,11 @@
                 <li class="nav-item"><a class="nav-link" href="${ctp}/#services">SERVICES</a></li>
                 <li class="nav-item"><a class="nav-link" href="${ctp}/#portfolio">추천</a></li>
                 <li class="nav-item"><a class="nav-link" href="${ctp}/#about">About</a></li>
-                <c:if test="${sLevel <= 3 }">
+                <c:if test="${sLevel <= 3 && sLevel > 0 }">
 	                <li class="nav-item"><a class="nav-link" href="${ctp}/member/memberPage">mypage</a></li>
+                </c:if>
+                <c:if test="${sLevel == 0}">
+	                <li class="nav-item"><a class="nav-link" href="${ctp}/admin/adminPage">관리자창</a></li>
                 </c:if>
                 <c:if test="${empty sLevel}">
 	                <li class="nav-item"><a class="nav-link" href="${ctp}/member/memberLogin">LOGIN</a></li>

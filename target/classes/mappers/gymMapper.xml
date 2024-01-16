@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaProjectS2.dao.GymDAO">
-
+	<!-- select -->
+	<select id="getTotRecCnt" resultType="int">
+		select count(*) from gym;
+	</select>
+	<select id="getGymList" resultType="com.spring.javaProjectS2.vo.GymVO">
+		select *, (select count(*) from gym) as gymCnt from gym order by idx desc limit #{startIndexNo}, #{pageSize};
+	</select>
+	<select id="getGymSearchList" resultType="com.spring.javaProjectS2.vo.GymVO">
+		<if test="area == ''">
+			select * from gym where gymName like concat('%',#{gymName},'%');
+		</if>
+		<if test="area != ''">
+		 select * from gym where area = #{area} and gymName like concat('%',#{gymName},'%');
+		</if>
+	</select>
+	<select id="getGyminfor" resultType="com.spring.javaProjectS2.vo.GymVO">
+		select * from gym where idx = #{idx};
+	</select>
+	
+	
 </mapper>

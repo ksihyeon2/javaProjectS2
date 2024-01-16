@@ -53,4 +53,7 @@ public interface BoardDAO {
 
 	public List<BoardVO> getboardMyList(@Param("mid") String mid);
 
+	public int getBoardCnt(@Param("mid") String mid);
+
+
 }

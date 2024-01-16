@@ -23,4 +23,9 @@ public class MemberVO {
 	public String startDate;
 	public String lastDate;
 	public String modifyDate;
+	
+	private int hour_diff;
+	private int date_diff;
+	
+	private int memberCnt;
 }

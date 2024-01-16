@@ -4,9 +4,6 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
     <title>home</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="${ctp}/assets/favicon.ico" />
@@ -16,7 +13,6 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
     <link href="${ctp}/css/styles.css" rel="stylesheet" />
 </head>
 <body id="page-top">

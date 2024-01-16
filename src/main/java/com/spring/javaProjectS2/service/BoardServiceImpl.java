@@ -174,6 +174,12 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getboardMyList(mid);
 	}
 
+	@Override
+	public int getBoardCnt(String mid) {
+		return boardDAO.getBoardCnt(mid);
+	}
+
+
 //	@Override
 //	public void imgBackup(String content) {
 //		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();

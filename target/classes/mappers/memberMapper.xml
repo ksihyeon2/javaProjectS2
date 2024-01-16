@@ -14,6 +14,15 @@
 	<select id="getMemberKaKaoCheck" resultType="com.spring.javaProjectS2.vo.MemberVO">
 		select * from member where nickName = #{nickName} and email = #{email};
 	</select>
+	<select id="getMemberList" resultType="com.spring.javaProjectS2.vo.MemberVO">
+		select *, datediff(modifyDate,now()) as date_diff, timestampdiff(hour,modifyDate,now()) as hour_diff, (select count(*) from member) from member order by idx desc limit #{startIndexNo}, #{pageSize};
+	</select>
+	<select id="getmemberDelList" resultType="com.spring.javaProjectS2.vo.MemberVO">
+		select *, datediff(modifyDate,now()) as date_diff, timestampdiff(hour,modifyDate,now()) as hour_diff, (select count(*) from member where userDel='OK') from member where userDel = 'OK' order by idx desc;
+	</select>
+	<select id="getTotRecCnt" resultType="int">
+		select count(*) from member;
+	</select>
 	
 	<!-- insert -->
 	<insert id="setMemberInput">
@@ -39,5 +48,10 @@
 	<update id="setMemberDelOk">
 		update member set userDel = 'OK' where mid = #{mid};
 	</update>
+	
+	<!-- delete -->
+	<delete id="setMemberDel">
+		delete from member where mid = #{vo.mid};
+	</delete>
 	
 </mapper>

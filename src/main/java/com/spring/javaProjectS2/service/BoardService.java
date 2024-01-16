@@ -51,6 +51,8 @@ public interface BoardService {
 
 	public List<BoardVO> getboardMyList(String mid);
 
+	public int getBoardCnt(String mid);
+
 //	public void imgBackup(String content);
 
 }

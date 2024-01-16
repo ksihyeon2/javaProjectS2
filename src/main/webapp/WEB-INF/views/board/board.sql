@@ -16,3 +16,6 @@ create table board(
 
 select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff from board order by idx desc limit 1, 10;
 select * from board where nickName = '관리맨' and delCheck = 'OK' order by idx;
+select count(*) from board where nickName = '관리걸' and delCheck = 'NO';
+
+select * from board order by idx desc limit 1, 3;
