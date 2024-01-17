@@ -45,7 +45,7 @@
 		insert into board values(default,#{vo.mid},#{vo.nickName},#{vo.title},#{vo.content},#{vo.part},#{vo.openSw},default,default,default,default,default);
 	</insert>
 	<insert id="setBoardComplaint">
-		insert into complaint values(default,#{vo.complaintidx},#{vo.complaintMid},#{vo.complaintType},#{vo.complaintText},default);
+		insert into complaint values(default,#{vo.complaintidx},#{vo.complaintMid},#{vo.complaintType},#{vo.complaintPart},#{vo.complaintText},default,default);
 	</insert>
 	<insert id="setContentGoodCheck">
 		insert into goodcheck values(default,#{idx},#{nickName},now());
@@ -86,6 +86,9 @@
 	</delete>
 	<delete id="getBoardReplyDelete">
 		delete from reply where idx = #{idx} and nickName = #{nickName};
+	</delete>
+	<delete id="complaintContentDel">
+		delete from board where idx = #{idx};
 	</delete>
 	
 </mapper>

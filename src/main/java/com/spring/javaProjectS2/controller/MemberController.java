@@ -144,21 +144,21 @@ public class MemberController {
 			memberService.setMemberUpdate(vo);
 			
 			// 홈페이지 방문 cnt 증가(관리자 화면에서 사용)
-//			int cnt = 0;
-//			VisitVO v = new VisitVO();
-//			List<VisitVO> visitVOS = adminService.getTodayVisit();
-//			for(VisitVO visitVO : visitVOS) {
-//				if(visitVO.getDate_diff() == 0 && visitVO.getMember().equals("회원")) {
-//					cnt = 1;
-//					v.setToday(visitVO.getToday());
-//				}
-//			}
-//			
-//			if(cnt != 1) {
-//				adminService.setTodayMember();
-//			} else if(cnt == 1) {
-//				adminService.setTodayVisitCntPlus(v.getToday(),"회원");
-//			}
+			int cnt = 0;
+			VisitVO v = new VisitVO();
+			List<VisitVO> visitVOS = adminService.getTodayVisit();
+			for(VisitVO visitVO : visitVOS) {
+				if(visitVO.getDate_diff() == 0 && visitVO.getMember().equals("회원")) {
+					cnt = 1;
+					v.setToday(visitVO.getToday());
+				}
+			}
+			
+			if(cnt != 1) {
+				adminService.setTodayMember();
+			} else if(cnt == 1) {
+				adminService.setTodayVisitCntPlus(v.getToday().substring(0,19),"회원");
+			}
 			
 			if(session.getAttribute("imsiPwd") != null) {
 				return "redirect:/message/memberPwdChange";
@@ -467,5 +467,11 @@ public class MemberController {
 			res = memberService.setMemberDelOk(mid);
 		}
 		return res+"";
+	}
+	
+	// 1:1 문의 폼 띄우기
+	@RequestMapping(value = "/memberInquiryList", method = RequestMethod.GET)
+	public String memberInquiryListGet() {
+		return "member/memberInquiryList";
 	}
 }

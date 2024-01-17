@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.spring.javaProjectS2.dao.adminDAO">
+<mapper namespace="com.spring.javaProjectS2.dao.AdminDAO">
 
+	<!-- select -->
+	<select id="getTodayVisit" resultType="com.spring.javaProjectS2.vo.VisitVO">
+		select *,datediff(today,now()) as date_diff from visit;
+	</select>
+	<select id="getComplaintList" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
+		select * from complaint order by complaintDate desc;
+	</select>
+	<select id="getTotRecCnt" resultType="int">
+		select count(*) from complaint;
+	</select>
+	<select id="getBoardList" resultType="com.spring.javaProjectS2.vo.BoardVO">
+		select * from board;
+	</select>
+	
+	
+	<!-- insert -->
+	<insert id="setToday">
+		insert into visit values(now(),1,default);
+	</insert>
+	<insert id="setTodayMember">
+		insert into visit values(now(),1,'회원');
+	</insert>
+	
+	
+	<!-- update -->
+	<update id="setTodayVisitCntPlus">
+		update visit set visit = visit + 1 where today = #{today} and member = #{str};
+	</update>
+	<update id="setComplaintStateUpdate">
+		<if test="str == 'OK'">
+			update complaint set complaintState = '삭제완료' where complaintidx = #{idx};
+		</if>
+		<if test="str == 'NO'">
+			update complaint set complaintState = '보류' where complaintidx = #{idx};
+		</if>
+	</update>
 </mapper>

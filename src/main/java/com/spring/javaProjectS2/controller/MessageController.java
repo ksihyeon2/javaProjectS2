@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class MessageController {
 
 	@RequestMapping(value="/message/{msgFlag}", method = RequestMethod.GET)
-	public String msgGet(@PathVariable String msgFlag, Model model, String nickName) {
+	public String msgGet(@PathVariable String msgFlag, Model model, String nickName,String idx) {
 		
 		if(msgFlag.equals("memberInputOk")) {
 			model.addAttribute("msg", "회원가입에 성공하셨습니다.");
@@ -69,6 +69,18 @@ public class MessageController {
 		} else if(msgFlag.equals("memberNo")) {
 			model.addAttribute("msg", "해당 페이지는 회원만 접속 가능합니다.");
 			model.addAttribute("url", "member/memberLogin"); 
+		} else if(msgFlag.equals("contentOK")) {
+			model.addAttribute("msg", "");
+			model.addAttribute("url", "board/boardContent?idx="+idx+"&admin=admin");
+		} else if(msgFlag.equals("contentNO")) {
+			model.addAttribute("msg", "해당 게시물이 존재하지 않습니다.");
+			model.addAttribute("url", "admin/complaintList"); 
+		} else if(msgFlag.equals("complaintContentDelOK")) {
+			model.addAttribute("msg", "신고 게시물이 삭제되었습니다.");
+			model.addAttribute("url", "admin/complaintList"); 
+		} else if(msgFlag.equals("complaintContentDelNO")) {
+			model.addAttribute("msg", "신고 게시물 삭제에 실패했습니다.");
+			model.addAttribute("url", "board/boardContent?idx="+idx+"&admin=admin"); 
 		}
 		return "include/message";
 	}

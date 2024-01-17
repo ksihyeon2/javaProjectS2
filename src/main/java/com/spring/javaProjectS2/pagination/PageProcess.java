@@ -3,6 +3,7 @@ package com.spring.javaProjectS2.pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.javaProjectS2.dao.AdminDAO;
 import com.spring.javaProjectS2.dao.BoardDAO;
 import com.spring.javaProjectS2.dao.MemberDAO;
 
@@ -14,6 +15,9 @@ public class PageProcess {
 		
 		@Autowired
 		MemberDAO memberDAO;
+		
+		@Autowired
+		AdminDAO adminDAO;
 		
 //		board인지 guest인지 pds인지 등을 구분하기 위해 String section으로 받아와 DAO처리
 //		board 안에서의 구분 (이름인지 제목인지 등)을 위해 part로 받아옴
@@ -35,6 +39,10 @@ public class PageProcess {
 			} else if(section.equals("admin")){
 				if(part.equals("")) {
 					totRecCnt = memberDAO.getTotRecCnt();
+				}
+			} else if(section.equals("complaint")) {
+				if(part.equals("")) {
+					totRecCnt = adminDAO.getTotRecCnt();
 				}
 			}
 			

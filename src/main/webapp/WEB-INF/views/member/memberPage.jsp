@@ -82,8 +82,7 @@
           <div class="nav-item dropdown">
 	          <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">활동</a>
 	          <div class="dropdown-menu bg-transparent border-0 show">
-	            <a href="#" class="dropdown-item">1:1 문의</a>
-	            <a href="#" class="dropdown-item">상품 문의</a>
+	            <a href="memberInquiryList" class="dropdown-item">1:1 문의</a>
 	            <a href="#" class="dropdown-item">상품 후기</a>
 	            <a href="${ctp}/board/boardMyList" class="dropdown-item">나의 활동</a>
 	          </div>

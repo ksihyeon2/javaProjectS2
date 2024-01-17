@@ -11,3 +11,4 @@ create table complaint(
 
 update complaint set complaintNum = complaintNum+1 and complaintMid = complainMid where idx = 1;
 
+select * from complaint order by complaintDate;

@@ -35,22 +35,22 @@ public class HomeController {
 			}
 		}
 		
-//		// visit table에 오늘 날짜 DB 저장하기
-//		int cnt = 0;
-//		VisitVO v = new VisitVO();
-//		List<VisitVO> visitVOS = adminService.getTodayVisit();
-//		for(VisitVO visitVO : visitVOS) {
-//			if(visitVO.getDate_diff() == 0) {
-//				cnt = 1;
-//				v.setToday(visitVO.getToday());
-//			}
-//		}
-//		
-//		if(cnt != 1) {
-//			adminService.setToday();
-//		} else {
-//			adminService.setTodayVisitCntPlus(v.getToday(),"비회원");
-//		}
+		// visit table에 오늘 날짜 DB 저장하기
+		int cnt = 0;
+		VisitVO v = new VisitVO();
+		List<VisitVO> visitVOS = adminService.getTodayVisit();
+		for(VisitVO visitVO : visitVOS) {
+			if(visitVO.getDate_diff() == 0) {
+				cnt = 1;
+				v.setToday(visitVO.getToday());
+			}
+		}
+		
+		if(cnt != 1) {
+			adminService.setToday();
+		} else {
+			adminService.setTodayVisitCntPlus(v.getToday().substring(0,19),"비회원");
+		}
 		
 		return "home";
 	}

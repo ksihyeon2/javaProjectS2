@@ -29,21 +29,21 @@
             <div class="col-md-4">
                 <span class="fa-stack fa-4x">
                     <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <a href="#"><i class="fas fa-hotel fa-stack-1x fa-inverse"></i></a>
+                    <a href="#"><i class='fas fa-walking fa-stack-1x fa-inverse' style='font-size:70px'></i></a>
                 </span>
                 <h4 class="my-3">운동종류</h4>
             </div>
             <div class="col-md-4">
                 <span class="fa-stack fa-4x">
                     <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <a href="#"><i class="fas fa-plane fa-stack-1x fa-inverse"></i></a>
+                    <a href="#"><i class='fas fa-shopping-cart fa-stack-1x fa-inverse' style='font-size:60px'></i></a>
                 </span>
                 <h4 class="my-3">상품</h4>
             </div>
             <div class="col-md-4">
                 <span class="fa-stack fa-4x">
                     <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <a href="${ctp}/board/boardList"><i class="fas fa-car-side fa-stack-1x fa-inverse"></i></a>
+                    <a href="${ctp}/board/boardList"><i class='fas fa-comments fa-stack-1x fa-inverse' style='font-size:55px'></i></a>
                 </span>
                 <h4 class="my-3">커뮤니티</h4>
             </div>

@@ -55,5 +55,7 @@ public interface BoardDAO {
 
 	public int getBoardCnt(@Param("mid") String mid);
 
+	public int complaintContentDel(@Param("idx") int idx);
+
 
 }

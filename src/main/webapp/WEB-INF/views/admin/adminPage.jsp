@@ -41,7 +41,7 @@
 	            <a href="#" class="dropdown-item">공지사항</a>
 	            <a href="#" class="dropdown-item">게시물 관리</a>
 	            <a href="#" class="dropdown-item">문의 관리</a>
-	            <a href="#" class="dropdown-item">신고 관리</a>
+	            <a href="complaintList" class="dropdown-item">신고 관리</a>
             </div>
           </div>
           <div class="nav-item dropdown">
@@ -74,12 +74,17 @@
           </div>
           <div class="col-sm-2 col-xl-2">
             <div class="d-flex flex-column align-items-center justify-content-between p-3">
-              <div class="ms-3 mt-3">
-              <p	 class="mb-2 text-black" style="font-size:13pt">Today</p>
-              </div>
-              <div class="ms-3 mt-2">
-                <h3 class="mb-2 text-black">명</h3>
-              </div>
+	              <div class="ms-3 mt-3">
+	              <p class="mb-2 text-black" style="font-size:13pt">Today</p>
+	              </div>
+	              <div class="ms-3 mt-2 dropdown">
+	                <h3 class="mb-2 text-black dropdown-toggle" data-toggle="dropdown"><a href="#">${today}명</a></h3>
+							    <div class="dropdown-menu">
+							      <a class="dropdown-item" href="#">비회원(${today}명)</a>
+							      <a class="dropdown-item" href="#">회원(${memberToday}명)</a>
+							    </div>
+	              </div>
+              
             </div>
           </div>
           <div class="col-sm-2 col-xl-2">

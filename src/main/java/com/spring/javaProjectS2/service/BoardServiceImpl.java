@@ -179,6 +179,11 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getBoardCnt(mid);
 	}
 
+	@Override
+	public int complaintContentDel(int idx) {
+		return boardDAO.complaintContentDel(idx);
+	}
+
 
 //	@Override
 //	public void imgBackup(String content) {

@@ -8,6 +8,8 @@ public class ComplaintVO {
 	private int complaintidx;
 	private String complaintMid;
 	private String complaintType;
+	private String complaintPart;
 	private String complaintText;
 	private String complaintDate;
+	private String complaintState;
 }

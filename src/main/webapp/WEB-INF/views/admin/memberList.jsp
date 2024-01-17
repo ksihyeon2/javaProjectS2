@@ -20,10 +20,23 @@
   <script>
   	'use strict';
   	
+  	// 페이징
   	function pageSizeCheck(){
   		let pageSize = $("#pageSize").val();
   		location.href = "memberList?pageSize="+pageSize;
   	}
+  	
+  	// 상세 정보 
+  	function memberInfor(mid){
+  		let ans = confirm(mid + "님의 상세정보를 확인하시겠습니까?");
+  		
+  		if(!ans){
+  			return false;
+  		}
+  		
+  		location.href="memberInfor?mid="+mid+"&pag="+${pageVO.pag}+"&pageSize="+${pageVO.pageSize};
+  	}
+  	
   </script>
 </head>
 <body>
@@ -43,12 +56,6 @@
 	<form name="searchForm">
 		<div class="row mb-5">
 			<div class="col-7 text-left">
-				<select class="form-control mb-3" style="width:150px;" onchange="searchCheck()">
-	        <option selected>전체</option>
-	        <option>운동</option>
-	        <option>식단</option>
-	        <option>기타</option>
-	      </select>
 				<select name="pageSize" id="pageSize" onchange="pageSizeCheck()">
           <option ${pageVO.pageSize==3 ? "selected" : ""}>3</option>
           <option ${pageVO.pageSize==5 ? "selected" : ""}>5</option>
@@ -62,9 +69,9 @@
 		    	<div class="mr-3">
 		        <select name="search" id="search" class="form-control">
 		          <option selected value="">선택</option>
-		          <option value="title">제목</option>
-		          <option value="member">작성자</option>
-		          <option value="content">내용</option>
+		          <option value="title">아이디</option>
+		          <option value="member">닉네임</option>
+		          <option value="content">성명</option>
 		        </select>
 		    	</div>
 		      <input type="text" name="searchString" id="searchString" value="${searchString}" class="form-control mr-sm-2" placeholder="검색어를 입력해주세요"/>
@@ -83,7 +90,14 @@
   		<th>닉네임</th>
   		<th>성명</th>
   		<th>이메일</th>
-  		<th>탈퇴여부</th>
+  		<th>등급</th>
+  		<th>탈퇴여부
+  			<select name="delCheck" id="delCheck" onclick="delCheck()">
+          <option selected value="">전체</option>
+          <option value="OK">탈퇴</option>
+          <option value="NO">미탈퇴</option>
+        </select>
+  		</th>
   		<th>상세보기</th>
   	</tr>
   	<c:set var="curScrStartNo" value="${pageVO.curScrStartNo}" />
@@ -94,19 +108,22 @@
   			<td>${vo.nickName}</td>
   			<td>${vo.name}</td>
   			<td>${vo.email}</td>
+  			<td>${strLevel}</td>
   			<td>
   				<c:if test="${vo.userDel == 'NO' }">미탈퇴</c:if>
   				<c:if test="${vo.userDel != 'NO' }">
   					<a href="#" title="탈퇴관리"><span style="color:red">탈퇴신청</span></a>
   				</c:if>
   			</td>
-  			<td><a href="#" title="상세보기"><i class='fas fa-info-circle'></i></a></td>
+  			<td><a href="#" onclick="memberInfor('${vo.mid}')" title="상세보기" data-toggle="modal" data-target="#myModal"><i class='fas fa-info-circle'></i></a></td>
   		</tr>  
   		<c:set var="curScrStartNo" value="${curScrStartNo -1}"/>
   	</c:forEach>
   </table>
 </div>
-<!-- 블록페이지 시작(1블록의 크기를 3개(3Page)로 한다. 한페이지 기본은 10개 -->
+
+
+<!-- 블록페이지 시작-->
 <br/>
 <div class="text-center">
   <ul class="pagination justify-content-center">
@@ -120,6 +137,7 @@
   	<c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link text-secondary" href="memberList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
   </ul>
 </div>
+
 <p><br /></p>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>

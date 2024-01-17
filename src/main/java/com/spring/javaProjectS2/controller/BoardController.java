@@ -67,7 +67,8 @@ public class BoardController {
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
 			@RequestParam(name="mid", defaultValue = "", required = false) String mid,
-			@RequestParam(name="del", defaultValue = "", required = false) String del) {
+			@RequestParam(name="del", defaultValue = "", required = false) String del,
+			@RequestParam(name="admin", defaultValue = "", required = false) String admin) {
 		
 		String ContentIdx = (String)session.getAttribute("sContent"+idx);
 		if(ContentIdx == null) {
@@ -97,6 +98,7 @@ public class BoardController {
 		model.addAttribute("goodCheckVO",goodCheckVO);
 		model.addAttribute("mid",mid);
 		model.addAttribute("del",del);
+		model.addAttribute("admin",admin);
 		
 		return "board/boardContent";
 	}
@@ -135,12 +137,13 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value = "/boardComplaint", method = RequestMethod.POST)
 	public String boardComplaintPost(int idx, ComplaintVO vo) {
-		
+		System.out.println("vo : " + vo + " dix : " + idx);
 		ComplaintVO complaintVO = boardService.getBoardComplanit(vo.getComplaintMid(), idx);
-		
+		System.out.println("complaintVO : " + complaintVO);
 		int res = 0;
 		if(complaintVO == null) {
 			vo.setComplaintidx(idx);
+			System.out.println(vo.getComplaintidx());
 			boardService.setBoardComplaint(vo);
 			res = 1;
 		} else {

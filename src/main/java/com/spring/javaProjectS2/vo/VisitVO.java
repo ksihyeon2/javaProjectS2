@@ -8,5 +8,5 @@ public class VisitVO {
 	private int visit;
 	private String member;
 	
-	private int date_diff;
+	private int date_diff;;
 }

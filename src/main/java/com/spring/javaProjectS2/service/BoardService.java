@@ -53,6 +53,6 @@ public interface BoardService {
 
 	public int getBoardCnt(String mid);
 
-//	public void imgBackup(String content);
+	public int complaintContentDel(int idx);
 
 }

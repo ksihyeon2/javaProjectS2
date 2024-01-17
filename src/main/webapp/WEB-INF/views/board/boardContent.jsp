@@ -51,7 +51,8 @@
   		let query = {
   				complaintType:complaintType,
   				complaintText:complaintText,
-  				complaintMid:complaintMid
+  				complaintMid:complaintMid,
+  				complaintPart:'board'
   		};
   		
   		$.ajax({
@@ -284,6 +285,17 @@
   			}
   		});
   	}
+  	
+  	// 관리자 게시물 신고 삭제처리
+  	function contentDel(idx){
+  		let ans = confirm("해당 게시물을 삭제하시겠습니까?");
+  		
+  		if(!ans){
+  			return false;
+  		}
+  		
+  		location.href="${ctp}/admin/complaintContentDel?idx="+idx;
+  	}
   </script>
 </head>
 <body>
@@ -294,11 +306,12 @@
 <div class="container">
 	<div class="row mb-4">
 		<div class="col-3 text-left">
-			<c:if test="${del != 'OK' && empty mid && param.flag != 'search'}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardList?pag=${param.pag}&pageSize=${param.pageSize}" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
-			<c:if test="${del != 'OK' && empty mid && param.flag == 'search'}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardSearchList?pag=${param.pag}&pageSize=${param.pageSize}&search=${param.search}&searchString=${param.searchString}" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
-			<c:if test="${del != 'OK' && !empty mid && param.flag != 'search'}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardMyList?pag=${param.pag}&pageSize=${param.pageSize}" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
-			<c:if test="${del != 'OK' && !empty mid && param.flag == 'search'}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardMyList?pag=${param.pag}&pageSize=${param.pageSize}&search=${param.search}&searchString=${param.searchString}" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
+			<c:if test="${del != 'OK' && empty mid && param.flag != 'search' && empty admin}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardList?pag=${param.pag}&pageSize=${param.pageSize}" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
+			<c:if test="${del != 'OK' && empty mid && param.flag == 'search' && empty admin}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardSearchList?pag=${param.pag}&pageSize=${param.pageSize}&search=${param.search}&searchString=${param.searchString}" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
+			<c:if test="${del != 'OK' && !empty mid && param.flag != 'search' && empty admin}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardMyList?pag=${param.pag}&pageSize=${param.pageSize}" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
+			<c:if test="${del != 'OK' && !empty mid && param.flag == 'search' && empty admin}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardMyList?pag=${param.pag}&pageSize=${param.pageSize}&search=${param.search}&searchString=${param.searchString}" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
 			<c:if test="${del == 'OK'}"><a class="btn btn-secondary mb-4" href="${ctp}/board/boardDelBox" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
+			<c:if test="${!empty admin}"><a class="btn btn-secondary mb-4" href="${ctp}/admin/complaintList" style="margin-left:20px;" title="뒤로가기"><i class='fas fa-arrow-left' style='font-size:24px'></i></a></c:if>
 		</div>
 		<div class="col-6 text-center">
 			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">커 뮤 니 티</span>
@@ -354,11 +367,14 @@
 							<a href="javascript:replyClose()"><i class='fas fa-comment-dots' style='font-size:30px;color:black;' id="replyNo" title="댓글창 닫기"></i></a>
 						</td>
 						<td>
-							<c:if test="${sMid != vo.mid}">
+							<c:if test="${sMid != vo.mid && sLevel != 0}">
 								<a href="#" data-toggle="modal" data-target="#complaintModal" style="margin-right:20px;"><i class="material-icons" style="font-size:35px;color:red" title="신고하기">room_service</i></a>
 							</c:if>
-							<c:if test="${sMid == vo.mid}">
+							<c:if test="${sMid == vo.mid && sLevel != 0}">
 								<a href="#" data-toggle="modal" data-target="#delModal" style="margin-right:20px;"><i class='far fa-trash-alt' style='font-size:30px;color:black;' title="삭제하기"></i></a>
+							</c:if>
+							<c:if test="${sLevel == 0}">
+								<a href="javascript:contentDel(${vo.idx})"><i class='far fa-times-circle' style='font-size:30px;color:red' title="게시물 신고삭제"></i></a>
 							</c:if>
 						</td>
 					</tr>
@@ -401,7 +417,7 @@
 						<c:if test="${replyVO.nickName == sNickName || sLevel == 0 }">
 							<a href="javascript:replyDelete(${replyVO.idx})" class="badge badge-danger">삭제</a> 
 						</c:if>
-						<c:if test="${replyVO.nickName != sNickName}">
+						<c:if test="${replyVO.nickName != sNickName && sLevel != 0}">
 							<a href="javascript:replyComplaint(${replyVO.idx})" class="badge badge-danger">신고</a> 
 						</c:if>
 					</td>
