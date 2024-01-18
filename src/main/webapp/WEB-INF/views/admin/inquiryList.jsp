@@ -6,11 +6,17 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>memberInquiryList.jsp</title>
+  <title>inquiryList.jsp</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="${ctp}/css/styles.css" rel="stylesheet" />
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+  <link href="${ctp}/css/styles.css" rel="stylesheet" />
+  <style>
+  	a {
+    	color:black;
+    	text-decoration-line:none;
+    }
+  </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
@@ -21,15 +27,13 @@
 <div class="container">
 	<div class="row mb-4">
 		<div class="col-3 text-left">
-			<a class="btn btn-secondary mb-4" href="memberPage" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
+			<a class="btn btn-secondary mb-4" href="adminPage" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
 		</div>
 		<div class="col-6 text-center">
 			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">문 의 내 역</span>
 		</div>
-		<div class="col-3 text-right">
-			<a class="btn btn-secondary" href="memberinquiryInput" style="margin-right:20px;">문의하기</a>
-		</div>
 	</div>
+	
 	<form name="searchForm">
 		<div class="row mb-5">
 			<div class="col-7 text-left">
@@ -59,14 +63,22 @@
 			</div>
 		</div>
   </form>
-	
-	<table class="table table-hover text-center">
+  
+  <table class="table table-hover text-center">
   	<tr style="background-color:rgb(213,213,213);height:40px;">
   		<th>No.</th>
   		<th>문의</th>
   		<th>내용</th>
   		<th>문의날짜</th>
-  		<th>상태</th>
+  		<th>
+				<div class="dropdown-toggle" data-toggle="dropdown">상태
+  				<div class="dropdown-menu">
+			      <a class="dropdown-item" href="#">전체</a>
+			      <a class="dropdown-item" href="#">미완료</a>
+			      <a class="dropdown-item" href="#">완료</a>
+			    </div>
+  			</div>
+			</th>
   	</tr>
   	<c:set var="curScrStartNo" value="${pageVO.curScrStartNo}" />
   	<c:if test="${empty vos}">
@@ -88,9 +100,12 @@
 	  				</c:if>
 	  			</td>
 	  			<td>
-	  				<a href="memberinquiryContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}" class="내용보기">${vo.inquirystate}
-	  				<c:if test="${vo.inquirystate == '답변완료'}"><i class='fas fa-caret-right' title="확인하러가기"></i></c:if>
-	  				</a>
+	  				<c:if test="${vo.inquirystate != '답변완료'}"><a href="admininquiryContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">
+	  					${vo.inquirystate}<i class='fas fa-caret-right' title="답변하러가기"></i></a>
+	  				</c:if>
+	  				<c:if test="${vo.inquirystate == '답변완료'}"><a href="${ctp}/member/memberinquiryContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&admin=admin">
+	  					${vo.inquirystate}</a>
+	  				</c:if>
 	  			</td>
 	  		</tr> 
   		<c:set var="curScrStartNo" value="${curScrStartNo -1}"/>
@@ -98,19 +113,18 @@
   </table>
 </div>
 
-
 <!-- 블록페이지 시작-->
 <br/>
 <div class="text-center">
   <ul class="pagination justify-content-center">
-    <c:if test="${pageVO.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="memberInquiryList?pag=1&pageSize=${pageVO.pageSize}">첫페이지</a></li></c:if>
-  	<c:if test="${pageVO.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="memberInquiryList?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">이전블록</a></li></c:if>
+    <c:if test="${pageVO.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="inquiryList?pag=1&pageSize=${pageVO.pageSize}">첫페이지</a></li></c:if>
+  	<c:if test="${pageVO.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="inquiryList?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">이전블록</a></li></c:if>
   	<c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize)+pageVO.blockSize}" varStatus="st">
-	    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="memberInquiryList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
-	    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link text-secondary" href="memberInquiryList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
+	    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="inquiryList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
+	    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link text-secondary" href="inquiryList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
   	</c:forEach>
-  	<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="memberInquiryList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">다음블록</a></li></c:if>
-  	<c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link text-secondary" href="memberInquiryList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
+  	<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="inquiryList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">다음블록</a></li></c:if>
+  	<c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link text-secondary" href="inquiryList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
   </ul>
 </div>
 <p><br /></p>

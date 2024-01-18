@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
 
 public interface MemberDAO {
@@ -37,5 +38,15 @@ public interface MemberDAO {
 	public int getTotRecCnt();
 
 	public void setMemberDel(@Param("vo") MemberVO vo);
+
+	public int setMemberinquiryInput(@Param("vo") InquiryVO vo);
+
+	public int getinquiryTotRecCnt();
+
+	public List<InquiryVO> getMemberInquiryList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("mid") String mid);
+
+	public InquiryVO getMemberinquiryContent(@Param("idx") int idx);
+
+	public int setmemberinquiryDel(@Param("idx") int idx);
 
 }

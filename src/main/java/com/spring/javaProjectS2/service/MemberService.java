@@ -2,6 +2,7 @@ package com.spring.javaProjectS2.service;
 
 import java.util.List;
 
+import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
 
 public interface MemberService {
@@ -35,5 +36,13 @@ public interface MemberService {
 	public List<MemberVO> getmemberDelList();
 
 	public void setMemberDel(MemberVO vo);
+
+	public int setMemberinquiryInput(InquiryVO vo);
+
+	public List<InquiryVO> getMemberInquiryList(int startIndexNo, int pageSize, String mid);
+
+	public InquiryVO getMemberinquiryContent(int idx);
+
+	public int setmemberinquiryDel(int idx);
 
 }

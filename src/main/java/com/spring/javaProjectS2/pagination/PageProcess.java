@@ -44,6 +44,10 @@ public class PageProcess {
 				if(part.equals("")) {
 					totRecCnt = adminDAO.getTotRecCnt();
 				}
+			} else if(section.equals("inquiry")) {
+				if(part.equals("")) {
+					totRecCnt = memberDAO.getinquiryTotRecCnt();
+				}
 			}
 			
 			int totPage = (totRecCnt % pageSize)==0 ? (totRecCnt / pageSize) : (totRecCnt / pageSize) + 1 ;

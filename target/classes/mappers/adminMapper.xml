@@ -15,6 +15,12 @@
 	<select id="getBoardList" resultType="com.spring.javaProjectS2.vo.BoardVO">
 		select * from board;
 	</select>
+	<select id="getInquiryList" resultType="com.spring.javaProjectS2.vo.InquiryVO">
+		select *, datediff(asktime,now()) as date_diff, timestampdiff(hour,asktime,now()) as hour_diff from inquiry order by idx desc limit #{startIndexNo}, #{pageSize};
+	</select>
+	<select id="getInquiryStandby" resultType="com.spring.javaProjectS2.vo.InquiryVO">
+		select count(*) from inquiry where inquirystate = '미완료';
+	</select>
 	
 	
 	<!-- insert -->
@@ -37,5 +43,8 @@
 		<if test="str == 'NO'">
 			update complaint set complaintState = '보류' where complaintidx = #{idx};
 		</if>
+	</update>
+	<update id="setAdmininquiryContent">
+		update inquiry set answerMid = #{vo.answerMid}, answer = #{vo.answer}, answertime = now(), inquirystate = '답변완료' where idx = #{vo.idx};
 	</update>
 </mapper>

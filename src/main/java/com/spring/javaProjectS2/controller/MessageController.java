@@ -81,6 +81,24 @@ public class MessageController {
 		} else if(msgFlag.equals("complaintContentDelNO")) {
 			model.addAttribute("msg", "신고 게시물 삭제에 실패했습니다.");
 			model.addAttribute("url", "board/boardContent?idx="+idx+"&admin=admin"); 
+		} else if(msgFlag.equals("memberInquiryInputOK")) {
+			model.addAttribute("msg", "문의 작성이 완료되었습니다.");
+			model.addAttribute("url", "member/memberInquiryList"); 
+		} else if(msgFlag.equals("memberInquiryInputNO")) {
+			model.addAttribute("msg", "문의 작성에 실패하셨습니다.");
+			model.addAttribute("url", "member/memberinquiryInput"); 
+		} else if(msgFlag.equals("memberinquiryDelOK")) {
+			model.addAttribute("msg", "해당 문의건을 삭제하였습니다.");
+			model.addAttribute("url", "member/memberInquiryList"); 
+		} else if(msgFlag.equals("memberinquiryDelNO")) {
+			model.addAttribute("msg", "해당 문의건 삭제에 실패하였습니다.");
+			model.addAttribute("url", "member/memberinquiryContent?idx="+idx); 
+		} else if(msgFlag.equals("admininquiryContentOK")) {
+			model.addAttribute("msg", "답변 작성이 완료되었습니다.");
+			model.addAttribute("url", "admin/inquiryList"); 
+		} else if(msgFlag.equals("admininquiryContentNO")) {
+			model.addAttribute("msg", "해당 문의건이 삭제되었습니다.");
+			model.addAttribute("url", "admin/inquiryList"); 
 		}
 		return "include/message";
 	}

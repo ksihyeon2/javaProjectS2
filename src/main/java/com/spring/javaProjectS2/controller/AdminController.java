@@ -19,6 +19,7 @@ import com.spring.javaProjectS2.service.BoardService;
 import com.spring.javaProjectS2.service.MemberService;
 import com.spring.javaProjectS2.vo.BoardVO;
 import com.spring.javaProjectS2.vo.ComplaintVO;
+import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
 import com.spring.javaProjectS2.vo.VisitVO;
 
@@ -47,6 +48,7 @@ public class AdminController {
 		
 		List<VisitVO> visitVOS = adminService.getTodayVisit();
 		
+		// 방문자 수 구하기
 		int cnt = 0;
 		for(VisitVO visitVO : visitVOS) {
 			if(visitVO.getDate_diff() == 0) {
@@ -58,6 +60,10 @@ public class AdminController {
 			}
 		}
 		
+		// 문의 대기건 수 구하기
+		List<InquiryVO> inquiryVO = adminService.getInquiryStandby();
+		
+		model.addAttribute("inquiryStandby",inquiryVO.size());
 		model.addAttribute("vo", vo);
 		return "/admin/adminPage";
 	}
@@ -150,9 +156,49 @@ public class AdminController {
 	// 신고 게시물 보류처리
 	@ResponseBody
 	@RequestMapping(value = "/complaintNO", method = RequestMethod.POST)
-	public String complaintNO(int idx) {
+	public String complaintNOPost(int idx) {
 		int res = adminService.setComplaintStateUpdate(idx,"NO");
 		
 		return res + "";
+	}
+	
+	// 문의 내역 폼 띄우기
+	@RequestMapping(value = "/inquiryList", method = RequestMethod.GET)
+	public String inquiryListGet(Model model,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "inquiry", "", "");
+		
+		List<InquiryVO> vos = adminService.getInquiryList(pageVO.getStartIndexNo(),pageSize);
+		
+		model.addAttribute("pageVO",pageVO);
+		model.addAttribute("vos",vos);
+		return "admin/inquiryList";
+	}
+	
+	// 문의 답변 폼 띄우기
+	@RequestMapping(value = "/admininquiryContent", method = RequestMethod.GET)
+	public String admininquiryContentGet(Model model, int idx, int pag, int pageSize) {
+		
+		InquiryVO vo = memberService.getMemberinquiryContent(idx);
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("pag", pag);
+		model.addAttribute("pageSize", pageSize);
+		
+		return "admin/admininquiryContent";
+	}
+	
+	// 문의 답변하기
+	@RequestMapping(value = "/admininquiryContent", method = RequestMethod.POST)
+	public String admininquiryContentPost(InquiryVO vo) {
+		InquiryVO inquiryVO = memberService.getMemberinquiryContent(vo.getIdx());
+		
+		if(inquiryVO != null) {
+			adminService.setAdmininquiryContent(vo);
+			return "redirect:/message/admininquiryContentOK";
+		} else {
+			return "redirect:/message/admininquiryContentNO";
+		}
 	}
 }

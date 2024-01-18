@@ -23,13 +23,25 @@
 	<select id="getTotRecCnt" resultType="int">
 		select count(*) from member;
 	</select>
+	<select id="getinquiryTotRecCnt" resultType="int">
+		select count(*) from inquiry;
+	</select>
+	<select id="getMemberInquiryList" resultType="com.spring.javaProjectS2.vo.InquiryVO">
+		select *, datediff(asktime,now()) as date_diff, timestampdiff(hour,asktime,now()) as hour_diff from inquiry where askMid = #{mid} order by idx desc limit #{startIndexNo}, #{pageSize};
+	</select>
+	<select id="getMemberinquiryContent" resultType="com.spring.javaProjectS2.vo.InquiryVO">
+		select *, datediff(asktime,now()) as date_diff, timestampdiff(hour,asktime,now()) as hour_diff from inquiry where idx = #{idx};
+	</select>
 	
 	<!-- insert -->
 	<insert id="setMemberInput">
 		insert into member values(default,#{vo.name},#{vo.mid},#{vo.pwd},#{vo.nickName},#{vo.gender},#{vo.tel},#{vo.address},#{vo.email},default,default,default,#{vo.photo},default,default,default,default,default,default);
 	</insert>
 	<insert id="setKakaoMemberInput">
-		insert into member (mid,pwd,nickName,email,name) values (#{mid},#{nickName},#{email},#{nickName});
+		insert into member values(mid,pwd,nickName,email,name) values (#{mid},#{nickName},#{email},#{nickName});
+	</insert>
+	<insert id="setMemberinquiryInput">
+		insert into inquiry (askMid,ask,part) values (#{vo.askMid},#{vo.ask},#{vo.part});
 	</insert>
 	
 	<!-- update -->
@@ -52,6 +64,9 @@
 	<!-- delete -->
 	<delete id="setMemberDel">
 		delete from member where mid = #{vo.mid};
+	</delete>
+	<delete id="setmemberinquiryDel">
+		delete from inquiry where idx = #{idx};
 	</delete>
 	
 </mapper>

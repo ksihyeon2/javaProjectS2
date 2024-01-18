@@ -26,10 +26,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.spring.javaProjectS2.pagination.PageProcess;
+import com.spring.javaProjectS2.pagination.PageVO;
 import com.spring.javaProjectS2.service.AdminService;
 import com.spring.javaProjectS2.service.BoardService;
 import com.spring.javaProjectS2.service.MemberService;
 import com.spring.javaProjectS2.vo.BoardVO;
+import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
 import com.spring.javaProjectS2.vo.VisitVO;
 
@@ -51,6 +54,9 @@ public class MemberController {
 	
 	@Autowired
 	AdminService adminService;
+	
+	@Autowired
+	PageProcess pageProcess;
 	
 	// 로그인 폼 띄우기
 	@RequestMapping(value = "/memberLogin", method = RequestMethod.GET)
@@ -471,7 +477,66 @@ public class MemberController {
 	
 	// 1:1 문의 폼 띄우기
 	@RequestMapping(value = "/memberInquiryList", method = RequestMethod.GET)
-	public String memberInquiryListGet() {
+	public String memberInquiryListGet(HttpSession session, Model model,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
+		PageVO pageVO = pageProcess.totRecCnt(pag,pageSize,"inquiry","","");
+		String mid = (String)session.getAttribute("sMid");
+		
+		List<InquiryVO> vos = memberService.getMemberInquiryList(pageVO.getStartIndexNo(),pageSize,mid);
+		
+		model.addAttribute("pageVO",pageVO);
+		model.addAttribute("vos",vos);
 		return "member/memberInquiryList";
 	}
+	
+	// 1:1 문의 작성 폼 띄우기
+	@RequestMapping(value = "/memberinquiryInput", method = RequestMethod.GET)
+	public String memberInquiryInputGet() {
+		
+		return "member/memberinquiryInput";
+	}
+	
+	// 1:1 문의 작성하기
+	@RequestMapping(value = "/memberinquiryInput", method = RequestMethod.POST)
+	public String memberinquiryInputPost(InquiryVO vo) {
+		int res = memberService.setMemberinquiryInput(vo);
+		
+		if(res != 0) {
+			return "redirect:/message/memberInquiryInputOK";
+		} else {
+			return "redirect:/message/memberInquiryInputNO";
+		}
+	}
+	
+	// 작성자가 1:1 문의 내용 보기
+	@RequestMapping(value = "/memberinquiryContent", method = RequestMethod.GET)
+	public String memberinquiryContentGet(int idx, Model model,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="admin", defaultValue = "", required = false) String admin) {
+		InquiryVO vo = memberService.getMemberinquiryContent(idx);
+		
+		model.addAttribute("vo",vo);
+		model.addAttribute("pag",pag);
+		model.addAttribute("pageSize",pageSize);
+		model.addAttribute("admin",admin);
+		
+		return "member/memberinquiryContent";
+	}
+	
+	// 문의건 삭제하기
+	@RequestMapping(value = "/memberinquiryDel", method = RequestMethod.GET)
+	public String memberinquiryDelGet(int idx) {
+		
+		int res = memberService.setmemberinquiryDel(idx);
+		
+		if(res != 0) {
+			return "redirect:/message/memberinquiryDelOK";
+		} else {
+			return "redirect:/message/memberinquiryDelNO?idx="+idx;
+		}
+		
+	}
+	
 }

@@ -27,7 +27,7 @@
 	<div class="sidebar p-3" style="margin-left:20px">
     <nav class="navbar">
       <div class="navbar-nav">
-        <h2><b><a href="memberPage">관리자 페이지</a></b></h2>
+        <h2><b><a href="adminPage">관리자 페이지</a></b></h2>
         	<div class="nav-item dropdown">
           	<a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">회원</a>
           	<div class="dropdown-menu bg-transparent border-0 show">
@@ -40,7 +40,7 @@
             <div class="dropdown-menu bg-transparent border-0 show">
 	            <a href="#" class="dropdown-item">공지사항</a>
 	            <a href="#" class="dropdown-item">게시물 관리</a>
-	            <a href="#" class="dropdown-item">문의 관리</a>
+	            <a href="inquiryList" class="dropdown-item">문의 관리</a>
 	            <a href="complaintList" class="dropdown-item">신고 관리</a>
             </div>
           </div>
@@ -90,10 +90,10 @@
           <div class="col-sm-2 col-xl-2">
             <div class="d-flex flex-column align-items-center justify-content-between p-3">
               <div class="ms-3 mt-3">
-                <p class="mb-2 text-black"  style="font-size:13pt">문의대기</p>
+                <p class="mb-2 text-black" style="font-size:13pt">문의대기</p>
               </div>
               <div class="ms-3 mt-2">
-                <h3 class="mb-2 text-black">건</h3>
+                <h3 class="mb-2 text-black">${inquiryStandby}건</h3>
               </div>
             </div>
           </div>

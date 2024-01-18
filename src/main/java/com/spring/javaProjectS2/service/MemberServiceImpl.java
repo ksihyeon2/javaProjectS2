@@ -10,6 +10,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.spring.javaProjectS2.dao.MemberDAO;
+import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
 
 @Service
@@ -94,4 +95,25 @@ public class MemberServiceImpl implements MemberService {
 	public void setMemberDel(MemberVO vo) {
 		memberDAO.setMemberDel(vo);
 	}
+
+	@Override
+	public int setMemberinquiryInput(InquiryVO vo) {
+		return memberDAO.setMemberinquiryInput(vo);
+	}
+
+	@Override
+	public List<InquiryVO> getMemberInquiryList(int startIndexNo, int pageSize, String mid) {
+		return memberDAO.getMemberInquiryList(startIndexNo,pageSize,mid);
+	}
+
+	@Override
+	public InquiryVO getMemberinquiryContent(int idx) {
+		return memberDAO.getMemberinquiryContent(idx);
+	}
+
+	@Override
+	public int setmemberinquiryDel(int idx) {
+		return memberDAO.setmemberinquiryDel(idx);
+	}
+
 }

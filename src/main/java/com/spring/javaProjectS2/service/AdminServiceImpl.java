@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.spring.javaProjectS2.dao.AdminDAO;
 import com.spring.javaProjectS2.vo.BoardVO;
 import com.spring.javaProjectS2.vo.ComplaintVO;
+import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.VisitVO;
 
 @Service
@@ -49,6 +50,21 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<BoardVO> getBoardList() {
 		return adminDAO.getBoardList();
+	}
+
+	@Override
+	public List<InquiryVO> getInquiryList(int startIndexNo, int pageSize) {
+		return adminDAO.getInquiryList(startIndexNo,pageSize);
+	}
+
+	@Override
+	public void setAdmininquiryContent(InquiryVO vo) {
+		adminDAO.setAdmininquiryContent(vo);
+	}
+
+	@Override
+	public List<InquiryVO> getInquiryStandby() {
+		return adminDAO.getInquiryStandby();
 	}
 
 }
