@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.javaProjectS2.dao.AdminDAO;
 import com.spring.javaProjectS2.dao.BoardDAO;
+import com.spring.javaProjectS2.dao.GymDAO;
 import com.spring.javaProjectS2.dao.MemberDAO;
 
 @Service
@@ -18,6 +19,9 @@ public class PageProcess {
 		
 		@Autowired
 		AdminDAO adminDAO;
+		
+		@Autowired
+		GymDAO gymDAO;
 		
 //		board인지 guest인지 pds인지 등을 구분하기 위해 String section으로 받아와 DAO처리
 //		board 안에서의 구분 (이름인지 제목인지 등)을 위해 part로 받아옴
@@ -47,6 +51,10 @@ public class PageProcess {
 			} else if(section.equals("inquiry")) {
 				if(part.equals("")) {
 					totRecCnt = memberDAO.getinquiryTotRecCnt();
+				}
+			} else if(search.equals("gym")) {
+				if(part.equals("")) {
+					totRecCnt = gymDAO.getTotRecCnt();
 				}
 			}
 			

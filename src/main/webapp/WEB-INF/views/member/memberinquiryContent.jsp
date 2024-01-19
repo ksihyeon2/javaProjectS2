@@ -71,7 +71,7 @@
       		<span style="color:gray;">
       			<c:if test="${vo.inquirystate == '답변완료'}">
       			[답변:${vo.answerMid}] |
-      			<c:if test="${vo.date_diff >= 1}">${fn:substring(vo.answertime,0,10)}</c:if>
+      			<c:if test="${vo.date_diff < 0}">${fn:substring(vo.answertime,0,10)}</c:if>
       			<c:if test="${vo.date_diff == 0 && vo.hour_diff < 24 }"> ${fn:substring(vo.answertime,11,16)}</c:if>
       			</c:if>
       		</span>

@@ -11,6 +11,13 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
+  <style>
+    a {
+    	color:black;
+    	text-decoration-line:none;
+    }
+    
+  </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
@@ -81,6 +88,7 @@
 	      <th style="color:white;">상세주소</th>
 	      <th style="color:white;">사이트</th>
 	    </tr>
+	    <c:set var="curScrStartNo" value="${pageVO.curScrStartNo}" />
 	    <c:forEach var="vo" items="${vos}" varStatus="st">
 	      <tr>
 	        <td>${curScrStartNo}</td>
@@ -89,7 +97,7 @@
 	        </td>
 	        <td>${vo.area}</td>
 	        <td>
-	        	<span title="${vo.address}">${fn:substring(vo.address,0,15)}...</span>
+	        	<span title="${vo.address}">${fn:substring(vo.address,0,15)}</span>
 	        </td>
 	        <td>
 	        	<c:if test="${!empty vo.homePage}">
@@ -100,7 +108,7 @@
 	        	</c:if>
 	        </td>
 	      </tr>
-	      <c:set var="curScrStartNo" value="${curScrStartNo+1}"/>
+	      <c:set var="curScrStartNo" value="${curScrStartNo-1}"/>
 	    </c:forEach>
 	    <tr><td colspan="9" class="m-0 p-0"></td></tr>
 	  </table>

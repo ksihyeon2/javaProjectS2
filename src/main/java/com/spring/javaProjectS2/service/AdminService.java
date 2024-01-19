@@ -29,4 +29,6 @@ public interface AdminService {
 
 	public List<InquiryVO> getInquiryStandby();
 
+	public ComplaintVO getComplaintText(int idx);
+
 }

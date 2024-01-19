@@ -99,6 +99,15 @@ public class MessageController {
 		} else if(msgFlag.equals("admininquiryContentNO")) {
 			model.addAttribute("msg", "해당 문의건이 삭제되었습니다.");
 			model.addAttribute("url", "admin/inquiryList"); 
+		} else if(msgFlag.equals("gymInputOK")) {
+			model.addAttribute("msg", "헬스장 신규 등록이 완료되었습니다.");
+			model.addAttribute("url", "/gym/gymList"); 
+		} else if(msgFlag.equals("gymInputNO")) {
+			model.addAttribute("msg", "헬스장 신규 등록에 실패하였습니다.");
+			model.addAttribute("url", "/gym/gymInput"); 
+		} else if(msgFlag.equals("gymYes")) {
+			model.addAttribute("msg", "이미 등록되어 있는 지점입니다.");
+			model.addAttribute("url", "/gym/gymInput"); 
 		}
 		return "include/message";
 	}

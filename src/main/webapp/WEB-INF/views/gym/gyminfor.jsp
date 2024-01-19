@@ -9,14 +9,67 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+  <link href="${ctp}/css/styles.css" rel="stylesheet" />
+  <style>
+  	 a {
+    	color:black;
+    	text-decoration-line:none;
+    }
+  </style>
+  <script>
+  	'use strict';
+  	
+  	// 관심 체크
+  	function starOK(idx){
+  		$("#starOK").hide();
+  		$("#starNO").show();
+  		
+  		$.ajax({
+  			url : "${ctp}/gym/gymInterest?interest=OK",
+  			type : "post",
+  			data : {idx:idx},
+  			success : function(res){
+  				if(res != 0){
+  					location.reload();
+  				}
+  			},
+  			error : function(){
+  				alert("전송 오류");
+  			}
+  		});
+  	}
+  	
+  	// 관심 체크 해제
+  	function starNO(idx){
+  		$("#starOK").show();
+  		$("#starNO").hide();
+  		
+  		$.ajax({
+  			url : "${ctp}/gym/gymInterest?interest=NO",
+  			type : "post",
+  			data : {idx:idx},
+  			success : function(res){
+  				if(res != 0){
+  					location.reload();
+  				}
+  			},
+  			error : function(){
+  				alert("전송 오류");
+  			}
+  		});
+  	}
+  </script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
 <p><br /></p>
+<p><br /></p>
+<p><br /></p>
+<p><br /></p>
 <div class="container">
 	<div class="row mb-4">
 		<div class="col-3 text-left">
-			<a class="btn btn-secondary mb-4" href="${ctp}/gym/gymList?pag=${pag}&pageSize=${pageSize}" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
+			<a class="btn btn-secondary mb-4" href="gymList?pag=${pag}&pageSize=${pageSize}" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
 		</div>
 		<div class="col-6 text-center">
 			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">${vo.gymName}</span>
@@ -29,7 +82,7 @@
 					<tr>
 						<td colspan="3">
 							<span class="text-center">
-								<img src="${ctp}/images/gym/${vo.photo}" width="500px" height="350px" />
+								<img src="${ctp}/gym/${vo.photo}" width="500px" height="350px" />
 							</span>
 						</td>
 					</tr>
@@ -39,7 +92,12 @@
 						</td>
 					</tr>
 					<tr class="text-center">
-						<td><a href="#"><i class='far fa-star' style='font-size:24px'></i></a></td>
+						<c:if test="${empty interestVO}">
+							<td id="starOK"><a href="javascript:starOK(${vo.idx})"><i class='far fa-star' style='font-size:24px'></i></a></td>
+						</c:if>
+						<c:if test="${!empty interestVO}">
+							<td id="starNO"><a href="javascript:starNO(${vo.idx})"><i class='fas fa-star' style="font-size:24px"></i></a></td>
+						</c:if>
 						<td><a href="javascript:viewCheck()"><i class='fas fa-map-marker-alt' style='font-size:24px'></i></a></td>
 						<td><a href="#"><i class='far fa-calendar-check' style='font-size:24px'></i></a></td>
 					</tr>		
@@ -55,8 +113,7 @@
 						</td>
 					</tr>
 					<tr class="text-left">
-						<td colspan="3">전화번호 : </td>
-						<%--${vo.tel} --%>
+						<td colspan="3">전화번호 : ${vo.tel}</td>
 					</tr>
 					<tr class="text-left">
 						<td colspan="3"><hr />홈페이지 :

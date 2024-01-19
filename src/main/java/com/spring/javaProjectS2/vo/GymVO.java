@@ -8,6 +8,7 @@ public class GymVO {
 	private String gymName;
 	private String area;
 	private String address;
+	private String homePage;
 	private String photo;
 	private String tel;
 }

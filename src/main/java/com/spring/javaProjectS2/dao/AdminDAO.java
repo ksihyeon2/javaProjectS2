@@ -33,4 +33,6 @@ public interface AdminDAO {
 
 	public List<InquiryVO> getInquiryStandby();
 
+	public ComplaintVO getComplaintText(@Param("idx") int idx);
+
 }

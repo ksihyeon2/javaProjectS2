@@ -19,6 +19,29 @@
 	<select id="getGyminfor" resultType="com.spring.javaProjectS2.vo.GymVO">
 		select * from gym where idx = #{idx};
 	</select>
+	<select id="getGymSearch" resultType="com.spring.javaProjectS2.vo.GymVO">
+		select * from gym where gymName = #{vo.gymName} and area = #{vo.area} and address like concat('%',#{vo.address},'%');
+	</select>
+	<select id="getGymInterest" resultType="com.spring.javaProjectS2.vo.InterestVO">
+		select * from interest where mid = #{mid} and part = 'gym' and partIdx = ${idx};
+	</select>
 	
+	<!-- insert -->
+	<insert id="setGymInput">
+		<if test="vo.photo == ''">
+			insert into gym values(default,#{vo.gymName},#{vo.area},#{vo.address},#{vo.homePage},default,#{vo.tel});
+		</if>
+		<if test="vo.photo != ''">
+			insert into gym values(default,#{vo.gymName},#{vo.area},#{vo.address},#{vo.homePage},#{vo.photo},#{vo.tel});
+		</if>
+	</insert>
+	<insert id="setGymInterest">
+		insert into interest values(default,#{vo.mid},#{vo.part},#{vo.partIdx});
+	</insert>
+	
+	<!-- delete -->
+	<delete id="setGymInterestDel">
+		delete from interest where mid = #{vo.mid} and part = #{vo.part} and partIdx = ${vo.partIdx};
+	</delete>
 	
 </mapper>

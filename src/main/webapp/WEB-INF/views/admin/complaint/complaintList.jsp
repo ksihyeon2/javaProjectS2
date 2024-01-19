@@ -54,6 +54,21 @@
   		});
   	}
   	 */
+  	 
+  	// 신고 사유 보기
+  	function complaintText(idx){
+  		 $.ajax({
+  			 url : "${ctp}/admin/complaintText",
+  			 type : "post",
+  			 data : {idx:idx},
+  			 success : function(res){
+  				 $(".modal-body").html(res);
+  			 },
+  			 error : function(){
+  				 alert("전송 오류");
+  			 }
+  		 });
+  	}
   	
   </script>
 </head>
@@ -165,7 +180,12 @@
   					</c:if>
   				</c:forEach>
   			</td>
-  			<td>${vo.complaintType}</td>
+  			<td>
+  				<c:if test="${vo.complaintType == '기타' && vo.complaintState == '삭제완료'}">${vo.complaintType}</c:if>
+  				<c:if test="${vo.complaintType == '기타' && vo.complaintState != '삭제완료'}"><a href="#" onclick="complaintText(${vo.idx})" data-toggle="modal" data-target="#myModal">${vo.complaintType} <i class='fas fa-caret-right'></i></a></c:if>
+  				<c:if test="${vo.complaintType != '기타' && !empty vo.complaintText}"><a href="" data-toggle="modal" data-target="#myModal">${vo.complaintType} <i class='fas fa-caret-right'></i></a></c:if>
+  				<c:if test="${vo.complaintType != '기타' && empty vo.complaintText}">${vo.complaintType}</c:if>
+  			</td>
   			<td>${fn:substring(vo.complaintDate,0,10)}</td>
   			<td>
   				<c:if test="${vo.complaintState == '대기중'}">
@@ -181,8 +201,11 @@
   			</td>
   			<td>
   				<c:if test="${vo.complaintPart == 'board'}">
-  					<c:if test="${vo.complaintState == '삭제완료' || vo.complaintState == '보류'}">
+  					<c:if test="${vo.complaintState == '삭제완료'}">
   						검토완료
+  					</c:if>
+  					<c:if test="${vo.complaintState == '보류'}">
+  						<a href="complaintCheck?complaintidx=${vo.complaintidx}">검토완료</a>
   					</c:if>
   					<c:if test="${vo.complaintState != '삭제완료' && vo.complaintState != '보류'}">
   						<a href="complaintCheck?complaintidx=${vo.complaintidx}">검토하기 <i class='fas fa-caret-right'></i></a>
@@ -193,7 +216,7 @@
   				</c:if>
   			</td>
   		</tr>
-  		<c:set var="curScrStartNo" value="${curScrStartNo -1}"/>
+  		<c:set var="curScrStartNo" value="${curScrStartNo-1}"/>
   	</c:forEach>
   </table>
 </div>
@@ -213,6 +236,30 @@
   	<c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link text-secondary" href="complaintList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
   </ul>
 </div>
+
+
+ <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body"></div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
 <p><br /></p>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>

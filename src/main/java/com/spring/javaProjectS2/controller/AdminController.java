@@ -201,4 +201,13 @@ public class AdminController {
 			return "redirect:/message/admininquiryContentNO";
 		}
 	}
+	
+	// 신고 사유 확인하기
+	@ResponseBody
+	@RequestMapping(value = "/complaintText", method = RequestMethod.POST, produces="application/text; charset=utf8")
+	public String complaintTextPost(int idx) {
+		ComplaintVO vo = adminService.getComplaintText(idx);
+		String text = vo.getComplaintText();
+		return text;
+	}
 }

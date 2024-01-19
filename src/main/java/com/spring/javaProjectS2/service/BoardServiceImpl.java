@@ -185,10 +185,5 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 
-//	@Override
-//	public void imgBackup(String content) {
-//		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
-//		
-//	}
 
 }

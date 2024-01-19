@@ -21,6 +21,9 @@
 	<select id="getInquiryStandby" resultType="com.spring.javaProjectS2.vo.InquiryVO">
 		select count(*) from inquiry where inquirystate = '미완료';
 	</select>
+	<select id="getComplaintText" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
+		select * from complaint where idx = #{idx};
+	</select>
 	
 	
 	<!-- insert -->

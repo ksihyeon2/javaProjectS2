@@ -67,4 +67,9 @@ public class AdminServiceImpl implements AdminService {
 		return adminDAO.getInquiryStandby();
 	}
 
+	@Override
+	public ComplaintVO getComplaintText(int idx) {
+		return adminDAO.getComplaintText(idx);
+	}
+
 }

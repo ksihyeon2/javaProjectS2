@@ -92,7 +92,7 @@
 	  			<td>${vo.part}</td>
 	  			<td>${vo.ask}</td>
 	  			<td>
-	  				<c:if test="${vo.date_diff >= 1}">
+	  				<c:if test="${vo.date_diff < 0}">
 			  			${fn:substring(vo.asktime,0,10)}
 	  				</c:if>
 	  				<c:if test="${vo.date_diff == 0 && vo.hour_diff < 24}">

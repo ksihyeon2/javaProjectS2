@@ -97,24 +97,24 @@
   	</tr>
   	<tr><td colspan="6" class="p-0"></td></tr>
   	<c:set var="curScrStartNo" value="${pageVO.curScrStartNo}" />
-	  	<c:forEach var="vo" items="${vos}" varStatus="st">
-		  	<c:if test="${vo.delCheck != 'OK'}">
-		  		<tr>
-		  			<td>${curScrStartNo}</td>
-		  			<td>${vo.nickName}</td>
-		  			<td><a href="boardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title} </a> (${vo.replyCnt})</td>
-		  			<td>${vo.part}</td>
-		  			<td>
-		  				<c:if test="${vo.hour_diff > 24}">${fn:substring(vo.WDate,0,10)}</c:if>
-		  				<c:if test="${vo.hour_diff <= 24}">${vo.date_diff == 0 ? fn:substring(vo.WDate,11,16) : fn:substring(vo.WDate,0,16)}
-		  				<span class="badge badge-danger" style="font-size:0.5em">N</span>
-							</c:if>
-		  			</td>
-		  			<td>${vo.readNum}</td>
-		  		</tr>
-		  		<c:set var="curScrStartNo" value="${curScrStartNo-1}"></c:set>
-		  	</c:if>
-	  	</c:forEach>
+  	<c:forEach var="vo" items="${vos}" varStatus="st">
+	  	<c:if test="${vo.delCheck != 'OK'}">
+	  		<tr>
+	  			<td>${curScrStartNo}</td>
+	  			<td>${vo.nickName}</td>
+	  			<td><a href="boardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title} </a> (${vo.replyCnt})</td>
+	  			<td>${vo.part}</td>
+	  			<td>
+	  				<c:if test="${vo.hour_diff > 24}">${fn:substring(vo.WDate,0,10)}</c:if>
+	  				<c:if test="${vo.hour_diff <= 24}">${vo.date_diff == 0 ? fn:substring(vo.WDate,11,16) : fn:substring(vo.WDate,0,16)}
+	  				<span class="badge badge-danger" style="font-size:0.5em">N</span>
+						</c:if>
+	  			</td>
+	  			<td>${vo.readNum}</td>
+	  		</tr>
+	  		<c:set var="curScrStartNo" value="${curScrStartNo-1}"></c:set>
+	  	</c:if>
+  	</c:forEach>
   </table>
 </div>
 <!-- 블록페이지 시작(1블록의 크기를 3개(3Page)로 한다. 한페이지 기본은 10개 -->
