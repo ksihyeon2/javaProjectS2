@@ -27,4 +27,6 @@ public interface GymDAO {
 
 	public int getTotRecCnt();
 
+	public List<InterestVO> gymInterestList(@Param("mid") String mid);
+
 }

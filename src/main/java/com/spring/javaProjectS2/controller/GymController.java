@@ -1,7 +1,9 @@
 package com.spring.javaProjectS2.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,4 +127,85 @@ public class GymController {
 		
 		return res + "";
 	}
+	
+	// 관심 목록 확인하기
+	@RequestMapping(value = "/gymInterestList", method = RequestMethod.GET)
+	public String gymInterestListGet(HttpSession session, Model model) {
+		String mid = (String)session.getAttribute("sMid");
+		
+		List<InterestVO> vos = gymService.getGymInterestList(mid); 
+		List<GymVO> gymVOS = new ArrayList<GymVO>();
+		
+		for(InterestVO v : vos) {
+			GymVO vo = gymService.getGyminfor(v.getPartIdx());
+			gymVOS.add(vo);
+		}
+		
+		model.addAttribute("gymVOS",gymVOS);
+		
+		return "gym/gymInterestList";
+	}
+	
+	// 맞춤 운동 폼 띄우기
+	@RequestMapping(value = "/gymorder", method = RequestMethod.GET)
+	public String gymorderGet(HttpSession session) {
+		if(session.getAttribute("sStep") == null) {
+			session.setAttribute("sStep", 0);
+		}
+		return "gym/gymorder";
+	}
+	
+	// 맟줌 춘동 step 1
+	@ResponseBody
+	@RequestMapping(value = "/gymorderStep1", method = RequestMethod.POST)
+	public void gymorderStep1Post(HttpSession session) {
+		session.setAttribute("sStep", 20);
+	}
+	
+	// 맟줌 춘동 step 2
+	@ResponseBody
+	@RequestMapping(value = "/gymorderStep2", method = RequestMethod.POST)
+	public void gymorderStep2Post(HttpSession session, String gender) {
+		session.setAttribute("sStep", 40);
+		
+		String strGender = "";
+		if(gender.equals("male")) {
+			strGender = "남자";
+		} else if(gender.equals("female")) {
+			strGender = "여자";
+		} else {
+			strGender = "기타";
+		}
+		session.setAttribute("strGender", strGender);
+	}
+	
+	// 맟줌 춘동 step 3
+	@ResponseBody
+	@RequestMapping(value = "/gymorderStep3", method = RequestMethod.POST)
+	public void gymorderStep3Post(HttpSession session, int gymLevel) {
+		String level = "";
+		
+		if(gymLevel == 0) {
+			level = "입문";
+		} else if (gymLevel == 1) {
+			level = "초급";
+		} else if(gymLevel == 2) {
+			level = "중급";
+		} else if(gymLevel == 3) {
+			level = "고급";
+		} else if (gymLevel == 4) {
+			level = "전문가";
+		}
+		session.setAttribute("sStep", 60);
+		session.setAttribute("gymLevel", level);
+	}
+	
+	// 맟줌 춘동 step 3
+	@ResponseBody
+	@RequestMapping(value = "/gymorderStep4", method = RequestMethod.POST)
+	public void gymorderStep4Post(HttpSession session, int weight) {
+		session.setAttribute("sStep", 80);
+		session.setAttribute("weight", weight);
+	}
+	
 }

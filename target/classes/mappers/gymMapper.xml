@@ -25,6 +25,9 @@
 	<select id="getGymInterest" resultType="com.spring.javaProjectS2.vo.InterestVO">
 		select * from interest where mid = #{mid} and part = 'gym' and partIdx = ${idx};
 	</select>
+	<select id="gymInterestList" resultType="com.spring.javaProjectS2.vo.InterestVO">
+		select * from interest where mid = #{mid};
+	</select>
 	
 	<!-- insert -->
 	<insert id="setGymInput">

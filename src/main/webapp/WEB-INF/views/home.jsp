@@ -14,255 +14,70 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="${ctp}/css/styles.css" rel="stylesheet" />
+    <style>
+    	body {
+    		background-color: rgb(76,76,76);
+    	}
+    </style>
 </head>
 <body id="page-top">
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
-<jsp:include page="/WEB-INF/views/include/slide.jsp" />
-<!-- Services-->
-<section class="page-section" id="services">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Services</h2>
-            <h3 class="section-subheading text-muted"></h3>
-        </div>
-        <div class="row text-center">
-            <div class="col-md-4">
-                <span class="fa-stack fa-4x">
-                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <a href="#"><i class='fas fa-walking fa-stack-1x fa-inverse' style='font-size:70px'></i></a>
-                </span>
-                <h4 class="my-3">운동종류</h4>
-            </div>
-            <div class="col-md-4">
-                <span class="fa-stack fa-4x">
-                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <a href="#"><i class='fas fa-shopping-cart fa-stack-1x fa-inverse' style='font-size:60px'></i></a>
-                </span>
-                <h4 class="my-3">상품</h4>
-            </div>
-            <div class="col-md-4">
-                <span class="fa-stack fa-4x">
-                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <a href="${ctp}/board/boardList"><i class='fas fa-comments fa-stack-1x fa-inverse' style='font-size:55px'></i></a>
-                </span>
-                <h4 class="my-3">커뮤니티</h4>
-            </div>
-        </div>
+<p><br /></p>
+<p><br /></p>
+<p><br /></p>
+	<div class="container page-section" id="portfolio">
+  	<div class="text-center">
+	    <h2 class="section-heading text-uppercase" style="color:white;">운동이 쉬워진다.<br />운동 고민 끝</h2>
+	  	<h3 class="section-subheading" style="color:white;">헬스장에서든, 집에서든, 개인 맞춤 운동 추천과 코칭을 받으세요.<br />이제 운동 고민은 끝.</h3>
     </div>
-</section>
-<jsp:include page="/WEB-INF/views/include/body.jsp" />
-
-<!-- Portfolio Modals-->
-<!-- Portfolio item 1 modal popup-->
-<div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="modal-body">
-                            <!-- Project details-->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/1.jpg" alt="..." />
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
-                                <li>
-                                    <strong>Client:</strong>
-                                    Threads
-                                </li>
-                                <li>
-                                    <strong>Category:</strong>
-                                    Illustration
-                                </li>
-                            </ul>
-                            <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                <i class="fas fa-xmark me-1"></i>
-                                Close Project
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <br /><br />
+    <div class="row">
+    	<div class="col-lg-4 col-sm-6 mb-4">
+      	<div class="portfolio-item">
+        	<a class="portfolio-link" href="${ctp}/gym/gymorder">
+	          <div class="portfolio-hover">
+            	<div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+	          </div>
+	          <img class="img-fluid" src="assets/img/portfolio/1.jpg" alt="..." />
+          </a>
+          <div class="portfolio-caption">
+            <div class="portfolio-caption-heading">맞춤 운동</div>
+            <div class="portfolio-caption-subheading text-muted">"뭐부터 해야 하지?" 생각 없이 따라만 하세요.</div>
+          </div>
         </div>
+      </div>
+    	<div class="col-lg-4 col-sm-6 mb-4">
+		    <div class="portfolio-item">
+		      <a class="portfolio-link" href="#">
+	          <div class="portfolio-hover">
+	              <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+	          </div>
+	          <img class="img-fluid" src="assets/img/portfolio/2.jpg" alt="..." />
+		      </a>
+		      <div class="portfolio-caption">
+	          <div class="portfolio-caption-heading">맞춤 식단</div>
+	          <div class="portfolio-caption-subheading text-muted">체질에 맞는 식단을 확인해 보세요.</div>
+		      </div>
+		    </div>
+	    </div>
+	    <div class="col-lg-4 col-sm-6 mb-4">
+		    <div class="portfolio-item">
+	        <a class="portfolio-link" href="${ctp}/board/boardList">
+	          <div class="portfolio-hover">
+	            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+	          </div>
+	          <img class="img-fluid" src="assets/img/portfolio/3.jpg" alt="..." />
+	        </a>
+	        <div class="portfolio-caption">
+	          <div class="portfolio-caption-heading">커뮤니티</div>
+	          <div class="portfolio-caption-subheading text-muted">여러 사람들과 소통을 통해 더 알아가 보세요.</div>
+	        </div>
+		    </div>
+	    </div>
     </div>
-</div>
-<!-- Portfolio item 2 modal popup-->
-<div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="modal-body">
-                            <!-- Project details-->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/2.jpg" alt="..." />
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
-                                <li>
-                                    <strong>Client:</strong>
-                                    Explore
-                                </li>
-                                <li>
-                                    <strong>Category:</strong>
-                                    Graphic Design
-                                </li>
-                            </ul>
-                            <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                <i class="fas fa-xmark me-1"></i>
-                                Close Project
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Portfolio item 3 modal popup-->
-<div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="modal-body">
-                            <!-- Project details-->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/3.jpg" alt="..." />
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
-                                <li>
-                                    <strong>Client:</strong>
-                                    Finish
-                                </li>
-                                <li>
-                                    <strong>Category:</strong>
-                                    Identity
-                                </li>
-                            </ul>
-                            <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                <i class="fas fa-xmark me-1"></i>
-                                Close Project
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Portfolio item 4 modal popup-->
-<div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="modal-body">
-                            <!-- Project details-->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/4.jpg" alt="..." />
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
-                                <li>
-                                    <strong>Client:</strong>
-                                    Lines
-                                </li>
-                                <li>
-                                    <strong>Category:</strong>
-                                    Branding
-                                </li>
-                            </ul>
-                            <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                <i class="fas fa-xmark me-1"></i>
-                                Close Project
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Portfolio item 5 modal popup-->
-<div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="modal-body">
-                            <!-- Project details-->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/5.jpg" alt="..." />
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
-                                <li>
-                                    <strong>Client:</strong>
-                                    Southwest
-                                </li>
-                                <li>
-                                    <strong>Category:</strong>
-                                    Website Design
-                                </li>
-                            </ul>
-                            <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                <i class="fas fa-xmark me-1"></i>
-                                Close Project
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Portfolio item 6 modal popup-->
-<div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="modal-body">
-                            <!-- Project details-->
-                            <h2 class="text-uppercase">Project Name</h2>
-                            <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                            <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/6.jpg" alt="..." />
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
-                                <li>
-                                    <strong>Client:</strong>
-                                    Window
-                                </li>
-                                <li>
-                                    <strong>Category:</strong>
-                                    Photography
-                                </li>
-                            </ul>
-                            <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                <i class="fas fa-xmark me-1"></i>
-                                Close Project
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+	</div>
+<p><br /></p>
+<p><br /></p>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

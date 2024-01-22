@@ -75,13 +75,14 @@
 <p><br /></p>
 <p><br /></p>
 <p><br /></p>
+<p><br /></p>
 <div class="container">
 	<div class="row mb-4">
 		<div class="col-3 text-left">
 			<a class="btn btn-secondary mb-4" href="${ctp}/member/memberPage" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px' title="뒤로가기"></i></a>
 		</div>
 		<div class="col-6 text-center">
-			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">나 의 작 성 글</span>
+			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">게 시 물 관 리</span>
 		</div>
 		<div class="col-3 text-right">
 			<a class="btn btn-secondary" href="${ctp}/board/boardInput?user=${sMid}" style="margin-right:10px;"><i class='far fa-edit' style='font-size:25px' title="글작성"></i></a>
@@ -152,7 +153,7 @@
 	  	</c:forEach>
 	  	<c:if test="${empty cnt}">
 	  		<tr>
-	  			<td colspan="6">작성된 게시물이 없습니다.</td>
+	  			<td colspan="6" ><i class='fas fa-search mt-3' style='font-size:36px'></i><br />작성된 게시물이 없습니다.</td>
 	  		</tr>
 	  	</c:if>
   </table>

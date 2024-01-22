@@ -113,27 +113,6 @@
     	myform.submit();
   	} 
   	
-  	
-  	// 카카오톡 로그인
-  	window.Kakao.init("f408cea36dcd045b580ad03d1db51e05");
-  	
-  	function kakaoLoing(){
-  		// 카카오에 인증요청 처리
-  		window.Kakao.Auth.login({
-  			scope : 'profile_nickname, account_email',
-  			success : function(autoObj){
-  				//console.log(Kakao.Auth.getAccessToken(), "정상 토큰 발급 완료");
-  				window.Kakao.API.request({
-  					url : '/v2/user/me',
-  					success : function(res){
-  						const kakao_account = res.kakao_account;
-  						//console.log(kakao_account);
-  						location.href="${ctp}/member/kakaoLogin?nickName="+kakao_account.profile.nickname+"&email="+kakao_account.email+"&accessToken="+Kakao.Auth.getAccessToken();
-  					}
-  				});
-  			}
-  		});
-  	}
   </script>
 </head>
 <body>
@@ -152,7 +131,6 @@
 			</label>
 			<div class="form-group text-center">
 				<input type="button" value="Login" onclick="loginCheck()">
-				<a href="javascript:kakaoLoing()" style="width:100px"><img src="${ctp}/data/kakao_login_medium_wide.png" /></a>
 			</div>
 		</form>
 	</div>

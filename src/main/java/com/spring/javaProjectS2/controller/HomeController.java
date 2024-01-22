@@ -11,6 +11,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,7 @@ public class HomeController {
 	AdminService adminService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String home(Locale locale, Model model,HttpSession session) {
 		
 		List<MemberVO> vos = memberService.getmemberDelList();
 		
@@ -60,6 +61,10 @@ public class HomeController {
 			adminService.setToday();
 		} else {
 			adminService.setTodayVisitCntPlus(v.getToday().substring(0,19),"비회원");
+		}
+		
+		if(session.getAttribute("sStep") != null) {
+			session.removeAttribute("sStep");
 		}
 		
 		return "home";

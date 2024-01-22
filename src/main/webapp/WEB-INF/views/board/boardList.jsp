@@ -21,6 +21,13 @@
     	text-decoration-line:none;
     }
     
+    body {
+  		background-color: rgb(76,76,76);
+  	}
+  	
+  	td {
+  		background-color:rgb(234,234,234);
+		}  	
   </style>
   <script>
   	'use strict';
@@ -43,7 +50,7 @@
 			<a class="btn btn-secondary mb-4" href="${ctp}/" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
 		</div>
 		<div class="col-6 text-center">
-			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">커 뮤 니 티</span>
+			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px; color: white;">커 뮤 니 티</span>
 		</div>
 		<div class="col-3 text-right">
 			<a class="btn btn-secondary" href="${ctp}/board/boardInput" style="margin-right:20px;">글작성</a>
@@ -87,6 +94,53 @@
   </form>
   
   <table class="table table-hover text-center">
+  	<tr>
+  		<td>
+  			<table class="table table-hover text-center">
+  				<tr style="background-color:rgb(213,213,213);height:40px;">
+  					<th colspan="3">인기 게시글</th>
+  					<c:forEach var="vo" items="${vos}" varStatus="st">
+	  					<tr>
+	  						<c:if test="${vo.delCheck != 'OK'}">
+		  						<c:if test="${vo.readNum >= 20}">
+		  							<td>${st.count}</td>
+		  							<td><a href="boardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title} </a> (${vo.replyCnt})</td>
+		  							<td>
+											<c:if test="${vo.hour_diff > 24}">${fn:substring(vo.WDate,0,10)}</c:if>
+						  				<c:if test="${vo.hour_diff <= 24}">
+						  					${vo.date_diff == 0 ? fn:substring(vo.WDate,11,16) : fn:substring(vo.WDate,0,16)}
+						  					<span class="badge badge-danger" style="font-size:0.5em">N</span>
+											</c:if>
+										</td>
+		  						</c:if>
+	  						</c:if>
+	  					</tr>
+  					</c:forEach>
+  				</tr>
+  			</table>
+  		</td>
+  		<td>
+  			<table class="table table-hover text-center">
+  				<tr style="background-color:rgb(213,213,213);height:40px;">
+  					<th colspan="3">새 게시글</th>
+  				</tr>
+  				<c:forEach var="vo" items="${vos}" varStatus="st">
+  					<tr>
+  						<c:if test="${vo.hour_diff <= 24}">
+  							<td>${st.count}</td>
+  							<td><a href="boardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title} </a> (${vo.replyCnt})</td>
+  							<td>${vo.date_diff == 0 ? fn:substring(vo.WDate,11,16) : fn:substring(vo.WDate,0,16)} <span class="badge badge-danger" style="font-size:0.5em">N</span></td>
+  						</c:if>
+  					</tr>
+  				</c:forEach>
+  			</table>
+  		</td>
+  	</tr>
+  </table>
+  <table class="table table-hover text-center">
+  	<tr style="background-color:rgb(213,213,213);height:40px;">
+  		<th colspan="6">전체 게시글</th>
+  	</tr>
   	<tr style="background-color:rgb(213,213,213);height:40px;">
   		<th>No.</th>
   		<th>작성자</th>
@@ -112,7 +166,7 @@
 	  			</td>
 	  			<td>${vo.readNum}</td>
 	  		</tr>
-	  		<c:set var="curScrStartNo" value="${curScrStartNo-1}"></c:set>
+	  		<c:set var="curScrStartNo" value="${curScrStartNo-1}" />
 	  	</c:if>
   	</c:forEach>
   </table>

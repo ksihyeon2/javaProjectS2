@@ -25,5 +25,7 @@ public interface GymService {
 
 	public InterestVO getGymInterest(String mid, int idx);
 
+	public List<InterestVO> getGymInterestList(String mid);
+
 
 }

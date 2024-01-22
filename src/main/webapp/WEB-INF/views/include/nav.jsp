@@ -39,9 +39,6 @@
             		<c:if test="${sLevel <= 3}">
                 	<li class="nav-item nav-link">[${sNickName}님 로그인중]</li>
                 </c:if>
-                <li class="nav-item"><a class="nav-link" href="${ctp}/#services">SERVICES</a></li>
-                <li class="nav-item"><a class="nav-link" href="${ctp}/#portfolio">추천</a></li>
-                <li class="nav-item"><a class="nav-link" href="${ctp}/#about">About</a></li>
                 <c:if test="${sLevel <= 3 && sLevel > 0 }">
 	                <li class="nav-item"><a class="nav-link" href="${ctp}/member/memberPage">mypage</a></li>
                 </c:if>

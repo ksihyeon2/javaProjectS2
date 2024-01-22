@@ -97,4 +97,9 @@ public class GymServiceImpl implements GymService {
 		return gymDAO.getGymInterest(mid,idx);
 	}
 
+	@Override
+	public List<InterestVO> getGymInterestList(String mid) {
+		return gymDAO.gymInterestList(mid);
+	}
+
 }

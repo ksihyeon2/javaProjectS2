@@ -42,27 +42,27 @@
 </script>
 <header class="masthead">
   <div class="container">
-      <div class="masthead-subheading">내 주변 지점을 검색해보세요.</div>
-      <form name="gymForm" method="post" action="${ctp}/gym/gymSearch">
-        <div class="mb-4">
-        	<select name="area"	id="area" style="width:10%;height:35px">
-      			<option value="">지역선택</option>
-      			<option>서울</option>
-      			<option>경기</option>
-      			<option>인천</option>
-      			<option>충남</option>
-      			<option>충북</option>
-      			<option>대전</option>
-      			<option>울산</option>
-      			<option>부산</option>
-      			<option>전북</option>
-      			<option>광주</option>
-      		</select>
-        	<input type="text" name="gymName" id="gymName" placeholder="지점명 검색" style="width:30%;height:35px"/>
-        	<a href="#" onclick="gymSearch()" data-toggle="modal" data-target="#gymModal" class="btn btn-secondary"><i class='fas fa-search' style='font-size:25px'></i></a>
-        </div>
-      </form>
-      <a class="btn btn-primary btn-lg text-uppercase mt-4" href="${ctp}/gym/gymList">모든 지점 보기</a>
+    <div class="masthead-subheading">내 주변 지점을 검색해보세요.</div>
+    <form name="gymForm" method="post" action="${ctp}/gym/gymSearch">
+      <div class="mb-4">
+      	<select name="area"	id="area" style="width:10%;height:35px">
+    			<option value="">지역선택</option>
+    			<option>서울</option>
+    			<option>경기</option>
+    			<option>인천</option>
+    			<option>충남</option>
+    			<option>충북</option>
+    			<option>대전</option>
+    			<option>울산</option>
+    			<option>부산</option>
+    			<option>전북</option>
+    			<option>광주</option>
+    		</select>
+      	<input type="text" name="gymName" id="gymName" placeholder="지점명 검색" style="width:30%;height:35px"/>
+      	<a href="#" onclick="gymSearch()" data-toggle="modal" data-target="#gymModal" class="btn btn-secondary"><i class='fas fa-search' style='font-size:25px'></i></a>
+      </div>
+    </form>
+    <a class="btn btn-primary btn-lg text-uppercase mt-4" href="${ctp}/gym/gymList">모든 지점 보기</a>
   </div>
  
    
