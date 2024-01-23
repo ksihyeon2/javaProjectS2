@@ -26,7 +26,11 @@
 		  box-shadow: 7px 7px 39px rgba(0, 104, 255, 0.25);
 		  border-radius: 20px;
 		  padding: 50px;
+		  
 		}
+		  body {
+	  		background-color: rgb(76,76,76);
+	  	}
   </style>
   <script>
     'use strict';

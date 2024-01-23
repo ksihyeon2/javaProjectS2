@@ -62,6 +62,7 @@
 	    font-size: 16px;
 	    background-color: #6A24FE;
 	    margin-top: 20px;
+	    width: 700px
 		}
 		#login-form > input[type="checkbox"]{
     	display: none;
@@ -89,6 +90,11 @@
 		  top: 35%;
 		  left: 50%;
 		  transform: translate(-50%, -16%);
+		}
+		
+		a {
+			color:black;
+			text-decoration-line:none
 		}
   </style>  
   <script>

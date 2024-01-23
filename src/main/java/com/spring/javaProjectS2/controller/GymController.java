@@ -200,12 +200,20 @@ public class GymController {
 		session.setAttribute("gymLevel", level);
 	}
 	
-	// 맟줌 춘동 step 3
+	// 맟줌 춘동 step 4
 	@ResponseBody
 	@RequestMapping(value = "/gymorderStep4", method = RequestMethod.POST)
 	public void gymorderStep4Post(HttpSession session, int weight) {
 		session.setAttribute("sStep", 80);
 		session.setAttribute("weight", weight);
 	}
+	
+	// 맟줌 춘동 step 5
+	@ResponseBody
+	@RequestMapping(value = "/gymorderStep5", method = RequestMethod.POST)
+	public void gymorderStep5Post(HttpSession session, String part) {
+		
+	}
+	
 	
 }

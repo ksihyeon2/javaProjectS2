@@ -36,10 +36,6 @@ public class PageProcess {
 				if(part.equals("")) {
 					totRecCnt = boardDAO.getTotRecCnt();
 				}
-				/*else {
-					search = part;
-					totRecCnt = boardDAO.getTotRecCntSearch(search,searchString);
-				}*/
 			} else if(section.equals("admin")){
 				if(part.equals("")) {
 					totRecCnt = memberDAO.getTotRecCnt();

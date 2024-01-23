@@ -5,7 +5,12 @@
 		select count(*) from board;
 	</select>
 	<select id="getBoardList" resultType="com.spring.javaProjectS2.vo.BoardVO">
-		select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff, (select count(*) from reply where boardIdx = board.idx) as replyCnt from board order by idx desc limit #{startIndexNo}, #{pageSize};
+		<if test="part == ''">
+			select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff, (select count(*) from reply where boardIdx = board.idx) as replyCnt from board where delCheck = 'NO' order by idx desc limit #{startIndexNo}, #{pageSize};
+		</if>
+		<if test="part != ''">
+			select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff, (select count(*) from reply where boardIdx = board.idx) as replyCnt from board where delCheck = 'NO' and part = #{part} order by idx desc limit #{startIndexNo}, #{pageSize};
+		</if>
 	</select>
 	<select id="getBoardContent" resultType="com.spring.javaProjectS2.vo.BoardVO">
 		select * from board where idx = #{idx};
@@ -38,6 +43,17 @@
 	</select>
 	<select id="getBoardCnt" resultType="int">
 		select count(*) from board where mid = #{mid} and delCheck = 'NO';
+	</select>
+	<select id="getTotRecCntSearch" resultType="int">
+		select count(*) from board where #{search} like concat('%'#{searchString},'%');
+	</select>
+	<select id="getBoardSearchList" resultType="com.spring.javaProjectS2.vo.BoardVO">
+		<if test="search == ''">
+			select * from board where nickName like concat('%',#{searchString},'%') or title like concat('%',#{searchString},'%') or content like concat('%',#{searchString},'%') order by idx desc limit #{startIndexNo},#{pageSize};
+		</if>
+		<if test="search != ''">
+			select * from board where ${search} like concat('%',#{searchString},'%') order by idx desc limit #{startIndexNo},#{pageSize};
+		</if>
 	</select>
 
 	<!-- insert -->

@@ -13,7 +13,7 @@ public interface BoardService {
 
 	public int setBoardInput(BoardVO vo);
 
-	public List<BoardVO> getBoardList(int startIndexNo, int pageSize);
+	public List<BoardVO> getBoardList(int startIndexNo, int pageSize, String part);
 
 	public void setReadNumPlus(int idx);
 
@@ -54,5 +54,7 @@ public interface BoardService {
 	public int getBoardCnt(String mid);
 
 	public int complaintContentDel(int idx);
+
+	public List<BoardVO> getBoardSearchList(int startIndexNo, int pageSize, String search, String searchString);
 
 }

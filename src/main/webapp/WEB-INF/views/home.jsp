@@ -34,7 +34,7 @@
     <div class="row">
     	<div class="col-lg-4 col-sm-6 mb-4">
       	<div class="portfolio-item">
-        	<a class="portfolio-link" href="${ctp}/gym/gymorder">
+        	<a class="portfolio-link" href="${ctp}/health/healthOrder">
 	          <div class="portfolio-hover">
             	<div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
 	          </div>
@@ -48,15 +48,15 @@
       </div>
     	<div class="col-lg-4 col-sm-6 mb-4">
 		    <div class="portfolio-item">
-		      <a class="portfolio-link" href="#">
+		      <a class="portfolio-link" href="${ctp}/health/healthList">
 	          <div class="portfolio-hover">
 	              <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
 	          </div>
 	          <img class="img-fluid" src="assets/img/portfolio/2.jpg" alt="..." />
 		      </a>
 		      <div class="portfolio-caption">
-	          <div class="portfolio-caption-heading">맞춤 식단</div>
-	          <div class="portfolio-caption-subheading text-muted">체질에 맞는 식단을 확인해 보세요.</div>
+	          <div class="portfolio-caption-heading">운동 목록</div>
+	          <div class="portfolio-caption-subheading text-muted">"뭐부터 해야 하지?" 생각 없이 따라만 하세요.</div>
 		      </div>
 		    </div>
 	    </div>

@@ -15,7 +15,7 @@ public interface BoardDAO {
 
 	public int getTotRecCnt();
 
-	public List<BoardVO> getBoardList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
+	public List<BoardVO> getBoardList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("part") String part);
 
 	public void setReadNumPlus(@Param("idx") int idx);
 
@@ -56,6 +56,10 @@ public interface BoardDAO {
 	public int getBoardCnt(@Param("mid") String mid);
 
 	public int complaintContentDel(@Param("idx") int idx);
+
+	public List<BoardVO> getBoardSearchList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("search") String search, @Param("searchString") String searchString);
+
+	public int getTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
 
 
 }

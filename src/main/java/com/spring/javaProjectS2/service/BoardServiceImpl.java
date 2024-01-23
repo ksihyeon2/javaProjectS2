@@ -80,8 +80,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> getBoardList(int startIndexNo, int pageSize) {
-		return boardDAO.getBoardList(startIndexNo,pageSize);
+	public List<BoardVO> getBoardList(int startIndexNo, int pageSize, String part) {
+		return boardDAO.getBoardList(startIndexNo,pageSize,part);
 	}
 
 	@Override
@@ -182,6 +182,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int complaintContentDel(int idx) {
 		return boardDAO.complaintContentDel(idx);
+	}
+
+	@Override
+	public List<BoardVO> getBoardSearchList(int startIndexNo, int pageSize, String search, String searchString) {
+		return boardDAO.getBoardSearchList(startIndexNo,pageSize,search,searchString);
 	}
 
 

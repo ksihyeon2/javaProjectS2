@@ -14,8 +14,12 @@ create table board(
 	delDate	 datetime default now(),											 /* 게시글 삭제 날짜 */
 );
 
-select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff from board order by idx desc limit 1, 10;
+select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff from board  where delCheck = 'NO' order by idx desc limit 0, 6;
 select * from board where nickName = '관리맨' and delCheck = 'OK' order by idx;
 select count(*) from board where nickName = '관리걸' and delCheck = 'NO';
 
 select * from board order by idx desc limit 1, 3;
+
+select * from board where content like '%연습%' or title like '%연습%' or mid like '%연습%';
+
+select * from board where nickName like '%관리맨%' order by idx desc limit 1,3;

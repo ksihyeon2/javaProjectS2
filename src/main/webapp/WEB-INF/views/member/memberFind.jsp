@@ -8,6 +8,16 @@
   <title>memberFind.jsp</title>
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
+  <style>
+    	body {
+    		background-color: rgb(76,76,76);
+    	}
+    	
+    	table{
+			background-color: rgb(246,246,246);
+			border-radius: 20px;
+		}
+    </style>
   <script>
   	'use strict';
   	
@@ -136,9 +146,9 @@
 <p><br /></p>
 <p><br /></p>
 <div class="container" style="height:600px">
-	<h2>아이디 / 비밀번호 찾기</h2>
-	<hr />
-	<table class="table table-bordered">
+	<h2 style="color: white;">아이디 / 비밀번호 찾기</h2>
+	<hr style="color: white;" />
+	<table class="table table-borderless">
 		<tr>
 			<td style="width:10px; background-color:gray"></td>
 			<td>
@@ -148,11 +158,17 @@
 		</tr>
 		<tr class="midSearch">
 			<td colspan="2" class="m-0 p-0">
-				<table class="table table-bordered">
+				<table class="table table-borderless">
+					<tr><td></td></tr>
+					<tr><td></td></tr>
 					<tr>
 						<td class="text-right"><b>성명</b></td>
 						<td><input type="text" name="midName" id="midName" class="form-control" placeholder="성명을 입력하세요."></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					</tr>
+					<tr><td></td></tr>
 					<tr>
 						<td class="text-right"><b>이메일</b></td>
 						<td>
@@ -197,7 +213,7 @@
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered">
+	<table class="table table-borderless">
 		<tr>
 			<td style="width:10px; background-color:gray"></td>
 			<td>
@@ -207,15 +223,22 @@
 		</tr>
 		<tr class="pwdSearch" style="display:none">
 			<td colspan="2" class="m-0 p-0">
-				<table class="table table-bordered">
+				<table class="table table-borderless">
+					<tr><td></td></tr>
+					<tr><td></td></tr>
 					<tr>
 						<td class="text-right"><b>성명</b></td>
 						<td><input type="text" name="pwdName" id="pwdName" class="form-control" placeholder="성명을 입력하세요."></td>
+						<td></td>
+						<td></td>
+						<td></td>
 					</tr>
+					<tr><td></td></tr>
 					<tr>
 						<td class="text-right"><b>아이디</b></td>
 						<td><input type="text" name="pwdId" id="pwdId" class="form-control" placeholder="아이디를 입력하세요."></td>
 					</tr>
+					<tr><td></td></tr>
 					<tr>
 						<td class="text-right"><b>이메일</b></td>
 						<td>
@@ -236,6 +259,7 @@
 					    </div>
 						</td>
 					</tr>
+					<tr><td></td></tr>
 					<tr class="pwdSearch">
 						<td colspan="2" class="text-center">
 							<input type="button" value="비밀번호찾기" onclick="pwdSearch()" class="btn btn-secondary mr-3">
