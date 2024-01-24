@@ -12,6 +12,10 @@
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
   <style>
+  	body {
+  		background-color: rgb(76,76,76);
+  	}
+  	
     a {
     	color:black;
     	text-decoration-line:none;
@@ -28,10 +32,10 @@
 <div class="container">
 	<div class="row mb-4">
 			<div class="col-3 text-left">
-				<a class="btn btn-secondary mb-4" href="${ctp}/" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
+				<a class="btn btn-secondary mb-4" href="${ctp}/health/healthList" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
 			</div>
 			<div class="col-6 text-center">
-				<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">헬스장 검색</span>
+				<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px; color: white;">헬스장 검색</span>
 			</div>
 			<c:if test="${sLevel == 0}">
 				<div class="col-3 text-right">

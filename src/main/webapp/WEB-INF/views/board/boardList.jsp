@@ -77,14 +77,20 @@
   		<td>
   			<table class="table table-hover text-center">
   				<tr style="background-color:rgb(213,213,213);height:40px;">
-  					<th colspan="3">새 게시글</th>
+  					<th colspan="3"><a href="boardMyList">나의 게시글 보기 ></a></th>
   				</tr>
   				<c:forEach var="vo" items="${vos}" varStatus="st">
   					<tr>
-  						<c:if test="${vo.hour_diff <= 24}">
+  						<c:if test="${vo.mid == sMid}">
   							<td>${st.count}</td>
   							<td><a href="boardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title} </a> (${vo.replyCnt})</td>
-  							<td>${vo.date_diff == 0 ? fn:substring(vo.WDate,11,16) : fn:substring(vo.WDate,0,16)} <span class="badge badge-danger" style="font-size:0.5em">N</span></td>
+  							<td>
+									<c:if test="${vo.hour_diff > 24}">${fn:substring(vo.WDate,0,10)}</c:if>
+				  				<c:if test="${vo.hour_diff <= 24}">
+				  					${vo.date_diff == 0 ? fn:substring(vo.WDate,11,16) : fn:substring(vo.WDate,0,16)}
+				  					<span class="badge badge-danger" style="font-size:0.5em">N</span>
+									</c:if>
+								</td>
   						</c:if>
   					</tr>
   				</c:forEach>

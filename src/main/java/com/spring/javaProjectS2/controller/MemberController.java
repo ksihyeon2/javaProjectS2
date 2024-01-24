@@ -177,53 +177,6 @@ public class MemberController {
 		
 	}
 	
-	// 카카오 로그인 처리
-	@RequestMapping(value = "/kakaoLogin", method = RequestMethod.GET)
-	public String kakaoLoginGet(HttpSession session, HttpServletRequest request, HttpServletResponse response,
-			String nickName, String email, String accessToken) {
-		
-		session.setAttribute("sAccessToken", accessToken);
-		
-		MemberVO vo = memberService.getMemberKaKaoCheck(nickName,email);
-		
-		if(vo == null) {
-			String mid = email.substring(0,email.indexOf("@"));
-			
-			MemberVO vo2 = memberService.getMemberIdCheck(mid);
-			if(vo2 != null) {
-				return "redirect:/message/midSameSearch";
-			}
-			
-			UUID uid = UUID.randomUUID();
-			String pwd = uid.toString().substring(0,8);
-			session.setAttribute("sImsiPwd", pwd);
-			
-			pwd = passwordEncoder.encode(pwd);
-			
-			memberService.setKakaoMemberInput(mid,pwd,nickName,email);
-			
-			vo = memberService.getMemberIdCheck(mid);
-		}
-		
-		String strLevel = "";
-		if(vo.getLevel() == 0) {
-			strLevel = "관리자";
-		} else if(vo.getLevel() == 1) {
-			strLevel = "우수회원";
-		} else if(vo.getLevel() == 2) {
-			strLevel = "정회원";
-		} else if(vo.getLevel() == 3) {
-			strLevel = "준회원";
-		}
-		
-		session.setAttribute("sMid", vo.getMid());
-		session.setAttribute("sNickName", vo.getNickName());
-		session.setAttribute("sLevel", vo.getLevel());
-		session.setAttribute("strLevel", strLevel);
-		
-		return "redirect:/message/kakaoLoginOk?mid="+vo.getMid();
-	}
-	
 	// 로그아웃
 	@RequestMapping(value = "/memberLogout", method = RequestMethod.GET)
 	public String memberLogoutGet(HttpSession session, Model model,
@@ -399,15 +352,12 @@ public class MemberController {
 	
 	// 정보 수정 폼 띄우기위한 비밀번호 확인
 	@RequestMapping(value = "/memberModify", method = RequestMethod.GET)
-	public String memberModifyGet(String pwd, String mid, Model model) {
+	public String memberModifyGet(Model model,HttpSession session) {
+		String mid = (String)session.getAttribute("sMid");
 		MemberVO vo = memberService.getMemberIdCheck(mid);
 		
-		if(passwordEncoder.matches(pwd, vo.getPwd())){
-			model.addAttribute("vo",vo);
-			return "member/memberModify";
-		} else {
-			return "redirect:/member/memberModifyPwdNo";
-		}
+		model.addAttribute("vo",vo);
+		return "member/memberModify";
 	}
 	
 	// 정보 수정하기

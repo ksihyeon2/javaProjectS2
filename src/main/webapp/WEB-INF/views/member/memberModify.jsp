@@ -293,7 +293,7 @@
     </div>
     <div class="text-center mt-3">
 	    <button type="button" class="btn btn-secondary" onclick="fCheck()">수정하기</button> &nbsp;
-	    <button type="button" class="btn btn-secondary" onclick="location.href='memberPage';">돌아가기</button>
+	    <button type="button" class="btn btn-secondary" onclick="location.href='${ctp}/';">돌아가기</button>
     </div>
     <input type="hidden" name="email" />
     <input type="hidden" name="tel" />

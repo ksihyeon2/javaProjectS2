@@ -26,6 +26,14 @@
 		  }
 	  }
   }
+  
+//정보 수정을 위한 비밀번호 확인
+	function pwdCheck(){
+		let pwd = $("#pwd").val();
+		let mid = $("#mid").val();
+		
+		location.href="memberModify?pwd="+pwd+"&mid="+mid;
+	}
 </script>
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
@@ -41,6 +49,9 @@
                 </c:if>
                 <c:if test="${sLevel <= 3 && sLevel > 0 }">
 	                <li class="nav-item"><a class="nav-link" href="${ctp}/member/memberPage">mypage</a></li>
+                </c:if>
+                <c:if test="${sLevel <= 3 && sLevel > 0 }">
+	                <li class="nav-item"><a class="nav-link" href="${ctp}/member/memberModify">내정보</a></li>
                 </c:if>
                 <c:if test="${sLevel == 0}">
 	                <li class="nav-item"><a class="nav-link" href="${ctp}/admin/adminPage">관리자창</a></li>

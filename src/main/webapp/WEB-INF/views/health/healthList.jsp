@@ -82,6 +82,11 @@
 				<a class="btn btn-secondary" href="${ctp}/health/healthInput" style="margin-right:20px;">운동 추가</a>
 			</div>
 		</c:if>
+		<c:if test="${sLevel <= 3 && sLevel > 0}">
+			<div class="col-3 text-right">
+				<a class="btn btn-secondary" href="${ctp}/gym/gymList" style="margin-right:20px;">근처 헬스장 찾기</a>
+			</div>
+		</c:if>
 	</div>
 	
 	<!-- 검색기 -->
