@@ -1,6 +1,7 @@
 show tables;
 
 create table health(
+	idx 			 int not null auto_increment primary key,
 	hName 	   varchar(20) not null,             /* 운동 이름 */
 	part  	   varchar(10) not null,             /* 운동 부위 */	
 	detailPart varchar(30) not null,             /* 운동 상세 부위 */

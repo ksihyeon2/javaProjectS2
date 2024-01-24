@@ -6,3 +6,7 @@ create table interest(
 	part varchar(10) not null,
 	partIdx int not null
 );
+
+
+select * from interest where mid = 'admin' and part = 'health';
+select * from interest where mid = 'admin' and part = 'health' and partIdx = 6;

@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaProjectS2.dao.HealthDAO">
+	<!-- select -->
+	<select id="getTotRecCnt" resultType="int">
+		select count(*) from health;
+	</select>
+	<select id="getHealthSearch" resultType="com.spring.javaProjectS2.vo.HealthVO">
+		select * from health where hName = #{hName};
+	</select>
+	<select id="getHealthList" resultType="com.spring.javaProjectS2.vo.HealthVO">
+		select * from health where part = #{part};
+	</select>
+	<select id="getHealthInterestList" resultType="com.spring.javaProjectS2.vo.InterestVO">
+		select * from interest where mid = #{mid} and part = 'health';
+	</select>
+	<select id="getHealthInterestSearch" resultType="com.spring.javaProjectS2.vo.HealthVO">
+		select * from health where idx = #{partIdx};
+	</select>
+	<select id="getHealthInterest" resultType="com.spring.javaProjectS2.vo.InterestVO">
+		select * from interest where mid = #{mid} and part = 'health' and partIdx = #{idx}
+	</select>
 	
+	
+	<!-- insert -->
+	<insert id="setHealthInput">
+		insert into health values (default,#{vo.hName},#{vo.part},#{vo.detailPart},#{vo.level},#{vo.position},#{vo.motion},#{vo.breath},#{vo.caution},#{vo.comment},#{vo.photo});
+	</insert>
+	<insert id="setHealthInterest">
+		insert into interest values (default,#{mid},'health',#{idx});
+	</insert>
+	
+	<!-- delete -->
+	<delete id="setHealthInterestDel">
+		delete from interest where mid = #{mid} and part = 'health' and partIdx = #{idx};
+	</delete>
 </mapper>

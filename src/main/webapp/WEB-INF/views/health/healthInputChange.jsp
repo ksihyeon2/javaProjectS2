@@ -5,7 +5,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>healthInput.jsp</title>
+  <title>healthInputChange.jsp</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
@@ -210,39 +210,47 @@
 				<table class="table text-left">
 		      <tr>
 		        <th>운동 이름 <span class="must">*</span></th>
-		        <td><input type="text" name="hName" id="hName" class="form-control" required /></td>
+		        <td><input type="text" name="hName" id="hName" value="${vo.HName}" class="form-control" required /></td>
 		      	<th>부위 <span class="must">*</span></th>
 		        <td>
 		        	<select name="part" id="part" class="form-control">
-				        <option value="">선택</option>
-				        <option>가슴</option>
-				        <option>등</option>
-				        <option>하체</option>
-				        <option>어깨</option>
-				        <option>삼두</option>
-				       	<option>이두</option>
-				       	<option>코어</option>
-			         	<option>전완근</option>
-		          	<option>유산소</option>
+				        <option ${vo.part == '' ? 'selected' : '' }>선택</option>
+				        <option ${vo.part == '가슴' ? 'selected' : '' }>가슴</option>
+				        <option ${vo.part == '등' ? 'selected' : '' }>등</option>
+				        <option ${vo.part == '하체' ? 'selected' : '' }>하체</option>
+				        <option ${vo.part == '어깨' ? 'selected' : '' }>어깨</option>
+				        <option ${vo.part == '삼두' ? 'selected' : '' }>삼두</option>
+				       	<option ${vo.part == '이두' ? 'selected' : '' }>이두</option>
+				       	<option ${vo.part == '코어' ? 'selected' : '' }>코어</option>
+			         	<option ${vo.part == '전완근' ? 'selected' : '' }>전완근</option>
+		          	<option ${vo.part == '유산소' ? 'selected' : '' }>유산소</option>
 			        </select>
 		        </td>
 		      </tr>
 		      <tr>
 		        <th>상세 부위 <span class="must">*</span></th>
-		        <td><input type="text" name="detailPart" id="detailPart" class="form-control" required /></td>
+		        <td><input type="text" name="detailPart" id="detailPart" value="${vo.detailPart}" class="form-control" required /></td>
 		      	<th>강도 <span class="must">*</span></th>
 		        <td>
 							<select name="level" id="level" class="form-control">
-				        <option value="">선택</option>
-				        <option value="1">초보</option>
-				        <option value="2">중급</option>
-				        <option value="3">고급</option>
+				        <option ${vo.level == '' ? 'selected' : '' }>선택</option>
+				        <option ${vo.level == '1' ? 'selected' : '' }>초보</option>
+				        <option ${vo.level == '2' ? 'selected' : '' }>중급</option>
+				        <option ${vo.level == '3' ? 'selected' : '' }>고급</option>
 			        </select>
 						</td>
 		      </tr>
 		     	<tr>
 		        <th>사진 추가</th>
-		        <td colspan="3"><input type="file" name="fName" id="photo" class="form-control-file border form-control"/></td>
+		        <td>
+		        	<c:if test="${vo.photo == ''}">
+								<img src="${ctp}/health/준비중.png" width="250px">
+							</c:if>
+							<c:if test="${vo.photo != ''}">
+								<img src="${ctp}/health/${vo.photo}" width="250px" />
+							</c:if>
+		        </td>
+		        <td colspan="2"><input type="file" name="fName" id="photo" class="form-control-file border form-control"/></td>
 		      </tr>
 		      <tr>
 		        <th>시작 자세 <span class="must">*</span></th>

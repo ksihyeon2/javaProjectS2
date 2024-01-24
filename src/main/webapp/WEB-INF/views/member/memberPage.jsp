@@ -64,30 +64,11 @@
     <nav class="navbar">
       <div class="navbar-nav">
         <h2><b><a href="memberPage">마이페이지</a></b></h2>
-        	<div class="nav-item dropdown">
-          	<a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">쇼핑</a>
-          	<div class="dropdown-menu bg-transparent border-0">
-	            <a href="#" class="dropdown-item">주문내역</a>
-	            <a href="#" class="dropdown-item">장바구니</a>
-	            <a href="#" class="dropdown-item">찜한상품</a>
-	            <a href="#" class="dropdown-item">취소/반품/환불</a>
-            </div>
-          </div>
-          <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">포인트</a>
-            <div class="dropdown-menu bg-transparent border-0">
-	            <a href="#" class="dropdown-item">쿠폰</a>
-	            <a href="#" class="dropdown-item">적립금</a>
-            </div>
-          </div>
           <div class="nav-item dropdown">
 	          <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">활동</a>
 	          <div class="dropdown-menu bg-transparent border-0">
 	            <a href="memberInquiryList" class="dropdown-item">1:1 문의</a>
-	            <a href="#" class="dropdown-item">상품 후기</a>
 	            <a href="${ctp}/board/boardMyList" class="dropdown-item">나의 활동</a>
-	            <a href="${ctp}/gym/gymList" class="dropdown-item">지점 검색</a>
-	            <a href="${ctp}/gym/gymInterestList" class="dropdown-item">관심 지점</a>
 	          </div>
           </div>
           <div class="nav-item d-block">

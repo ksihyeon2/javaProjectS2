@@ -108,6 +108,15 @@ public class MessageController {
 		} else if(msgFlag.equals("gymYes")) {
 			model.addAttribute("msg", "이미 등록되어 있는 지점입니다.");
 			model.addAttribute("url", "/gym/gymInput"); 
+		} else if(msgFlag.equals("healthInputOK")) {
+			model.addAttribute("msg", "신규 등록이 완료되었습니다.");
+			model.addAttribute("url", "/health/healthList"); 
+		} else if(msgFlag.equals("healthInputNO")) {
+			model.addAttribute("msg", "신규 등록에 실패하였습니다.");
+			model.addAttribute("url", "/health/healthInput"); 
+		} else if(msgFlag.equals("healthSearch")) {
+			model.addAttribute("msg", "이미 등록되어 있는 운동입니다.");
+			model.addAttribute("url", "/health/healthList"); 
 		}
 		return "include/message";
 	}

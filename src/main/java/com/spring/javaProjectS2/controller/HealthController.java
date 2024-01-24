@@ -1,5 +1,8 @@
 package com.spring.javaProjectS2.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +11,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaProjectS2.pagination.PageProcess;
+import com.spring.javaProjectS2.pagination.PageVO;
 import com.spring.javaProjectS2.service.HealthService;
+import com.spring.javaProjectS2.vo.HealthVO;
+import com.spring.javaProjectS2.vo.InterestVO;
 
 @Controller
 @RequestMapping("/health")
@@ -97,7 +105,27 @@ public class HealthController {
 	
 	// 운동 목록 폼 띄우기
 	@RequestMapping(value = "/healthList", method = RequestMethod.GET)
-	public String healthListGet(HttpSession session, Model model) {
+	public String healthListGet(HttpSession session, Model model,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="part", defaultValue = "", required = false) String part) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "health", "", "");
+		
+		List<HealthVO> vos = new ArrayList<HealthVO>();
+		if(part.equals("")) {
+			String mid = (String)session.getAttribute("sMid");
+			List<InterestVO> interestVOS = healthService.getHealthInterestList(mid);
+			for(InterestVO v : interestVOS) {
+				HealthVO vo = healthService.getHealthInterestSearch(v.getPartIdx());
+				vos.add(vo);
+			}
+			model.addAttribute("interestVOS",interestVOS);
+		} else {
+			vos = healthService.getHealthList(part);
+		}
+		model.addAttribute("pageVO",pageVO);
+		model.addAttribute("vos",vos);
+		
 		return "health/healthList";
 	}
 	
@@ -105,5 +133,64 @@ public class HealthController {
 	@RequestMapping(value = "/healthInput", method = RequestMethod.GET)
 	public String healthInputGet() {
 		return "health/healthInput";
+	}
+	
+	// 운동 추가하기
+	@RequestMapping(value = "/healthInput", method = RequestMethod.POST)
+	public String healthInputPost(MultipartFile fName, HealthVO vo) {
+		// 중복 확인
+		HealthVO healthVO = healthService.getHealthSearch(vo.getHName());
+		if(healthVO == null) {
+			int res = healthService.setHealthInput(fName,vo);
+			
+			if(res != 0) {
+				return "redirect://message/healthInputOK";
+			} else {
+				return "redirect://message/healthInputNO";
+			}
+		}
+		return "redirect://message/healthSearch";
+	}
+	
+	// 선택 운동 content 폼 띄우기
+	@RequestMapping(value = "/healthContent", method = RequestMethod.GET)
+	public String healthContentGet(Model model, String hName, String part,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
+		HealthVO vo = healthService.getHealthSearch(hName);
+		
+		model.addAttribute("vo",vo);
+		model.addAttribute("pag",pag);
+		model.addAttribute("pageSize",pageSize);
+		model.addAttribute("part",part);
+		return "health/healthContent";
+	}
+	
+	// 관심 운동 설정하기
+	@ResponseBody
+	@RequestMapping(value = "/healthInterest", method = RequestMethod.POST)
+	public String healthInterestPost(int idx, String interest, HttpSession session) {
+		String mid = (String)session.getAttribute("sMid");
+		InterestVO vo = healthService.getHealthInterest(mid,idx);
+		int res = 0;
+		if(vo == null && interest.equals("OK")) {
+			res = healthService.setHealthInterest(idx,mid);
+		} else if (vo != null || interest.equals("NO")) {
+			res = healthService.setHealthInterestDel(idx,mid);
+		}
+		
+		return res + "";
+	}
+	
+	// 운동 수정하기
+	@RequestMapping(value = "/healthInputChange", method = RequestMethod.GET)
+	public String healthInputChangeGet(String hName, int pag, int pageSize, String part, Model model) {
+		HealthVO vo = healthService.getHealthSearch(hName);
+		
+		model.addAttribute("vo",vo);
+		model.addAttribute("pag",pag);
+		model.addAttribute("pageSize",pageSize);
+		model.addAttribute("part",part);
+		return "health/healthInputChange";
 	}
 }
