@@ -45,7 +45,7 @@
 					<img src="${ctp}/health/준비중.png" width="250px">
 				</c:if>
 				<c:if test="${vo.photo != ''}">
-					<img src="${ctp}/health/${vo.photo}" width="250px" />
+					<video src="${ctp}/health/${vo.photo}" width="500px" muted autoplay></video>
 				</c:if>
 				<hr />
 			</td>

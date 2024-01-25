@@ -35,7 +35,7 @@
 				<a class="btn btn-secondary mb-4" href="${ctp}/health/healthList" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
 			</div>
 			<div class="col-6 text-center">
-				<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px; color: white;">헬스장 검색</span>
+				<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px; color: white;">지점 검색</span>
 			</div>
 			<c:if test="${sLevel == 0}">
 				<div class="col-3 text-right">

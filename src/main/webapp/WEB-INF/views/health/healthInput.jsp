@@ -174,8 +174,8 @@
   			healthForm.submit();
   		} else {
   			let fileSize = document.getElementById("photo").files[0].size;
-				if(ext != "jpg" && ext != "gif" && ext != "png" && ext != "jepg"){
-	  			alert("업로드 파일은 'jpg/gif/png/jepg'만 가능합니다.");
+				if(ext != "jpg" && ext != "gif" && ext != "png" && ext != "jepg" && ext != "mp4"){
+	  			alert("업로드 파일은 'jpg/gif/png/jepg/mp4'만 가능합니다.");
 		  	} else if(fileSize > maxSize) {
 	  			alert("업로드 가능한 파일의 용량은 10MByte 입니다.");
 		  	} else {
@@ -185,6 +185,16 @@
   		
   		healthForm.submit();
   		
+  	}
+  	
+  	function backCheck(){
+  		let ans = confirm("신규 등록을 취소하시겠습니까?");
+  		
+  		if(!ans){
+  			return false;
+  		}
+  		
+  		location.href="${ctp}/health/healthList";
   	}
   </script>
 </head>
@@ -197,7 +207,7 @@
 <div class="container">
 	<div class="row mb-4">
 		<div class="col-3 text-left">
-			<a class="btn btn-secondary mb-4" href="healthList" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
+			<a class="btn btn-secondary mb-4" href="javascript:backCheck()" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
 		</div>
 		<div class="col-6 text-center">
 			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px;">신규 운동 추가</span>

@@ -24,7 +24,7 @@
 	
 	<!-- insert -->
 	<insert id="setHealthInput">
-		insert into health values (default,#{vo.hName},#{vo.part},#{vo.detailPart},#{vo.level},#{vo.position},#{vo.motion},#{vo.breath},#{vo.caution},#{vo.comment},#{vo.photo});
+		insert into health values (default,#{vo.hName},#{vo.part},#{vo.detailPart},#{vo.level},#{vo.position},#{vo.motion},#{vo.breath},#{vo.caution},#{vo.comment},#{vo.photo},default);
 	</insert>
 	<insert id="setHealthInterest">
 		insert into interest values (default,#{mid},'health',#{idx});
@@ -34,4 +34,12 @@
 	<delete id="setHealthInterestDel">
 		delete from interest where mid = #{mid} and part = 'health' and partIdx = #{idx};
 	</delete>
+	
+	<!-- update -->
+	<update id="setHealthInterestPlus">
+		update health set interest = interest+1 where idx = #{idx};
+	</update>
+	<update id="setHealthInterestMinus">
+		update health set interest = interest-1 where idx = #{idx};
+	</update>
 </mapper>

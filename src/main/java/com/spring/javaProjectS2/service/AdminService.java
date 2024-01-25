@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.spring.javaProjectS2.vo.BoardVO;
 import com.spring.javaProjectS2.vo.ComplaintVO;
+import com.spring.javaProjectS2.vo.HealthVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
+import com.spring.javaProjectS2.vo.InterestVO;
 import com.spring.javaProjectS2.vo.VisitVO;
 
 public interface AdminService {
@@ -30,5 +32,7 @@ public interface AdminService {
 	public List<InquiryVO> getInquiryStandby();
 
 	public ComplaintVO getComplaintText(int idx);
+
+	public List<HealthVO> getHealthInterestList();
 
 }

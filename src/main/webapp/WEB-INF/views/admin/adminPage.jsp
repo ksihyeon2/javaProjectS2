@@ -9,13 +9,40 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
+  <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+        	<c:forEach var="healthVO" items="${healthVOS}">
+        		[${healthVO.HName}, ${healthVO.interest}],
+        	</c:forEach>
+        ]);
+
+        var options = {
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
   <style>
   	a {
   		color:black;
   		text-decoration-line:none;
   	}
+  	body {
+  		background-color: rgb(76,76,76);
+  	}
   	
+  	.sidebar > nav {
+  		background-color: rgb(189,189,189);
+  		border-radius:30px;
+  		padding: 20px;
+  	}
   </style>
 </head>
 <body>
@@ -25,44 +52,43 @@
 <p><br /></p>
 <div class="container">
 	<div class="sidebar p-3" style="margin-left:20px">
+    <h2 ><b><a href="adminPage" style="color:white;margin-left:20px;margin-bottom:10px ">관리자 페이지</a></b></h2>
     <nav class="navbar">
       <div class="navbar-nav">
-        <h2><b><a href="adminPage">관리자 페이지</a></b></h2>
         	<div class="nav-item dropdown">
-          	<a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">회원</a>
+          	<a href="#" class="nav-link dropdown-toggle m-2" data-toggle="dropdown" id="nav-product"><b>회원</b></a>
           	<div class="dropdown-menu bg-transparent border-0 show">
 	            <a href="memberList" class="dropdown-item">회원정보</a>
 	            <a href="memberDelList" class="dropdown-item">회원탈퇴 관리</a>
             </div>
           </div>
           <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">커뮤니티</a>
+            <a href="#" class="nav-link dropdown-toggle m-2" data-toggle="dropdown" id="nav-product"><b>커뮤니티</b></a>
             <div class="dropdown-menu bg-transparent border-0 show">
 	            <a href="#" class="dropdown-item">공지사항</a>
 	            <a href="#" class="dropdown-item">게시물 관리</a>
-	            <a href="inquiryList" class="dropdown-item">문의 관리</a>
 	            <a href="complaintList" class="dropdown-item">신고 관리</a>
             </div>
           </div>
           <div class="nav-item dropdown">
-	          <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">관리</a>
+	          <a href="#" class="nav-link dropdown-toggle m-2" data-toggle="dropdown" id="nav-product"><b>관리</b></a>
 	          <div class="dropdown-menu bg-transparent border-0 show">
-	            <a href="#" class="dropdown-item">지점 관리</a>
-	            <a href="#" class="dropdown-item">물품 관리</a>
-	            <a href="#" class="dropdown-item">배송/반품 관리</a>
+	          	<a href="inquiryList" class="dropdown-item">수정 요청 관리</a>
+	            <a href="${ctp}/gym/gymList" class="dropdown-item">지점 관리</a>
+	            <a href="#" class="dropdown-item">예약 관리</a>
 	          </div>
           </div>
-          <div class="nav-item d-block">
-            <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">정보</a>
-            <div class="dropdown-menu border-0 show">
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle m-2" data-toggle="dropdown" id="nav-product"><b>정보</b></a>
+            <div class="dropdown-menu bg-transparent border-0 show">
               <a href="#" data-toggle="modal" data-target="#myModal" class="dropdown-item">정보 수정</a>
               <a href="memberPwdChange" class="dropdown-item">비밀번호 수정</a>
               <a href="#" data-toggle="modal" data-target="#delModal" class="dropdown-item">회원 탈퇴</a>
           </div>
         </div>
       </div>
-    	<div>
-      <div >
+      <div>
+      <div style="background-color: white;">
         <div class="row g-4 rounded m-0" style="width:1000px;border-color:black;border:2px solid;">
           <div class="col-sm-4 col-xl-4 d-flex">
           	<div class="d-flex align-items-center justify-content-between p-3">
@@ -100,7 +126,7 @@
           <div class="col-sm-2 col-xl-2">
 	          <div class="d-flex flex-column align-items-center justify-content-between p-3">
               <div class="ms-3 mt-3">
-                <p class="mb-2 text-black"  style="font-size:13pt">주문배송</p>
+                <p class="mb-2 text-black"  style="font-size:13pt">수정요청건</p>
               </div>
               <div class="ms-3 mt-2">
                 <h3 class="mb-2 text-black">건</h3>
@@ -125,22 +151,23 @@
             <div class="text-center rounded p-4">
               <div class="d-flex align-items-center justify-content-between mb-4 mt-2 border-bottom-design">
                 <div class="d-flex mb-1">
-                	<h3 class="mb-0 pretendard mr-2">배송관리</h3>
+                	<h3 class="mb-0 pretendard mr-2">회원 분석</h3>
                 </div>
                 <a href="#">전체보기<i class='fas fa-angle-right'></i></a>
               </div>
-          		<div >
-               <table class="table table-hover mb-0">
-               	<c:if test="${empty shopCnt}">
-	               	<tr>
-	               		<td>배송 대기중인 상품이 없습니다.</td>
-	               	</tr>
-               	</c:if>
+          		<div>
+               <table>
+               	<tr>
+               		<td>
+               			 <div id="piechart_3d" style="width: 900px; height: 300px;"></div>
+               		</td>	
+               	</tr>
                </table>
 	           </div>
-            </div></div>
+            </div>
           </div>
         </div>
+			</div>
 			</div>
 		</nav>
 	</div>

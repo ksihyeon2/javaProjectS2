@@ -11,5 +11,13 @@ create table health(
 	breath   	 text not null,										 /* 호흡법 */
 	caution  	 text not null,									   /* 주의 사항 */
   comment  	 varchar(100),                     /* 코멘트 */
-  photo 		 varchar(100)                      /* 운동 사진 */
+  photo 		 varchar(100),                     /* 운동 사진 */
+  interest   int not null default 0
 );
+
+select * from interest;
+select * from interest where part = 'health';
+
+select partIdx from interest where part = 'health' order by partIdx;
+
+select hName, interest from health where interest != 0 order by interest desc limit 5;

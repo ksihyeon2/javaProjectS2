@@ -40,17 +40,15 @@
   	}
   	
   	// 관심 체크
-  	function heartOK(idx){
-  		let interest = "OK";
+  	function heartCheck(idx){
   		
   		let query = {
   				idx:idx,
-  				interest:interest
   		}
   		$.ajax({
   			url : "${ctp}/health/healthInterest",
   			type : "post",
-  			data : query,
+  			data : {idx:idx},
   			success : function(res){
   				if(res != 0){
   					location.reload();
@@ -120,28 +118,32 @@
  			<td colspan="3">${part}</td>
  		</tr>
  		<c:forEach var="vo" items="${vos}">
- 			<tr style="height:180px">
- 				<td style="width:200px">
- 					<c:if test="${vo.photo == ''}">
- 						<img src="${ctp}/health/준비중.png" width="180px">
- 					</c:if>
- 					<c:if test="${vo.photo != ''}">
- 						<img src="${ctp}/health/${vo.photo}" width="180px" />
- 					</c:if>
- 				</td>
- 				<td >
- 					<h3><a href="healthContent?hName=${vo.HName}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&part=${vo.part}"><b style="color: white;">${vo.HName}</b></a></h3><br />
- 					<span style="font-size:1em;color:white;">${vo.detailPart}</span>
- 				</td>
-				<td style="width:100px;text-align:center;">
-					<c:if test="${empty interestVO}">
-						<a href="javascript:heartOK('${vo.idx}')"><i class='far fa-heart' style='font-size:36px'></i></a>
-					</c:if>
-					<c:if test="${!empty interestVO}">
-	 					<a href="javascript:heartNO('${vo.idx}')"><i class='fas fa-heart' style='font-size:36px'></i></a>
-					</c:if>
-				</td>
- 			</tr>
+	 			<tr style="height:200px">
+	 				<td style="width:200px">
+	 					<c:if test="${vo.photo == ''}">
+	 						<img src="${ctp}/health/준비중.png" width="180px">
+	 					</c:if>
+	 					<c:if test="${vo.photo != ''}">
+	 						<video src="${ctp}/health/${vo.photo}" width="200px"></video>
+	 					</c:if>
+	 				</td>
+	 				<td >
+	 					<h3><a href="healthContent?hName=${vo.HName}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&part=${vo.part}"><b style="color: white;">${vo.HName}</b></a></h3><br />
+	 					<span style="font-size:1em;color:yellow;">${vo.detailPart}</span>
+	 				</td>
+					<td style="width:100px;text-align:center;">
+						<c:set var="cnt" value="0" />
+						<c:forEach var="interestVO" items="${interestVOS}">
+							<c:if test="${interestVO.partIdx == vo.idx}">
+			 					<a href="javascript:heartCheck('${vo.idx}')"><i class='fas fa-heart' style='font-size:36px'></i></a>
+			 					<c:set var="cnt" value="1"/>
+							</c:if>
+						</c:forEach>
+						<c:if test="${cnt != 1}">
+							<a href="javascript:heartCheck('${vo.idx}')"><i class='far fa-heart' style='font-size:36px'></i></a>
+						</c:if>
+					</td>
+	 			</tr>
  		</c:forEach>
  	</table>
 </div>

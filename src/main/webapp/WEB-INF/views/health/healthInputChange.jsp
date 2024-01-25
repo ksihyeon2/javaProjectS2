@@ -174,17 +174,25 @@
   			healthForm.submit();
   		} else {
   			let fileSize = document.getElementById("photo").files[0].size;
-				if(ext != "jpg" && ext != "gif" && ext != "png" && ext != "jepg"){
-	  			alert("업로드 파일은 'jpg/gif/png/jepg'만 가능합니다.");
+				if(ext != "jpg" && ext != "gif" && ext != "png" && ext != "jepg" && ext != "mp4"){
+	  			alert("업로드 파일은 'jpg/gif/png/jepg/mp4'만 가능합니다.");
 		  	} else if(fileSize > maxSize) {
 	  			alert("업로드 가능한 파일의 용량은 10MByte 입니다.");
 		  	} else {
+		  		
 		  		healthForm.submit();
 		  	}	
   		}
+  	}
+  	
+  	function backCheck(){
+  		let ans = confirm("수정을 취소하시겠습니까?");
   		
-  		healthForm.submit();
+  		if(!ans){
+  			return false;
+  		}
   		
+  		location.href = "healthContent?hName=${vo.HName}";
   	}
   </script>
 </head>
@@ -197,10 +205,10 @@
 <div class="container">
 	<div class="row mb-4">
 		<div class="col-3 text-left">
-			<a class="btn btn-secondary mb-4" href="healthList" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
+			<a class="btn btn-secondary mb-4" href="javascript:backCheck()" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
 		</div>
 		<div class="col-6 text-center">
-			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px;">신규 운동 추가</span>
+			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px;">수정하기</span>
 		</div>
 	</div>
 	
@@ -241,7 +249,7 @@
 						</td>
 		      </tr>
 		     	<tr>
-		        <th>사진 추가</th>
+		        <th>사진 변경</th>
 		        <td>
 		        	<c:if test="${vo.photo == ''}">
 								<img src="${ctp}/health/준비중.png" width="250px">
@@ -278,7 +286,7 @@
 		      </tr>
 		      <tr>
 		      	<th>호흡법 <span class="must">*</span></th>
-		      	<td colspan="3"><input type="text" name="breath" id="breath" class="form-control" required /></td>
+		      	<td colspan="3"><input type="text" name="breath" id="breath" value="${vo.breath}" class="form-control" required /></td>
 		      </tr>
 		      <tr>
 		        <th>주의 사항 <span class="must">*</span></th>
@@ -294,7 +302,7 @@
 		      </tr>
 		      <tr>
 		      	<th>코멘트</th>
-		      	<td colspan="3"><input type="text" name="comment" class="form-control" required /></td>
+		      	<td colspan="3"><input type="text" name="comment" value="${vo.comment}" class="form-control" required /></td>
 		      </tr>
 		      <tr>
 		      	<td colspan="4" class="text-center"><input type="button" value="등록하기" class="btn btn-secondary" onclick="healthInput()"></td>

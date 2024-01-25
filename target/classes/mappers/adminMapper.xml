@@ -24,7 +24,9 @@
 	<select id="getComplaintText" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
 		select * from complaint where idx = #{idx};
 	</select>
-	
+	<select id="getHealthInterestList" resultType="com.spring.javaProjectS2.vo.HealthVO">
+		select hName, interest from health where interest != 0 order by interest desc limit 5;
+	</select>
 	
 	<!-- insert -->
 	<insert id="setToday">

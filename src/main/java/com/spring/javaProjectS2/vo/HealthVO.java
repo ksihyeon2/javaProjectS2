@@ -15,4 +15,5 @@ public class HealthVO {
 	private String caution;
 	private String comment;
 	private String photo;
+	private int interest;
 }

@@ -19,7 +19,9 @@ import com.spring.javaProjectS2.service.BoardService;
 import com.spring.javaProjectS2.service.MemberService;
 import com.spring.javaProjectS2.vo.BoardVO;
 import com.spring.javaProjectS2.vo.ComplaintVO;
+import com.spring.javaProjectS2.vo.HealthVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
+import com.spring.javaProjectS2.vo.InterestVO;
 import com.spring.javaProjectS2.vo.MemberVO;
 import com.spring.javaProjectS2.vo.VisitVO;
 
@@ -63,6 +65,10 @@ public class AdminController {
 		// 문의 대기건 수 구하기
 		List<InquiryVO> inquiryVO = adminService.getInquiryStandby();
 		
+		// 차트 분석 구하기(인기 운동 순서)
+		List<HealthVO> healthVOS = adminService.getHealthInterestList();
+		
+		model.addAttribute("healthVOS",healthVOS);
 		model.addAttribute("inquiryStandby",inquiryVO.size());
 		model.addAttribute("vo", vo);
 		return "/admin/adminPage";

@@ -112,17 +112,17 @@ public class HealthController {
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "health", "", "");
 		
 		List<HealthVO> vos = new ArrayList<HealthVO>();
+		String mid = (String)session.getAttribute("sMid");
+		List<InterestVO> interestVOS = healthService.getHealthInterestList(mid);
 		if(part.equals("")) {
-			String mid = (String)session.getAttribute("sMid");
-			List<InterestVO> interestVOS = healthService.getHealthInterestList(mid);
 			for(InterestVO v : interestVOS) {
 				HealthVO vo = healthService.getHealthInterestSearch(v.getPartIdx());
 				vos.add(vo);
 			}
-			model.addAttribute("interestVOS",interestVOS);
 		} else {
 			vos = healthService.getHealthList(part);
 		}
+		model.addAttribute("interestVOS",interestVOS);
 		model.addAttribute("pageVO",pageVO);
 		model.addAttribute("vos",vos);
 		
@@ -169,20 +169,26 @@ public class HealthController {
 	// 관심 운동 설정하기
 	@ResponseBody
 	@RequestMapping(value = "/healthInterest", method = RequestMethod.POST)
-	public String healthInterestPost(int idx, String interest, HttpSession session) {
+	public String healthInterestPost(int idx,  HttpSession session) {
 		String mid = (String)session.getAttribute("sMid");
 		InterestVO vo = healthService.getHealthInterest(mid,idx);
 		int res = 0;
-		if(vo == null && interest.equals("OK")) {
+		if(vo == null) {
 			res = healthService.setHealthInterest(idx,mid);
-		} else if (vo != null || interest.equals("NO")) {
+			if(res != 0) {
+				res = healthService.setHealthInterestPlus(idx);
+			}
+		} else if (vo != null) {
 			res = healthService.setHealthInterestDel(idx,mid);
+			if(res != 0) {
+				res = healthService.setHealthInterestMinus(idx);
+			}
 		}
 		
 		return res + "";
 	}
 	
-	// 운동 수정하기
+	// 운동 수정 폼 띄우기
 	@RequestMapping(value = "/healthInputChange", method = RequestMethod.GET)
 	public String healthInputChangeGet(String hName, int pag, int pageSize, String part, Model model) {
 		HealthVO vo = healthService.getHealthSearch(hName);
@@ -193,4 +199,11 @@ public class HealthController {
 		model.addAttribute("part",part);
 		return "health/healthInputChange";
 	}
+	
+	// 운동 수정하기
+//	@RequestMapping(value = "/healthInputChange", method = RequestMethod.POST)
+//	public String healthInputChangePost(MultipartFile fName, HealthVO vo) {
+//		int res = healthService.setHealthInputChange(fName,vo);
+//		return "";
+//	}
 }

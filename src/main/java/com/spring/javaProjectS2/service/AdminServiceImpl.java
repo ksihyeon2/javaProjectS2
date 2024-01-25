@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import com.spring.javaProjectS2.dao.AdminDAO;
 import com.spring.javaProjectS2.vo.BoardVO;
 import com.spring.javaProjectS2.vo.ComplaintVO;
+import com.spring.javaProjectS2.vo.HealthVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
+import com.spring.javaProjectS2.vo.InterestVO;
 import com.spring.javaProjectS2.vo.VisitVO;
 
 @Service
@@ -70,6 +72,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public ComplaintVO getComplaintText(int idx) {
 		return adminDAO.getComplaintText(idx);
+	}
+
+	@Override
+	public List<HealthVO> getHealthInterestList() {
+		return adminDAO.getHealthInterestList();
 	}
 
 }

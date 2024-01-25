@@ -25,4 +25,10 @@ public interface HealthService {
 
 	public InterestVO getHealthInterest(String mid, int idx);
 
+	public int setHealthInputChange(MultipartFile fName, HealthVO vo);
+
+	public int setHealthInterestPlus(int idx);
+
+	public int setHealthInterestMinus(int idx);
+
 }

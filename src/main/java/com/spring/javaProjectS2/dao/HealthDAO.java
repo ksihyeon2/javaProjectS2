@@ -27,5 +27,9 @@ public interface HealthDAO {
 
 	public InterestVO getHealthInterest(@Param("mid") String mid, @Param("idx") int idx);
 
+	public int setHealthInterestPlus(@Param("idx") int idx);
+
+	public int setHealthInterestMinus(@Param("idx") int idx);
+
 
 }

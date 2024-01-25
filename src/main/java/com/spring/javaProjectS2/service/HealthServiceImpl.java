@@ -101,4 +101,46 @@ public class HealthServiceImpl implements HealthService {
 	public InterestVO getHealthInterest(String mid, int idx) {
 		return healthDAO.getHealthInterest(mid,idx);
 	}
+
+	@Override
+	public int setHealthInputChange(MultipartFile fName, HealthVO vo) {
+		int res = 0;
+		
+		// 파일 이름 중복 처리
+		UUID uid = UUID.randomUUID();
+		String oFileName = fName.getOriginalFilename();
+		String sFileName = vo.getHName() + "_" + uid + "_" + oFileName;
+		
+		// 파일 복사처리(서버 메모리에 올라와 있는 파일의 정보를 실제 서버 파일시스템에 저장시킨다.)
+		if(!oFileName.equals("")) {
+			try {
+				writeFile(fName,sFileName);
+				res = 1;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			res = 1;
+		}
+		
+		if(res != 0) {
+			if(oFileName.equals("")) {
+				vo.setPhoto("");
+			} else {
+				vo.setPhoto(sFileName);
+			}
+			healthDAO.setHealthInput(vo);
+		}
+		return res;
+	}
+
+	@Override
+	public int setHealthInterestPlus(int idx) {
+		return healthDAO.setHealthInterestPlus(idx);
+	}
+
+	@Override
+	public int setHealthInterestMinus(int idx) {
+		return healthDAO.setHealthInterestMinus(idx);
+	}
 }
