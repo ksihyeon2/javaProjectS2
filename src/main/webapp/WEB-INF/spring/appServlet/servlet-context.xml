@@ -23,6 +23,7 @@
 	<resources mapping="/board/**" location="/resources/data/board/" />
 	<resources mapping="/gym/**" location="/resources/data/gym/" />
 	<resources mapping="/health/**" location="/resources/data/health/" />
+	<resources mapping="/product/**" location="/resources/data/product/" />
 	
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->

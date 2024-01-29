@@ -143,4 +143,9 @@ public class HealthServiceImpl implements HealthService {
 	public int setHealthInterestMinus(int idx) {
 		return healthDAO.setHealthInterestMinus(idx);
 	}
+
+	@Override
+	public List<HealthVO> getHealthOrder(int level, String part) {
+		return healthDAO.getHealthOrder(level,part);
+	}
 }

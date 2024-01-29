@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaProjectS2.dao.ProductDAO">
+	<!-- select -->
+	<select id="getTotRecCnt" resultType="int">
+		select count(*) from product;
+	</select>
+	<select id="getHealthproduct" resultType="com.spring.javaProjectS2.vo.ProductVO">
+		select * from product order by idx desc limit #{startIndexNo}, #{pageSize};
+	</select>
+	<select id="getHealthHName" resultType="com.spring.javaProjectS2.vo.HealthVO">
+		select hName from health;
+	</select>
+	<select id="getProductSearch" resultType="com.spring.javaProjectS2.vo.ProductVO">
+		select * from product where productName = #{productName};
+	</select>
+	
+	<!-- insert -->
+	<insert id="setProductInput">
+		insert into product values (default,#{vo.productName},#{vo.productDetail},#{vo.productPrice},#{vo.productPhoto},#{vo.content});
+	</insert>
+</mapper>

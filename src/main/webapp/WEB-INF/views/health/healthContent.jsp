@@ -32,11 +32,14 @@
 			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px; color: white;">${vo.HName}</span><br />
 			<span style="font-size:1em;color:yellow;">${vo.detailPart}</span>
 		</div>
-		<c:if test="${sLevel == 0}">
-			<div class="col-3 text-right">
+		<div class="col-3 text-right">
+			<c:if test="${sLevel == 0}">
 				<a class="btn btn-secondary" href="${ctp}/health/healthInputChange?hName=${vo.HName}&pag=${pag}&pageSize=${pageSize}&part=${part}" style="margin-right:20px;">수정하기</a>
-			</div>
-		</c:if>
+			</c:if>
+			<c:if test="${sLevel < 4 && sLevel != 0}">
+				<a class="btn btn-secondary" href="${ctp}/product/healthproduct?hName=${vo.HName}&pag=${pag}&pageSize=${pageSize}&part=${part}" style="margin-right:20px;">상품보기</a>
+			</c:if>
+		</div>
 	</div>
 	<table class="table table-borderless" style="margin-left:10%;width:1000px">
 		<tr>

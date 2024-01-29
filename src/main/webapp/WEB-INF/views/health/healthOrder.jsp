@@ -88,14 +88,16 @@
   			return false;
   		}
   		
-  		$.ajax({
+  		location.href = "healthorderStep5?part="+part;
+  		
+  		/* $.ajax({
   			url : "${ctp}/health/healthorderStep5",
   			type : "post",
   			data : {part:part},
   			arror : function(){
   				alert("전송 오류");
   			}
-  		});
+  		}); */
   	}
   </script> 
 </head>

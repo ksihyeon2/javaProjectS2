@@ -31,4 +31,6 @@ public interface HealthService {
 
 	public int setHealthInterestMinus(int idx);
 
+	public List<HealthVO> getHealthOrder(int level, String part);
+
 }

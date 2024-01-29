@@ -71,18 +71,13 @@ public class HealthController {
 	@ResponseBody
 	@RequestMapping(value = "/healthorderStep3", method = RequestMethod.POST)
 	public void healthorderStep3Post(HttpSession session, int healthLevel) {
-		String level = "";
-		
-		if(healthLevel == 0) {
-			level = "입문";
-		} else if (healthLevel == 1) {
-			level = "초급";
-		} else if(healthLevel == 2) {
-			level = "중급";
+		int level = 0;
+		if(healthLevel == 0 || healthLevel == 1) {
+			level = 1;
+		} else if(healthLevel == 2 || healthLevel == 3) {
+			level = 2;
 		} else if(healthLevel == 3) {
-			level = "고급";
-		} else if (healthLevel == 4) {
-			level = "전문가";
+			level = 3;
 		}
 		session.setAttribute("sStep", 60);
 		session.setAttribute("healthLevel", level);
@@ -97,10 +92,28 @@ public class HealthController {
 	}
 	
 	// 맟줌 춘동 step 5
-	@ResponseBody
-	@RequestMapping(value = "/healthorderStep5", method = RequestMethod.POST)
-	public void healthorderStep5Post(HttpSession session, String part) {
+	@RequestMapping(value = "/healthorderStep5", method = RequestMethod.GET)
+	public String healthorderStep5Get(HttpSession session, String part, Model model) {
+		String gender = (String)session.getAttribute("strGender");
+		int level = (int)session.getAttribute("healthLevel");
+		int weight = (int)session.getAttribute("weight")/2;
 		
+		String[] parts = part.split("/");
+		int partLength = 0;
+		List<HealthVO> vos = new ArrayList<HealthVO>();
+		for(int i=0; i<parts.length; i++) {
+			for(int j=0; j<1; j++) {
+				List<HealthVO> healthVOS = healthService.getHealthOrder(level,parts[i]);
+				for(HealthVO vo : healthVOS) {
+					vos.add(vo);
+				}
+			}
+		}
+		
+		model.addAttribute("vos", vos);
+		model.addAttribute("gender", gender);
+		model.addAttribute("weight", weight);
+		return "health/healthOrderList";
 	}
 	
 	// 운동 목록 폼 띄우기
@@ -200,10 +213,4 @@ public class HealthController {
 		return "health/healthInputChange";
 	}
 	
-	// 운동 수정하기
-//	@RequestMapping(value = "/healthInputChange", method = RequestMethod.POST)
-//	public String healthInputChangePost(MultipartFile fName, HealthVO vo) {
-//		int res = healthService.setHealthInputChange(fName,vo);
-//		return "";
-//	}
 }

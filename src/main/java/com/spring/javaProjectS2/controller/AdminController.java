@@ -67,7 +67,18 @@ public class AdminController {
 		
 		// 차트 분석 구하기(인기 운동 순서)
 		List<HealthVO> healthVOS = adminService.getHealthInterestList();
+		String[] hName = new String[healthVOS.size()];
+		int[] interest = new int[healthVOS.size()];
 		
+		cnt = 0;
+		for(HealthVO healthVO : healthVOS) {
+			hName[cnt] = healthVO.getHName();
+			interest[cnt] = healthVO.getInterest();
+			cnt++;
+		}
+		
+		model.addAttribute("hName",hName);
+		model.addAttribute("interest",interest);
 		model.addAttribute("healthVOS",healthVOS);
 		model.addAttribute("inquiryStandby",inquiryVO.size());
 		model.addAttribute("vo", vo);

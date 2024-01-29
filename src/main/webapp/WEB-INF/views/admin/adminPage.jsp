@@ -12,23 +12,27 @@
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
   <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-        	<c:forEach var="healthVO" items="${healthVOS}">
-        		[${healthVO.HName}, ${healthVO.interest}],
-        	</c:forEach>
-        ]);
-
-        var options = {
-          is3D: true,
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-        chart.draw(data, options);
-      }
-    </script>
+	  google.charts.load("current", {packages:["corechart"]});
+	  google.charts.setOnLoadCallback(drawChart);
+	  function drawChart() {
+	    var data = google.visualization.arrayToDataTable([
+	    	['Task', 'Hours per Day'],
+	    	['${hName[0]}', ${interest[0]}],
+	  		['${hName[1]}', ${interest[1]}],
+	  		['${hName[2]}', ${interest[2]}],
+	  		['${hName[3]}', ${interest[3]}],
+	  		['${hName[4]}', ${interest[4]}]
+	    ]);
+	
+	    var options = {
+	      title: '회원 인기 운동',
+	      is3D: true,
+	    };
+	
+	    var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+	    chart.draw(data, options);
+	  }
+	</script>
   <style>
   	a {
   		color:black;
@@ -74,8 +78,7 @@
 	          <a href="#" class="nav-link dropdown-toggle m-2" data-toggle="dropdown" id="nav-product"><b>관리</b></a>
 	          <div class="dropdown-menu bg-transparent border-0 show">
 	          	<a href="inquiryList" class="dropdown-item">수정 요청 관리</a>
-	            <a href="${ctp}/gym/gymList" class="dropdown-item">지점 관리</a>
-	            <a href="#" class="dropdown-item">예약 관리</a>
+	            <a href="${ctp}/product/productList" class="dropdown-item">상품 관리</a>
 	          </div>
           </div>
           <div class="nav-item dropdown">

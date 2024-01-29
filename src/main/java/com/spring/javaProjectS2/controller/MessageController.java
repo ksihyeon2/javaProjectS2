@@ -117,6 +117,12 @@ public class MessageController {
 		} else if(msgFlag.equals("healthSearch")) {
 			model.addAttribute("msg", "이미 등록되어 있는 운동입니다.");
 			model.addAttribute("url", "/health/healthList"); 
+		} else if(msgFlag.equals("productInputOK")) {
+			model.addAttribute("msg", "신규 상품이 등록되었습니다.");
+			model.addAttribute("url", "/product/productList"); 
+		} else if(msgFlag.equals("productInputNO")) {
+			model.addAttribute("msg", "이미 등록되어 있는 상품입니다.");
+			model.addAttribute("url", "/product/productList"); 
 		}
 		return "include/message";
 	}

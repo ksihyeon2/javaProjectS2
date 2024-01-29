@@ -8,6 +8,7 @@ import com.spring.javaProjectS2.dao.BoardDAO;
 import com.spring.javaProjectS2.dao.GymDAO;
 import com.spring.javaProjectS2.dao.HealthDAO;
 import com.spring.javaProjectS2.dao.MemberDAO;
+import com.spring.javaProjectS2.dao.ProductDAO;
 
 @Service
 public class PageProcess {
@@ -26,6 +27,9 @@ public class PageProcess {
 		
 		@Autowired
 		HealthDAO healthDAO;
+		
+		@Autowired
+		ProductDAO productDAO;
 		
 //		board인지 guest인지 pds인지 등을 구분하기 위해 String section으로 받아와 DAO처리
 //		board 안에서의 구분 (이름인지 제목인지 등)을 위해 part로 받아옴
@@ -59,6 +63,10 @@ public class PageProcess {
 			} else if(search.equals("health")) {
 				if(part.equals("")) {
 					totRecCnt = healthDAO.getTotRecCnt();
+				}
+			} else if(search.equals("product")) {
+				if(part.equals("")) {
+					totRecCnt = productDAO.getTotRecCnt();
 				}
 			}
 			

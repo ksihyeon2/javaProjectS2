@@ -31,5 +31,7 @@ public interface HealthDAO {
 
 	public int setHealthInterestMinus(@Param("idx") int idx);
 
+	public List<HealthVO> getHealthOrder(@Param("level") int level, @Param("part") String part);
+
 
 }

@@ -159,9 +159,7 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value = "/boardComplaint", method = RequestMethod.POST)
 	public String boardComplaintPost(int idx, ComplaintVO vo) {
-		System.out.println("vo : " + vo + " dix : " + idx);
 		ComplaintVO complaintVO = boardService.getBoardComplanit(vo.getComplaintMid(), idx);
-		System.out.println("complaintVO : " + complaintVO);
 		int res = 0;
 		if (complaintVO == null) {
 			vo.setComplaintidx(idx);
@@ -182,8 +180,6 @@ public class BoardController {
 			@RequestParam(name = "idx", defaultValue = "0", required = false) int idx,
 			@RequestParam(name = "delidx", defaultValue = "", required = false) String delidx) {
 		MemberVO vo = memberService.getMemberIdCheck(mid);
-		System.out.println("pwd : " + pwd + " mid : " + mid);
-		System.out.println("idx : " + idx + " delidx : " + delidx);
 		int res = 0;
 		if (passwordEncoder.matches(pwd, vo.getPwd())) {
 			if (idx != 0) {
@@ -245,7 +241,6 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value = "/boardReplyInputRe", method = RequestMethod.POST)
 	public String boardReplyInputRePost(ReplyVO replyVO) {
-		System.out.println();
 		// 답글의 re_step을 부모의 re_step에 +1처리
 		replyVO.setRe_step(replyVO.getRe_step() + 1);
 

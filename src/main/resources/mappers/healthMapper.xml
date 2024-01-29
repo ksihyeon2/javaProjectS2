@@ -20,7 +20,9 @@
 	<select id="getHealthInterest" resultType="com.spring.javaProjectS2.vo.InterestVO">
 		select * from interest where mid = #{mid} and part = 'health' and partIdx = #{idx}
 	</select>
-	
+	<select id="getHealthOrder" resultType="com.spring.javaProjectS2.vo.HealthVO">
+		select * from health where level = #{level} and part = #{part} order by rand() limit 2;
+	</select>
 	
 	<!-- insert -->
 	<insert id="setHealthInput">
