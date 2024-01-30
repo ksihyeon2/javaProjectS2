@@ -9,7 +9,7 @@ create table inquiry(
 	asktime			 datetime default now(),										/* 질문 시간 */
 	answertime	 datetime,										              /* 답변 시간 */
 	inquirystate char(3) default '미완료',										/* 문의 상태(답변완료,미완료) */
-	part				 varchar(10) not null													  /* 문의 타입(상품,배송,교환,반품) */
+	part				 varchar(10) not null											  /* 문의 타입(상품,배송,교환,반품) */
 ); 
 
 insert into inquiry (idx,askMid,ask) values(default,'길동이','zz');

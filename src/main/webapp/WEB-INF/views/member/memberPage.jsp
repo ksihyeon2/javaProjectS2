@@ -11,10 +11,57 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+      google.charts.load('current', {'packages':['line']});
+      google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Day');
+      data.addColumn('number', 'Guardians of the Galaxy');
+      data.addColumn('number', 'The Avengers');
+      data.addColumn('number', 'Transformers: Age of Extinction');
+
+      data.addRows([
+        [12,  6.6,  8.4,  5.2],
+        [13,  4.8,  6.3,  3.6],
+        [14,  4.2,  6.2,  3.4]
+      ]);
+
+      var options = {
+        chart: {
+          title: '나의 운동 분석표'
+        },
+        width: 900,
+        height: 300,
+        axes: {
+          x: {
+            0: {side: 'top'}
+          }
+        }
+      };
+
+      var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+      chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+  </script>
   <style>
   	a {
   		color:black;
   		text-decoration-line:none;
+  	}
+  	
+  	body {
+  		background-color: rgb(76,76,76);
+  	}
+  	
+  	.sidebar > nav {
+  		background-color: rgb(189,189,189);
+  		border-radius:30px;
+  		padding: 20px;
   	}
   	
   </style>
@@ -59,21 +106,31 @@
 <p><br /></p>
 <p><br /></p>
 <p><br /></p>
+<p><br /></p>
 <div class="container">
-	<div class="sidebar p-3" style="margin-left:20px">
+	<div class="sidebar p-3" style="margin-left:20px; ">
+	<h2 ><b><a href="memberPage" style="color:white;margin-left:20px;margin-bottom:10px ">마이페이지</a></b></h2>
     <nav class="navbar">
       <div class="navbar-nav">
-        <h2><b><a href="memberPage">마이페이지</a></b></h2>
           <div class="nav-item dropdown">
 	          <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">활동</a>
-	          <div class="dropdown-menu bg-transparent border-0">
-	            <a href="memberInquiryList" class="dropdown-item">1:1 문의</a>
-	            <a href="${ctp}/board/boardMyList" class="dropdown-item">나의 활동</a>
+	          <div class="dropdown-menu bg-transparent border-0 show">
+	            <a href="memberInquiryList" class="dropdown-item">즐겨찾기</a>
+	            <a href="memberInquiryList" class="dropdown-item">수정 요청</a>
+	            <a href="memberInquiryList" class="dropdown-item">나의 신고물</a>
+	          </div>
+          </div>
+          <div class="nav-item dropdown">
+	          <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">커뮤니티</a>
+	          <div class="dropdown-menu bg-transparent border-0 show">
+	            <a href="${ctp}/board/boardMyList" class="dropdown-item">공지사항</a>
+	            <a href="${ctp}/board/boardMyList" class="dropdown-item">나의 활동 목록</a>
+	            <a href="memberInquiryList" class="dropdown-item">즐겨찾기</a>
 	          </div>
           </div>
           <div class="nav-item d-block">
             <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">정보</a>
-            <div class="dropdown-menu border-0">
+            <div class="dropdown-menu bg-transparent border-0 show">
               <a href="#" data-toggle="modal" data-target="#myModal" class="dropdown-item">정보 수정</a>
               <a href="memberPwdChange" class="dropdown-item">비밀번호 수정</a>
               <a href="#" data-toggle="modal" data-target="#delModal" class="dropdown-item">회원 탈퇴</a>
@@ -81,43 +138,42 @@
         </div>
       </div>
     	<div>
-      <div >
+      <div style="background-color: white;">
         <div class="row g-4 rounded m-0" style="width:1000px;border-color:black;border:2px solid;">
           <div class="col-sm-4 col-xl-4 d-flex">
           	<div class="d-flex align-items-center justify-content-between p-3">
               <div class="d-flex flex-column gmarketSans">
                 <span class="text-black" style="font-size:1.5em">${sNickName}님 반갑습니다.</span>
-                <span class="text-muted" style="font-size:12pt">[${strLevel}]</span>
               </div>
         		</div>
           </div>
           <div class="col-sm-2 col-xl-3">
             <div class="d-flex flex-column align-items-center justify-content-between p-3">
               <div class="ms-3 mt-3">
-              <p	 class="mb-2 text-black" style="font-size:13pt">보유 포인트</p>
+              <p	 class="mb-2 text-black" style="font-size:13pt">등급</p>
               </div>
               <div class="ms-3 mt-2">
-                <h3 class="mb-2 text-black">${vo.point} P</h3>
+                <h4 class="mb-2 text-black">[${strLevel}]</h4>
               </div>
             </div>
           </div>
           <div class="col-sm-2 col-xl-2">
 	          <div class="d-flex flex-column align-items-center justify-content-between p-3">
               <div class="ms-3 mt-3">
-                <p class="mb-2 text-black"  style="font-size:13pt">주문배송</p>
+                <p class="mb-2 text-black"  style="font-size:13pt">운동 기록</p>
               </div>
               <div class="ms-3 mt-2">
-                <h3 class="mb-2 text-black">건</h3>
+                <span class="mb-2 text-black"><a href="healthWrite" class="btn btn-secondary">추가하기</a></span>
               </div>
 	          </div>
           </div>
           <div class="col-sm-2 col-xl-2">
 	          <div class="d-flex flex-column align-items-center justify-content-between p-3">
               <div class="ms-3 mt-3">
-                <p class="mb-2 text-black"  style="font-size:13pt">게시물</p>
+                <p class="mb-2 text-black" style="font-size:13pt">기록 확인</p>
               </div>
               <div class="ms-3 mt-2">
-                <h3 class="mb-2 text-black"><a href="${ctp}/board/boardMyList" class="dropdown-item">${boardCnt}건</a></h3>
+                <h3 class="mb-2 text-black"><a href="healthWriteList" class="btn btn-secondary">보러하기</a></h3>
               </div>
 	          </div>
           </div>
@@ -129,15 +185,17 @@
             <div class="text-center rounded p-4">
               <div class="d-flex align-items-center justify-content-between mb-4 mt-2 border-bottom-design">
                 <div class="d-flex mb-1">
-                	<h3 class="mb-0 pretendard mr-2">주문내역</h3>
+                	<h3 class="mb-0 pretendard mr-2">기록 분석</h3>
                 </div>
                 <a href="#">전체보기<i class='fas fa-angle-right'></i></a>
               </div>
           		<div >
-               <table class="table table-hover mb-0">
+               <table class="table table-borderless mb-0" style="height: 300px">
                	<c:if test="${empty shopCnt}">
 	               	<tr>
-	               		<td>구매 상품이 없습니다.</td>
+	               		<td>
+											<div id="line_top_x" style="width: 900px; height: 300px;"></div>
+										</td>
 	               	</tr>
                	</c:if>
                </table>

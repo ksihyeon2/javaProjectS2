@@ -3,7 +3,6 @@ package com.spring.javaProjectS2.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class GymController {
 	public String gymListGet(Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
-		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "gym", "", "");
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "gym", "", "", "");
 		
 		List<GymVO> vos = gymService.getGymList(pageVO.getStartIndexNo(),pageSize);
 		

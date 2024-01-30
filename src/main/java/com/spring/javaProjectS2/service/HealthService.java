@@ -33,4 +33,6 @@ public interface HealthService {
 
 	public List<HealthVO> getHealthOrder(int level, String part);
 
+	public List<HealthVO> getHealthSearchList(String searchString);
+
 }

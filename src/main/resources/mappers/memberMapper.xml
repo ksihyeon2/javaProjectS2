@@ -32,6 +32,13 @@
 	<select id="getMemberinquiryContent" resultType="com.spring.javaProjectS2.vo.InquiryVO">
 		select *, datediff(asktime,now()) as date_diff, timestampdiff(hour,asktime,now()) as hour_diff from inquiry where idx = #{idx};
 	</select>
+	<select id="getHealthModify" resultType="com.spring.javaProjectS2.vo.ModifyVO">
+		select * from modify where hName = #{hName} and requestMid = #{requestMid} and modifyPart = #{modifyPart};
+	</select>
+	<select id="getHealthWriteList" resultType="com.spring.javaProjectS2.vo.HealthWriteVO">
+		select *, datediff(today,now()) as date_diff from healthWrite where mid = #{mid};
+	</select>
+	
 	
 	<!-- insert -->
 	<insert id="setMemberInput">
@@ -42,6 +49,12 @@
 	</insert>
 	<insert id="setMemberinquiryInput">
 		insert into inquiry (askMid,ask,part) values (#{vo.askMid},#{vo.ask},#{vo.part});
+	</insert>
+	<insert id="setHealthModify">
+		insert into modify values(default,#{vo.hName},#{vo.requestMid},#{vo.modifyPart},#{vo.modifyText},default,default);
+	</insert>
+	<insert id="setHealthWrite">
+		insert into healthWrite values(default,#{vo.mid},#{vo.part},#{vo.healthDate},#{vo.healthTime},#{vo.weight},#{vo.healthDetailText},default);
 	</insert>
 	
 	<!-- update -->

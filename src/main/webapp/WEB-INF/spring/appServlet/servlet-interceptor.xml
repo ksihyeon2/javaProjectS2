@@ -18,12 +18,13 @@
 		<interceptor>
 			<mapping path="/board/**"/>
 			<mapping path="/member/**"/>
-			<mapping path="/gym/**"/>
+			<mapping path="/health/healthList"/>
 			<exclude-mapping path="/message/**"/>
 			<exclude-mapping path="/member/memberFind"/>
 			<exclude-mapping path="/member/memberJoin"/>
 			<exclude-mapping path="/member/memberLogin"/>
-			<exclude-mapping path="/gym/gymorder"/>
+			<exclude-mapping path="/health/healthOrder"/>
+			<exclude-mapping path="/health/healthOrderList"/>
 			<beans:ref bean="level3Interceptor"/>
 		</interceptor>
 		

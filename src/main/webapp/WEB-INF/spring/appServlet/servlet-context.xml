@@ -21,7 +21,6 @@
 	<resources mapping="/ckeditor/**" location="/resources/ckeditor/" />
 	<resources mapping="/member/**" location="/resources/data/member/" />
 	<resources mapping="/board/**" location="/resources/data/board/" />
-	<resources mapping="/gym/**" location="/resources/data/gym/" />
 	<resources mapping="/health/**" location="/resources/data/health/" />
 	<resources mapping="/product/**" location="/resources/data/product/" />
 	

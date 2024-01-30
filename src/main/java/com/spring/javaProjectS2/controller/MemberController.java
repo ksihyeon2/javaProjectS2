@@ -32,8 +32,10 @@ import com.spring.javaProjectS2.service.AdminService;
 import com.spring.javaProjectS2.service.BoardService;
 import com.spring.javaProjectS2.service.MemberService;
 import com.spring.javaProjectS2.vo.BoardVO;
+import com.spring.javaProjectS2.vo.HealthWriteVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
+import com.spring.javaProjectS2.vo.ModifyVO;
 import com.spring.javaProjectS2.vo.VisitVO;
 
 @Controller
@@ -204,6 +206,7 @@ public class MemberController {
 	@RequestMapping(value = "/memberIdCheck", method = RequestMethod.POST)
 	public String memberIdCheckPost(String mid) {
 		MemberVO vo = memberService.getMemberIdCheck(mid);
+		System.out.println("vo : " + vo);
 		int res;
 		if(vo != null) {
 			res = 1;  // 아이디 중복
@@ -430,7 +433,7 @@ public class MemberController {
 	public String memberInquiryListGet(HttpSession session, Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
-		PageVO pageVO = pageProcess.totRecCnt(pag,pageSize,"inquiry","","");
+		PageVO pageVO = pageProcess.totRecCnt(pag,pageSize,"inquiry","","","");
 		String mid = (String)session.getAttribute("sMid");
 		
 		List<InquiryVO> vos = memberService.getMemberInquiryList(pageVO.getStartIndexNo(),pageSize,mid);
@@ -489,4 +492,64 @@ public class MemberController {
 		
 	}
 	
+	// 운동 수정 요청하기
+	@ResponseBody
+	@RequestMapping(value = "/healthModify", method = RequestMethod.POST)
+	public String healthModifyPost(HttpSession session, ModifyVO vo) {
+		int res = 0;
+		vo.setRequestMid((String)session.getAttribute("sMid"));
+		
+		ModifyVO modifyVO = memberService.getHealthModify(vo.getHName(),vo.getRequestMid(),vo.getModifyPart());
+		
+		if(modifyVO == null) {
+			res = memberService.setHealthModify(vo);
+		} else {
+			res = -1;
+		}
+		
+		return res + "";
+	}
+	
+	// 운동 기록 폼 띄우기
+	@RequestMapping(value = "/healthWrite", method = RequestMethod.GET)
+	public String healthWriteGet() {
+		return "member/healthWrite";
+	}
+	
+	// 운동 기록하기
+	@RequestMapping(value = "/healthWrite", method = RequestMethod.POST)
+	public String healthWritePost(HttpSession session ,HealthWriteVO vo, int HH, int MM) {
+		String mid = (String)session.getAttribute("sMid");
+		int today = 0;
+		int healthTime = (HH *60) + MM;
+		vo.setHealthTime(healthTime);
+		vo.setMid(mid);
+		
+		List<HealthWriteVO> todayVOS = memberService.getHealthWriteList(mid);
+		for(HealthWriteVO v : todayVOS) {
+			if(v.getDate_diff() == 0) {
+				today = 1;
+			}
+		}
+		
+		if(today != 1) {
+			int res = memberService.setHealthWrite(vo);
+			if(res != 0) {
+				return "redirect://message/HealthWriteOK";
+			} else {
+				return "redirect://message/HealthWriteInputNO";
+			}
+		} else {
+			return "redirect://message/HealthWriteNO";
+		}
+	}
+	
+	// 운동 기록 리스트 폼 띄우기
+	@RequestMapping(value = "/healthWriteList", method = RequestMethod.GET)
+	public String healthWriteListGet(HttpSession session ,Model model) {
+		String mid = (String)session.getAttribute("sMid");
+		List<HealthWriteVO> vos = memberService.getHealthWriteList(mid);
+		model.addAttribute("vos",vos);
+		return "member/healthWriteList";
+	}
 }

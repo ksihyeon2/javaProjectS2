@@ -2,8 +2,10 @@ package com.spring.javaProjectS2.service;
 
 import java.util.List;
 
+import com.spring.javaProjectS2.vo.HealthWriteVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
+import com.spring.javaProjectS2.vo.ModifyVO;
 
 public interface MemberService {
 
@@ -44,5 +46,13 @@ public interface MemberService {
 	public InquiryVO getMemberinquiryContent(int idx);
 
 	public int setmemberinquiryDel(int idx);
+
+	public ModifyVO getHealthModify(String hName, String requestMid, String modifyPart);
+
+	public int setHealthModify(ModifyVO vo);
+
+	public List<HealthWriteVO> getHealthWriteList(String mid);
+
+	public int setHealthWrite(HealthWriteVO vo);
 
 }

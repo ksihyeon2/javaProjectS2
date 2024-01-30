@@ -49,29 +49,32 @@ public class BoardController {
 		List<BoardVO> vos = boardService.getBoardList(0, 6,"");
 		model.addAttribute("vos", vos);
 
-		if (user.trim().equals("")) {
+		if (user.trim().equals("") || user.equals("admin")) {
+			model.addAttribute("user",user);
 			return "board/boardList";
 		} else {
 			return "board/boardMyList";
 		}
+		
 	}
 	
   // 게시물 전체 리스트 창 띄우기 (검색기)
-  @RequestMapping(value = "/boardAllList", method = RequestMethod.GET) public
+  @RequestMapping(value = "/boardAllList", method = RequestMethod.GET)
   String boardAllListGet(Model model, HttpSession session,
 	  @RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 	  @RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
 	  @RequestParam(name="part", defaultValue = "", required = false) String part,
 	  @RequestParam(name="search", defaultValue = "", required = false) String search,
-	  @RequestParam(name="searchString", defaultValue = "", required = false) String searchString) { 
+	  @RequestParam(name="searchString", defaultValue = "", required = false) String searchString,
+	  @RequestParam(name="user", defaultValue = "", required = false) String user) { 
   	PageVO pageVO = new PageVO();
   	List<BoardVO> vos = new ArrayList<BoardVO>();
   	if(search.equals("") && searchString.equals("")) {
-  		pageVO = pageProcess.totRecCnt(pag,pageSize,"board","","");
+  		pageVO = pageProcess.totRecCnt(pag,pageSize,"board","","","");
   		vos =  boardService.getBoardList(pageVO.getStartIndexNo(),pageSize,part);
   		model.addAttribute("part",part);
   	} else {
-  		pageVO = pageProcess.totRecCnt(pag, pageSize, "board", search, searchString);
+  		pageVO = pageProcess.totRecCnt(pag, pageSize, "board", search, searchString,"");
   		vos = boardService.getBoardSearchList(pageVO.getStartIndexNo(), pageSize, search, searchString);
   		model.addAttribute("search",search);
   		model.addAttribute("searchString",searchString);
@@ -79,6 +82,7 @@ public class BoardController {
   	
 	  model.addAttribute("pageVO", pageVO);
 	  model.addAttribute("vos",vos);
+	  model.addAttribute("user",user);
 	  
   	return "board/boardAllList";
   }
@@ -90,7 +94,8 @@ public class BoardController {
 			@RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize,
 			@RequestParam(name = "mid", defaultValue = "", required = false) String mid,
 			@RequestParam(name = "del", defaultValue = "", required = false) String del,
-			@RequestParam(name = "admin", defaultValue = "", required = false) String admin) {
+			@RequestParam(name = "admin", defaultValue = "", required = false) String admin,
+			@RequestParam(name = "user", defaultValue = "", required = false) String user) {
 
 		String ContentIdx = (String) session.getAttribute("sContent" + idx);
 		if (ContentIdx == null) {
@@ -121,6 +126,7 @@ public class BoardController {
 		model.addAttribute("mid", mid);
 		model.addAttribute("del", del);
 		model.addAttribute("admin", admin);
+		model.addAttribute("user", user);
 
 		return "board/boardContent";
 	}

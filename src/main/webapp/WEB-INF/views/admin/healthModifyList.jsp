@@ -6,7 +6,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>inquiryList.jsp</title>
+  <title>healthModifyList.jsp</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
@@ -16,6 +16,7 @@
     	color:black;
     	text-decoration-line:none;
     }
+    
   </style>
 </head>
 <body>
@@ -30,7 +31,7 @@
 			<a class="btn btn-secondary mb-4" href="adminPage" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
 		</div>
 		<div class="col-6 text-center">
-			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">문의 내역</span>
+			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">수정 요청 내역</span>
 		</div>
 	</div>
 	
@@ -51,8 +52,8 @@
 		        <select name="search" id="search" class="form-control">
 		          <option selected value="">전체</option>
 		          <option value="title">아이디</option>
-		          <option value="member">닉네임</option>
-		          <option value="content">성명</option>
+		          <option value="member">운동명</option>
+		          <option value="content">날짜</option>
 		        </select>
 		    	</div>
 		      <input type="text" name="searchString" id="searchString" value="${searchString}" class="form-control mr-sm-2" placeholder="검색어를 입력해주세요"/>
@@ -67,48 +68,50 @@
   <table class="table table-hover text-center">
   	<tr style="background-color:rgb(213,213,213);height:40px;">
   		<th>No.</th>
-  		<th>문의</th>
-  		<th>내용</th>
-  		<th>문의날짜</th>
+  		<th>운동명</th>
+  		<th>수정요청</th>
+  		<th>수정내용</th>
+  		<th>요청 아이디</th>
   		<th>
 				<div class="dropdown-toggle" data-toggle="dropdown">상태
   				<div class="dropdown-menu">
 			      <a class="dropdown-item" href="#">전체</a>
 			      <a class="dropdown-item" href="#">미완료</a>
-			      <a class="dropdown-item" href="#">완료</a>
+			      <a class="dropdown-item" href="#">수정완료</a>
 			    </div>
   			</div>
 			</th>
+			<th>요청 날짜</th>
   	</tr>
   	<c:set var="curScrStartNo" value="${pageVO.curScrStartNo}" />
   	<c:if test="${empty vos}">
   		<tr>
-  			<td colspan="5">수정 요청 내역이 없습니다.</td>
+  			<td colspan="7">수정 요청 내역이 없습니다.</td>
   		</tr>
   	</c:if>
   	<c:forEach var="vo" items="${vos}" varStatus="st">
 	  		<tr>
 	  			<td>${curScrStartNo}</td>
-	  			<td>${vo.part}</td>
-	  			<td>${vo.ask}</td>
+	  			<td>${vo.HName}</td>
+	  			<td>${vo.modifyPart}</td>
+	  			<td><a href="#">내용보기</a></td>
+	  			<td>${vo.requestMid}</td>
 	  			<td>
-	  				<c:if test="${vo.date_diff < 0}">
-			  			${fn:substring(vo.asktime,0,10)}
+	  				<c:if test="${vo.modifyState == '미완료'}"><a href="#">
+	  					${vo.modifyState}<i class='fas fa-caret-right' title="답변하러가기"></i></a>
 	  				</c:if>
-	  				<c:if test="${vo.date_diff == 0 && vo.hour_diff < 24}">
-	  					${fn:substring(vo.asktime,11,16)} <span class="badge badge-danger" style="font-size:0.5em">N</span>
-	  				</c:if>
+	  				<c:if test="${vo.modifyState != '미완료'}">${vo.modifyState}</c:if>
 	  			</td>
 	  			<td>
-	  				<c:if test="${vo.inquirystate != '답변완료'}"><a href="admininquiryContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">
-	  					${vo.inquirystate}<i class='fas fa-caret-right' title="답변하러가기"></i></a>
+	  				<c:if test="${vo.date_diff < 0}">
+			  			${fn:substring(vo.modifyDate,0,10)}
 	  				</c:if>
-	  				<c:if test="${vo.inquirystate == '답변완료'}"><a href="${ctp}/member/memberinquiryContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&admin=admin">
-	  					${vo.inquirystate}</a>
+	  				<c:if test="${vo.date_diff == 0 && vo.hour_diff < 24}">
+	  					${fn:substring(vo.modifyDate,11,16)} <span class="badge badge-danger" style="font-size:0.5em">N</span>
 	  				</c:if>
 	  			</td>
 	  		</tr> 
-  		<c:set var="curScrStartNo" value="${curScrStartNo -1}"/>
+  		<c:set var="curScrStartNo" value="${curScrStartNo-1}"/>
   	</c:forEach>
   </table>
 </div>

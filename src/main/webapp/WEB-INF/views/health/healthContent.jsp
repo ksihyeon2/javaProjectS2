@@ -16,6 +16,57 @@
   		background-color: rgb(76,76,76);
   	}
   </style>
+  <script>
+  	'use strict';
+  	
+  	function modifyCheck(){
+  		let modifyPart = $("#modifyPart").val();
+  		let modifyText = $("#modifyText").val();
+  		
+  		if(modifyPart == ""){
+  			alert("수정을 원하시는 정보를 선택해 주세요.");
+  			$("#modifyPart").focus();
+  			return false;
+  		}
+  		
+  		if(modifyText.trim() == ""){
+  			alert("수정을 원하시는 정보를 간단하게 입력해 주세요.");
+  			$("#modifyText").focus();
+  			return false;
+  		}
+  		
+  		let ans = confirm("정보 수정 요청을 하시겠습니까?");
+  		if(!ans){
+  			return false;
+  		}
+  		
+  		let query = {
+  				modifyPart:modifyPart,
+  				modifyText:modifyText,
+  				hName:'${vo.HName}'
+  		}
+  		
+  		$.ajax({
+  			url : "${ctp}/member/healthModify",
+  			type : "post",
+  			data : query,
+  			success : function(res){
+  				if(res == 1){
+  					alert("정보 수정 요청을 하였습니다. \n수정 확인 대기중입니다.");
+  					location.reload();
+  				} else if(res == -1) {
+  					alert("이미 수정 요청을 하셨습니다.");
+  					location.reload();
+  				}	else {
+  					alert("정보 수정 요청에 실패하였습니다.");
+  				}
+  			},
+  			error : function(){
+  				alert("전송 오류");
+  			}
+  		});
+  	}
+  </script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
@@ -37,7 +88,7 @@
 				<a class="btn btn-secondary" href="${ctp}/health/healthInputChange?hName=${vo.HName}&pag=${pag}&pageSize=${pageSize}&part=${part}" style="margin-right:20px;">수정하기</a>
 			</c:if>
 			<c:if test="${sLevel < 4 && sLevel != 0}">
-				<a class="btn btn-secondary" href="${ctp}/product/healthproduct?hName=${vo.HName}&pag=${pag}&pageSize=${pageSize}&part=${part}" style="margin-right:20px;">상품보기</a>
+				<a href="#" data-toggle="modal" data-target="#delModal" class="btn btn-secondary">정보수정제안</a>
 			</c:if>
 		</div>
 	</div>
@@ -102,6 +153,36 @@
 	</table>
 </div>
 <p><br /></p>
+
+<!-- The Modal -->
+<div class="modal fade" id="delModal">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	    <!-- Modal Header -->
+	        <div class="modal-header">
+	        	<h4 class="modal-title">알고 계신 정보와 다른 정보가 있나요?<br />간단하게 제보해 주세요.</h4>
+	          	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	        </div>
+	        <!-- Modal body -->    
+	        <div class="modal-body">
+	         	<select class="form-control mb-3" style="width:150px;" name="modifyPart" id="modifyPart">
+			        <option value="">선택</option>
+			        <option>시작 자세</option>
+			        <option>운동 동작</option>
+			        <option>호흡법</option>
+			        <option>주의사항</option>
+			        <option>기타</option>
+			      </select>
+			      <input type="text" class="form-control" placeholder="수정을 원하시는 정보를 간단하게 입력해 주세요." name="modifyText" id="modifyText" />
+	        </div>
+	        <!-- Modal footer -->
+	        <div class="modal-footer">
+	          	<button type="button" class="btn btn-primary" onclick="modifyCheck()">요청</button>
+	          	<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+	        </div>
+	    </div>
+	</div>
+</div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

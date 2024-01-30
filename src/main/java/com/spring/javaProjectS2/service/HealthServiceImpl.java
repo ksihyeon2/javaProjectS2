@@ -148,4 +148,9 @@ public class HealthServiceImpl implements HealthService {
 	public List<HealthVO> getHealthOrder(int level, String part) {
 		return healthDAO.getHealthOrder(level,part);
 	}
+
+	@Override
+	public List<HealthVO> getHealthSearchList(String searchString) {
+		return healthDAO.getHealthSearchList(searchString);
+	}
 }

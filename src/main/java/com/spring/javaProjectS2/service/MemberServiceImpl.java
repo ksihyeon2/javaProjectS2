@@ -10,8 +10,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.spring.javaProjectS2.dao.MemberDAO;
+import com.spring.javaProjectS2.vo.HealthWriteVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
+import com.spring.javaProjectS2.vo.ModifyVO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -114,6 +116,26 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int setmemberinquiryDel(int idx) {
 		return memberDAO.setmemberinquiryDel(idx);
+	}
+
+	@Override
+	public ModifyVO getHealthModify(String hName, String requestMid, String modifyPart) {
+		return memberDAO.getHealthModify(hName,requestMid,modifyPart);
+	}
+
+	@Override
+	public int setHealthModify(ModifyVO vo) {
+		return memberDAO.setHealthModify(vo);
+	}
+
+	@Override
+	public List<HealthWriteVO> getHealthWriteList(String mid) {
+		return memberDAO.getHealthWriteList(mid);
+	}
+
+	@Override
+	public int setHealthWrite(HealthWriteVO vo) {
+		return memberDAO.setHealthWrite(vo);
 	}
 
 }

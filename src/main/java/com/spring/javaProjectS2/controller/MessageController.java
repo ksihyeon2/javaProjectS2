@@ -123,6 +123,15 @@ public class MessageController {
 		} else if(msgFlag.equals("productInputNO")) {
 			model.addAttribute("msg", "이미 등록되어 있는 상품입니다.");
 			model.addAttribute("url", "/product/productList"); 
+		} else if(msgFlag.equals("HealthWriteOK")) {
+			model.addAttribute("msg", "기록이 추가되었습니다.");
+			model.addAttribute("url", "/member/memberPage"); 
+		} else if(msgFlag.equals("HealthWriteInputNO")) {
+			model.addAttribute("msg", "기록 추가에 실패하였습니다.");
+			model.addAttribute("url", "/member/healthWrite"); 
+		}	else if(msgFlag.equals("HealthWriteNO")) {
+			model.addAttribute("msg", "오늘은 이미 기록을 하셨습니다.");
+			model.addAttribute("url", "/member/memberPage"); 
 		}
 		return "include/message";
 	}

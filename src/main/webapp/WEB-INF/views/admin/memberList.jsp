@@ -23,7 +23,9 @@
   	// 페이징
   	function pageSizeCheck(){
   		let pageSize = $("#pageSize").val();
-  		location.href = "memberList?pageSize="+pageSize;
+  		let search = $("#search").val();
+  		let searchString = $("#searchString").val();
+  		location.href = "memberList?pageSize="+pageSize+"&search="+search+"&searchString="+searchString;
   	}
   	
   	// 상세 정보 
@@ -37,6 +39,25 @@
   		location.href="memberInfor?mid="+mid+"&pag="+${pageVO.pag}+"&pageSize="+${pageVO.pageSize};
   	}
   	
+  	// 검색기
+  	function searchCheck(){
+  		let search = $("#search").val();
+  		let searchString = $("#searchString").val();
+  		
+  		if(search.trim() != ""){
+  			if(searchString.trim() == ""){
+  				alert("검색 단어를 입력해 주세요.");
+  				$("#searchString").focus();
+  				return false;
+  			}
+  		}
+  		
+  		location.href="memberList?search="+search+"&searchString="+searchString;
+  	}
+  	
+  	function delCheck(str){
+  		location.href="memberList?delCheck="+str;
+  	}
   </script>
 </head>
 <body>
@@ -68,15 +89,15 @@
 	    	<div class="input-group">
 		    	<div class="mr-3">
 		        <select name="search" id="search" class="form-control">
-		          <option selected value="">선택</option>
-		          <option value="title">아이디</option>
-		          <option value="member">닉네임</option>
-		          <option value="content">성명</option>
+		          <option ${search == "" ? "selected" : ""} value="">전체</option>
+		          <option ${search == "mid" ? "selected" : ""} value="mid">아이디</option>
+		          <option ${search == "nickName" ? "selected" : ""} value="nickName">닉네임</option>
+		          <option ${search == "name" ? "selected" : ""} value="name">성명</option>
 		        </select>
 		    	</div>
-		      <input type="text" name="searchString" id="searchString" value="${searchString}" class="form-control mr-sm-2" placeholder="검색어를 입력해주세요"/>
+		      <input type="text" name="searchString" id="searchString" value="${searchString}" class="form-control mr-sm-2" placeholder="검색어를 입력해 주세요"/>
 		      <div class="input-group-append">
-		     		<a href="#" class="btn btn-outline-secondary my-2 my-sm-0" onclick="javascript:searchCheck()"><i class='fas fa-search' style='font-size:20px'></i></a>
+		     		<a href="#" class="btn btn-outline-secondary my-2 my-sm-0" onclick="searchCheck()"><i class='fas fa-search' style='font-size:20px'></i></a>
 		     	</div>
 	     	</div>
 			</div>
@@ -91,16 +112,21 @@
   		<th>성명</th>
   		<th>이메일</th>
   		<th>등급</th>
-  		<th>탈퇴여부
-  			<select name="delCheck" id="delCheck" onclick="delCheck()">
-          <option selected value="">전체</option>
-          <option value="OK">탈퇴</option>
-          <option value="NO">미탈퇴</option>
-        </select>
+  		<th>
+        <div class="dropdown-toggle" data-toggle="dropdown">상태
+  				<div class="dropdown-menu">
+			      <a class="dropdown-item" href="#" onclick="delCheck('')">전체</a>
+			      <a class="dropdown-item" href="#" onclick="delCheck('NO')">미탈퇴</a>
+			      <a class="dropdown-item" href="#" onclick="delCheck('OK')">탈퇴요청</a>
+			    </div>
+  			</div>
   		</th>
   		<th>상세보기</th>
   	</tr>
   	<c:set var="curScrStartNo" value="${pageVO.curScrStartNo}" />
+  	<c:if test="${empty vos}">
+  		<tr><td colspan="8">검색하신 조건에 해당되는 회원이 없습니다.</td></tr>
+  	</c:if>
   	<c:forEach var="vo" items="${vos}" varStatus="st">
   		<tr>
   			<td>${curScrStartNo}</td>

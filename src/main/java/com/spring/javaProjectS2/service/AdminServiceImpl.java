@@ -11,6 +11,8 @@ import com.spring.javaProjectS2.vo.ComplaintVO;
 import com.spring.javaProjectS2.vo.HealthVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.InterestVO;
+import com.spring.javaProjectS2.vo.MemberVO;
+import com.spring.javaProjectS2.vo.ModifyVO;
 import com.spring.javaProjectS2.vo.VisitVO;
 
 @Service
@@ -77,6 +79,31 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<HealthVO> getHealthInterestList() {
 		return adminDAO.getHealthInterestList();
+	}
+
+	@Override
+	public List<ModifyVO> getHealthModifyList(int startIndexNo, int pageSize) {
+		return adminDAO.getHealthModifyList(startIndexNo,pageSize);
+	}
+
+	@Override
+	public int getComplaintSize() {
+		return adminDAO.getComplaintSize();
+	}
+
+	@Override
+	public int getModifySize() {
+		return adminDAO.getModifySize();
+	}
+
+	@Override
+	public List<MemberVO> getMemberSearch(int startIndexNo, int pageSize, String search, String searchString) {
+		return adminDAO.getMemberSearch(startIndexNo,pageSize,search,searchString);
+	}
+
+	@Override
+	public List<MemberVO> getDelCheckSearch(int startIndexNo, int pageSize, String delCheck) {
+		return adminDAO.getDelCheckSearch(startIndexNo,pageSize,delCheck);
 	}
 
 }

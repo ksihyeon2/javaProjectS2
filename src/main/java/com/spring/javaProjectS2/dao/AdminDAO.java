@@ -9,6 +9,8 @@ import com.spring.javaProjectS2.vo.ComplaintVO;
 import com.spring.javaProjectS2.vo.HealthVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.InterestVO;
+import com.spring.javaProjectS2.vo.MemberVO;
+import com.spring.javaProjectS2.vo.ModifyVO;
 import com.spring.javaProjectS2.vo.VisitVO;
 
 public interface AdminDAO {
@@ -38,5 +40,21 @@ public interface AdminDAO {
 	public ComplaintVO getComplaintText(@Param("idx") int idx);
 
 	public List<HealthVO> getHealthInterestList();
+
+	public int getModifyTotRecCnt();
+
+	public List<ModifyVO> getHealthModifyList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
+
+	public int getComplaintSize();
+
+	public int getModifySize();
+
+	public int getSearchTotRecCnt(@Param("search") String search, @Param("searchString") String searchString);
+
+	public List<MemberVO> getMemberSearch(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("search") String search, @Param("searchString") String searchString);
+
+	public int getDelCheckTotRecCnt(@Param("delCheck") String delCheck);
+
+	public List<MemberVO> getDelCheckSearch(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("delCheck") String delCheck);
 
 }

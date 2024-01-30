@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaProjectS2.vo.HealthWriteVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
+import com.spring.javaProjectS2.vo.ModifyVO;
 
 public interface MemberDAO {
 
@@ -48,5 +50,13 @@ public interface MemberDAO {
 	public InquiryVO getMemberinquiryContent(@Param("idx") int idx);
 
 	public int setmemberinquiryDel(@Param("idx") int idx);
+
+	public ModifyVO getHealthModify(@Param("hName") String hName, @Param("requestMid") String requestMid, @Param("modifyPart") String modifyPart);
+
+	public int setHealthModify(@Param("vo") ModifyVO vo);
+
+	public List<HealthWriteVO> getHealthWriteList(@Param("mid") String mid);
+
+	public int setHealthWrite(@Param("vo") HealthWriteVO vo);
 
 }

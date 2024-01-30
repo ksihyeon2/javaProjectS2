@@ -37,3 +37,5 @@ select * from member order by idx limit 0,3;
 select datediff(modifyDate,now()) as date_diff, timestampdiff(hour,modifyDate,now()) as hour_diff from member;
 
 select * from member where userDel = 'OK' order by idx desc;
+
+select count(*) from member where mid like '%ad%' or nickName like '%ad%' or name like '%홍%';

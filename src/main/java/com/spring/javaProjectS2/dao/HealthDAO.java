@@ -33,5 +33,7 @@ public interface HealthDAO {
 
 	public List<HealthVO> getHealthOrder(@Param("level") int level, @Param("part") String part);
 
+	public List<HealthVO> getHealthSearchList(@Param("searchString") String searchString);
+
 
 }

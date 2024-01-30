@@ -7,6 +7,8 @@ import com.spring.javaProjectS2.vo.ComplaintVO;
 import com.spring.javaProjectS2.vo.HealthVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.InterestVO;
+import com.spring.javaProjectS2.vo.MemberVO;
+import com.spring.javaProjectS2.vo.ModifyVO;
 import com.spring.javaProjectS2.vo.VisitVO;
 
 public interface AdminService {
@@ -34,5 +36,16 @@ public interface AdminService {
 	public ComplaintVO getComplaintText(int idx);
 
 	public List<HealthVO> getHealthInterestList();
+
+	public List<ModifyVO> getHealthModifyList(int startIndexNo, int pageSize);
+
+	public int getComplaintSize();
+
+	public int getModifySize();
+
+	public List<MemberVO> getMemberSearch(int startIndexNo, int pageSize, String search, String searchString);
+
+	public List<MemberVO> getDelCheckSearch(int startIndexNo, int pageSize, String delCheck);
+
 
 }

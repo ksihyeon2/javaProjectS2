@@ -72,15 +72,18 @@ public class HealthController {
 	@RequestMapping(value = "/healthorderStep3", method = RequestMethod.POST)
 	public void healthorderStep3Post(HttpSession session, int healthLevel) {
 		int level = 0;
+		String HealthStrLevel = "";
 		if(healthLevel == 0 || healthLevel == 1) {
 			level = 1;
 		} else if(healthLevel == 2 || healthLevel == 3) {
 			level = 2;
-		} else if(healthLevel == 3) {
-			level = 3;
+		} else if(healthLevel == 4) {
+			level = 2;
+			HealthStrLevel = "전문가";
 		}
 		session.setAttribute("sStep", 60);
 		session.setAttribute("healthLevel", level);
+		session.setAttribute("HealthStrLevel", HealthStrLevel);
 	}
 	
 	// 맟줌 춘동 step 4
@@ -94,12 +97,9 @@ public class HealthController {
 	// 맟줌 춘동 step 5
 	@RequestMapping(value = "/healthorderStep5", method = RequestMethod.GET)
 	public String healthorderStep5Get(HttpSession session, String part, Model model) {
-		String gender = (String)session.getAttribute("strGender");
 		int level = (int)session.getAttribute("healthLevel");
-		int weight = (int)session.getAttribute("weight")/2;
 		
 		String[] parts = part.split("/");
-		int partLength = 0;
 		List<HealthVO> vos = new ArrayList<HealthVO>();
 		for(int i=0; i<parts.length; i++) {
 			for(int j=0; j<1; j++) {
@@ -111,32 +111,33 @@ public class HealthController {
 		}
 		
 		model.addAttribute("vos", vos);
-		model.addAttribute("gender", gender);
-		model.addAttribute("weight", weight);
 		return "health/healthOrderList";
 	}
 	
 	// 운동 목록 폼 띄우기
 	@RequestMapping(value = "/healthList", method = RequestMethod.GET)
 	public String healthListGet(HttpSession session, Model model,
-			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
-			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
-			@RequestParam(name="part", defaultValue = "", required = false) String part) {
-		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "health", "", "");
-		
+			@RequestParam(name="part", defaultValue = "", required = false) String part,
+			@RequestParam(name="searchString", defaultValue = "", required = false) String searchString) {
 		List<HealthVO> vos = new ArrayList<HealthVO>();
-		String mid = (String)session.getAttribute("sMid");
-		List<InterestVO> interestVOS = healthService.getHealthInterestList(mid);
-		if(part.equals("")) {
-			for(InterestVO v : interestVOS) {
-				HealthVO vo = healthService.getHealthInterestSearch(v.getPartIdx());
-				vos.add(vo);
+		
+		if(searchString.equals("")) {
+			String mid = (String)session.getAttribute("sMid");
+			List<InterestVO> interestVOS = healthService.getHealthInterestList(mid);
+			if(part.equals("")) {
+				for(InterestVO v : interestVOS) {
+					HealthVO vo = healthService.getHealthInterestSearch(v.getPartIdx());
+					vos.add(vo);
+				}
+			} else {
+				vos = healthService.getHealthList(part);
 			}
+			model.addAttribute("interestVOS",interestVOS);
 		} else {
-			vos = healthService.getHealthList(part);
+			vos = healthService.getHealthSearchList(searchString);
+			model.addAttribute("searchString", searchString);
 		}
-		model.addAttribute("interestVOS",interestVOS);
-		model.addAttribute("pageVO",pageVO);
+		
 		model.addAttribute("vos",vos);
 		
 		return "health/healthList";

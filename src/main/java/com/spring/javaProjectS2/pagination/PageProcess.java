@@ -23,51 +23,47 @@ public class PageProcess {
 		AdminDAO adminDAO;
 		
 		@Autowired
-		GymDAO gymDAO;
+		HealthDAO healthDAO;
 		
 		@Autowired
-		HealthDAO healthDAO;
+		GymDAO gymDAO;
 		
 		@Autowired
 		ProductDAO productDAO;
 		
+		
 //		board인지 guest인지 pds인지 등을 구분하기 위해 String section으로 받아와 DAO처리
 //		board 안에서의 구분 (이름인지 제목인지 등)을 위해 part로 받아옴
-		public PageVO totRecCnt(int pag, int pageSize, String section, String part, String searchString) {
+		public PageVO totRecCnt(int pag, int pageSize, String section, String search, String searchString, String delCheck) {
 			PageVO pageVO = new PageVO();
 			
 			int totRecCnt = 0;
-			String search = "";
 			
 //			section으로 받아온 값으로 해당 카운트 구하기
 			if(section.equals("board")) {
-				if(part.equals("")) {
-					totRecCnt = boardDAO.getTotRecCnt();
-				}
+				totRecCnt = boardDAO.getTotRecCnt();
 			} else if(section.equals("admin")){
-				if(part.equals("")) {
-					totRecCnt = memberDAO.getTotRecCnt();
+				if(searchString.equals("") && delCheck.equals("")) {
+					totRecCnt = adminDAO.getTotRecCnt();
+				} else if(search.equals("") && !searchString.equals("") || !search.equals("")){
+					totRecCnt = adminDAO.getSearchTotRecCnt(search,searchString);
+				} else if(!delCheck.equals("")) {
+					totRecCnt = adminDAO.getDelCheckTotRecCnt(delCheck);
 				}
 			} else if(section.equals("complaint")) {
-				if(part.equals("")) {
-					totRecCnt = adminDAO.getTotRecCnt();
-				}
-			} else if(section.equals("inquiry")) {
-				if(part.equals("")) {
-					totRecCnt = memberDAO.getinquiryTotRecCnt();
-				}
+				totRecCnt = adminDAO.getTotRecCnt();
 			} else if(search.equals("gym")) {
-				if(part.equals("")) {
+				if(search.equals("")) {
 					totRecCnt = gymDAO.getTotRecCnt();
 				}
-			} else if(search.equals("health")) {
-				if(part.equals("")) {
-					totRecCnt = healthDAO.getTotRecCnt();
-				}
-			} else if(search.equals("product")) {
-				if(part.equals("")) {
-					totRecCnt = productDAO.getTotRecCnt();
-				}
+			} else if(section.equals("inquiry")) {
+				totRecCnt = memberDAO.getinquiryTotRecCnt();
+			} else if(section.equals("health")) {
+				totRecCnt = healthDAO.getTotRecCnt();
+			} else if(section.equals("product")) {
+				totRecCnt = productDAO.getTotRecCnt();
+			} else if(section.equals("modfiy")) {
+				totRecCnt = adminDAO.getModifyTotRecCnt();
 			}
 			
 			int totPage = (totRecCnt % pageSize)==0 ? (totRecCnt / pageSize) : (totRecCnt / pageSize) + 1 ;
@@ -87,11 +83,7 @@ public class PageProcess {
 			pageVO.setBlockSize(blockSize);
 			pageVO.setCurBlock(curBlock);
 			pageVO.setLastBlock(lastBlock);
-			pageVO.setPart(part);
-//			글쓴이, 제목 등
-//			pageVO.setSearch(search);
-//			해당 글에 대한 내용
-//			pageVO.setSearchString(searchString);
+			pageVO.setPart(search);
 			
 			return pageVO;
 		}

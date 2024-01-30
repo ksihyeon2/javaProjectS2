@@ -33,6 +33,8 @@
   			alert("검색하실 운동의 이름을 입력해 주세요.");
   			return false;
   		}
+  		
+  		location.href="healthList?searchString="+healthSearch;
   	}
   	
   	function partCheck(part){
@@ -82,7 +84,7 @@
 		</c:if>
 		<c:if test="${sLevel <= 3 && sLevel > 0}">
 			<div class="col-3 text-right">
-				<a class="btn btn-secondary" href="${ctp}/gym/gymList" style="margin-right:20px;">근처 헬스장 찾기</a>
+				<a class="btn btn-secondary" href="${ctp}/gym/gymList" style="margin-right:20px;">상품 보기</a>
 			</div>
 		</c:if>
 	</div>
@@ -114,50 +116,67 @@
  	</table>
  	<br />
  	<table class="table table-borderless" style="width:1000px;margin-left:10%">
- 		<tr>
- 			<td colspan="3">${part}</td>
- 		</tr>
- 		<c:forEach var="vo" items="${vos}">
-	 			<tr style="height:200px">
-	 				<td style="width:200px">
-	 					<c:if test="${vo.photo == ''}">
-	 						<img src="${ctp}/health/준비중.png" width="180px">
-	 					</c:if>
-	 					<c:if test="${vo.photo != ''}">
-	 						<video src="${ctp}/health/${vo.photo}" width="200px"></video>
-	 					</c:if>
-	 				</td>
-	 				<td >
-	 					<h3><a href="healthContent?hName=${vo.HName}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&part=${vo.part}"><b style="color: white;">${vo.HName}</b></a></h3><br />
-	 					<span style="font-size:1em;color:yellow;">${vo.detailPart}</span>
-	 				</td>
-					<td style="width:100px;text-align:center;">
-						<c:set var="cnt" value="0" />
-						<c:forEach var="interestVO" items="${interestVOS}">
-							<c:if test="${interestVO.partIdx == vo.idx}">
-			 					<a href="javascript:heartCheck('${vo.idx}')"><i class='fas fa-heart' style='font-size:36px'></i></a>
-			 					<c:set var="cnt" value="1"/>
+ 		<c:if test="${!empty vos}">
+	 		<c:forEach var="vo" items="${vos}">
+		 			<tr style="height:200px">
+		 				<td style="width:200px">
+		 					<c:if test="${vo.photo == ''}">
+		 						<img src="${ctp}/health/준비중.png" width="180px">
+		 					</c:if>
+		 					<c:if test="${vo.photo != ''}">
+		 						<video src="${ctp}/health/${vo.photo}" width="200px"></video>
+		 					</c:if>
+		 				</td>
+		 				<td >
+		 					<h3><a href="healthContent?hName=${vo.HName}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&part=${vo.part}"><b style="color: white;">${vo.HName}</b></a></h3><br />
+		 					<span style="font-size:1em;color:yellow;">${vo.detailPart}</span>
+		 				</td>
+						<td style="width:100px;text-align:center;">
+							<c:set var="cnt" value="0" />
+							<c:forEach var="interestVO" items="${interestVOS}">
+								<c:if test="${interestVO.partIdx == vo.idx}">
+				 					<a href="javascript:heartCheck('${vo.idx}')"><i class='fas fa-heart' style='font-size:36px'></i></a>
+				 					<c:set var="cnt" value="1"/>
+								</c:if>
+							</c:forEach>
+							<c:if test="${cnt != 1}">
+								<a href="javascript:heartCheck('${vo.idx}')"><i class='far fa-heart' style='font-size:36px'></i></a>
 							</c:if>
-						</c:forEach>
-						<c:if test="${cnt != 1}">
-							<a href="javascript:heartCheck('${vo.idx}')"><i class='far fa-heart' style='font-size:36px'></i></a>
-						</c:if>
-					</td>
-	 			</tr>
- 		</c:forEach>
+						</td>
+		 			</tr>
+	 		</c:forEach>
+	 	</c:if>
+ 		<c:if test="${empty vos}">
+	 		<c:forEach var="vo" items="${vos}">
+		 			<tr style="height:200px">
+		 				<td style="width:200px">
+		 					<c:if test="${vo.photo == ''}">
+		 						<img src="${ctp}/health/준비중.png" width="180px">
+		 					</c:if>
+		 					<c:if test="${vo.photo != ''}">
+		 						<video src="${ctp}/health/${vo.photo}" width="200px"></video>
+		 					</c:if>
+		 				</td>
+		 				<td >
+		 					<h3><a href="healthContent?hName=${vo.HName}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&part=${vo.part}"><b style="color: white;">${vo.HName}</b></a></h3><br />
+		 					<span style="font-size:1em;color:yellow;">${vo.detailPart}</span>
+		 				</td>
+						<td style="width:100px;text-align:center;">
+							<c:set var="cnt" value="0" />
+							<c:forEach var="interestVO" items="${interestVOS}">
+								<c:if test="${interestVO.partIdx == vo.idx}">
+				 					<a href="javascript:heartCheck('${vo.idx}')"><i class='fas fa-heart' style='font-size:36px'></i></a>
+				 					<c:set var="cnt" value="1"/>
+								</c:if>
+							</c:forEach>
+							<c:if test="${cnt != 1}">
+								<a href="javascript:heartCheck('${vo.idx}')"><i class='far fa-heart' style='font-size:36px'></i></a>
+							</c:if>
+						</td>
+		 			</tr>
+	 		</c:forEach>
+ 		</c:if>
  	</table>
-</div>
-<div class="text-center">
-  <ul class="pagination justify-content-center">
-    <c:if test="${pageVO.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="healthList?pag=1&pageSize=${pageVO.pageSize}">첫페이지</a></li></c:if>
-  	<c:if test="${pageVO.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="healthList?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">이전블록</a></li></c:if>
-  	<c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize)+pageVO.blockSize}" varStatus="st">
-	    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="healthList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
-	    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link text-secondary" href="healthList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
-  	</c:forEach>
-  	<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="healthList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">다음블록</a></li></c:if>
-  	<c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link text-secondary" href="healthList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
-  </ul>
 </div>
 <p><br /></p>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />

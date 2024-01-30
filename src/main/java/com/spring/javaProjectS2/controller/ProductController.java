@@ -38,7 +38,7 @@ public class ProductController {
 			
 		PageVO pageVO = new PageVO();
 		List<ProductVO> vos = new ArrayList<ProductVO>();
-		pageVO = pageProcess.totRecCnt(pag, pageSize, "product", "", "");
+		pageVO = pageProcess.totRecCnt(pag, pageSize, "product", "", "","");
 		vos = productService.getHealthproduct(pageVO.getStartIndexNo(),pageSize);
 		
 		model.addAttribute("pageVO",pageVO);

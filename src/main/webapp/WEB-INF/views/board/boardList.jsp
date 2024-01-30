@@ -39,7 +39,12 @@
 <div class="container">
 	<div class="row mb-4">
 		<div class="col-3 text-left">
-			<a class="btn btn-secondary mb-4" href="${ctp}/" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
+			<c:if test="${empty user}">
+				<a class="btn btn-secondary mb-4" href="${ctp}/" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
+			</c:if>
+			<c:if test="${!empty user}">
+				<a class="btn btn-secondary mb-4" href="${ctp}/admin/adminPage" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
+			</c:if>
 		</div>
 		<div class="col-6 text-center">
 			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px; color: white;">커 뮤 니 티</span>
@@ -101,7 +106,7 @@
   <table class="table table-hover text-center">
   	<tr style="background-color:rgb(213,213,213);height:40px;">
   		<th colspan="6">전체 게시글</th>
-  		<td><a href="boardAllList"><i class='fas fa-angle-right' style='font-size:24px;'></i></a></td>
+  		<td><a href="boardAllList?user=${user}"><i class='fas fa-angle-right' style='font-size:24px;'></i></a></td>
   	</tr>
   	<tr style="background-color:rgb(213,213,213);height:40px;">
   		<th>No.</th>

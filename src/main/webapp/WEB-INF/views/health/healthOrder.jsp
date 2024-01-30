@@ -23,6 +23,7 @@
   	'use strict';
   	
   	let part = "";
+  	let cnt = 0;
   	
   	function healthorderStep1(){
   		$.ajax({
@@ -79,12 +80,18 @@
   	}
   	
   	function colorChange(i){
+  		cnt++;
   		document.getElementById(i).classList.add("click");
   		part += $("#"+i).val()+"/";
   	}
   	
   	function healthorderStep5(){
   		if(part == ""){
+  			return false;
+  		}
+  		
+  		if(cnt <= 2) {
+  			alert("최소 3가지 이상 선택해 주세요.");
   			return false;
   		}
   		
@@ -183,7 +190,7 @@
 		<div class="container page-section" id="portfolio">
 	  	<div class="text-center">
 		    <h2 class="section-heading text-uppercase" style="color:white;">운동하고 싶은 부위가 어디인가요?</h2>
-		  	<h3 class="section-subheading" style="color:white;">적절한 운동 추천에 필요해요! 외부에 공개되지 않아요.</h3>
+		  	<h3 class="section-subheading" style="color:white;">적절한 운동 추천에 필요해요! 외부에 공개되지 않아요.<br />(최소 3가지 이상 선택해 주세요.)</h3>
 	  		<div>
 				  <button type="button" class="btn btn-success mb-4" value="등" id="1" onclick="colorChange(1)" style="width:500px;">등</button>
 		  	</div>

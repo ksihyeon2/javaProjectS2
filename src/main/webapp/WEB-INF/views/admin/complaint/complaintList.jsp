@@ -41,19 +41,6 @@
   			}
   		});
   	}
-  	
-  	/* 
-  	function partCheck(part){
-  		let part = part;
-  		
-  		$.ajax({
-  			url : "${ctp}/admin/complaintPartCheck",
-  			type : "post",
-  			data : {part:part},
-  			success : function()
-  		});
-  	}
-  	 */
   	 
   	// 신고 사유 보기
   	function complaintText(idx){

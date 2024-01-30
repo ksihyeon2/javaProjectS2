@@ -27,6 +27,41 @@
 	<select id="getHealthInterestList" resultType="com.spring.javaProjectS2.vo.HealthVO">
 		select hName, interest from health where interest != 0 order by interest desc limit 5;
 	</select>
+	<select id="getModifyTotRecCnt" resultType="int">
+		select count(*) from modify;
+	</select>
+	<select id="getHealthModifyList" resultType="com.spring.javaProjectS2.vo.ModifyVO">
+		select *, datediff(modifyDate,now()) as date_diff, timestampdiff(hour,modifyDate,now()) as hour_diff from modify order by idx desc limit #{startIndexNo}, #{pageSize};
+	</select>
+	<select id="getComplaintSize" resultType="int">
+		select count(*) from complaint where complaintState = '대기중';
+	</select>
+	<select id="getModifySize" resultType="int">
+		select count(*) from modify where modifyState = '미완료';
+	</select>
+	<select id="getSearchTotRecCnt" resultType="int">
+		<if test="search == ''">
+			select count(*) from member where mid like concat('%',#{searchString},'%') or nickName like concat('%',#{searchString},'%') or name like concat('%',#{searchString},'%');
+		</if>
+		<if test="search != ''">
+			select count(*) from member where ${search} like concat('%',#{searchString},'%');
+		</if>
+	</select>
+	<select id="getMemberSearch" resultType="com.spring.javaProjectS2.vo.MemberVO">
+		<if test="search == ''">
+			select * from member where mid like concat('%',#{searchString},'%') or nickName like concat('%',#{searchString},'%') or name like concat('%',#{searchString},'%') order by idx desc limit #{startIndexNo}, #{pageSize};
+		</if>
+		<if test="search != ''">
+			select * from member where ${search} like concat('%',#{searchString},'%') order by idx desc limit #{startIndexNo}, #{pageSize};
+		</if>
+	</select>
+	<select id="getDelCheckTotRecCnt" resultType="int">
+		select count(*) from member where userDel = #{delCheck};
+	</select>
+	<select id="getDelCheckSearch" resultType="com.spring.javaProjectS2.vo.MemberVO">
+		select * from member where userDel = #{delCheck} order by idx desc limit #{startIndexNo}, #{pageSize};
+	</select>
+	
 	
 	<!-- insert -->
 	<insert id="setToday">

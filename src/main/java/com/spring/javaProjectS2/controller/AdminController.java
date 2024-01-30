@@ -1,5 +1,6 @@
 package com.spring.javaProjectS2.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -23,6 +24,7 @@ import com.spring.javaProjectS2.vo.HealthVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.InterestVO;
 import com.spring.javaProjectS2.vo.MemberVO;
+import com.spring.javaProjectS2.vo.ModifyVO;
 import com.spring.javaProjectS2.vo.VisitVO;
 
 @Controller
@@ -65,6 +67,12 @@ public class AdminController {
 		// 문의 대기건 수 구하기
 		List<InquiryVO> inquiryVO = adminService.getInquiryStandby();
 		
+		// 신고 대기건 수 구하기
+		int complaintSize = adminService.getComplaintSize();
+		
+		// 수정 요청건 수 구하기
+		int modifySize = adminService.getModifySize();
+		
 		// 차트 분석 구하기(인기 운동 순서)
 		List<HealthVO> healthVOS = adminService.getHealthInterestList();
 		String[] hName = new String[healthVOS.size()];
@@ -80,7 +88,8 @@ public class AdminController {
 		model.addAttribute("hName",hName);
 		model.addAttribute("interest",interest);
 		model.addAttribute("healthVOS",healthVOS);
-		model.addAttribute("inquiryStandby",inquiryVO.size());
+		model.addAttribute("complaintSize",complaintSize);
+		model.addAttribute("modifySize",modifySize);
 		model.addAttribute("vo", vo);
 		return "/admin/adminPage";
 	}
@@ -89,11 +98,25 @@ public class AdminController {
 	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
 	public String memberListGet(Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
-			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
-		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "admin", "", "");
-		
-		List<MemberVO> vos = memberService.getMemberList(pageVO.getStartIndexNo(),pageSize);
-		
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="search", defaultValue = "", required = false) String search,
+			@RequestParam(name="searchString", defaultValue = "", required = false) String searchString,
+			@RequestParam(name="delCheck", defaultValue = "", required = false) String delCheck) {
+		PageVO pageVO = new PageVO();
+		List<MemberVO> vos = new ArrayList<MemberVO>();
+		if(search.equals("") && searchString.equals("") && delCheck.equals("")) {
+			pageVO = pageProcess.totRecCnt(pag, pageSize, "admin", "", "","");
+			vos = memberService.getMemberList(pageVO.getStartIndexNo(),pageSize);
+		} else if(search.equals("") && !searchString.equals("") || !search.equals("")) {
+			pageVO = pageProcess.totRecCnt(pag, pageSize, "admin", search, searchString,"");
+			vos = adminService.getMemberSearch(pageVO.getStartIndexNo(),pageSize,search,searchString);
+			model.addAttribute("search",search);
+			model.addAttribute("searchString",searchString);
+		} else if(!delCheck.equals("")) {
+			pageVO = pageProcess.totRecCnt(pag, pageSize, "admin", "", "", delCheck);
+			System.out.println("delCheck : " + delCheck);
+			vos = adminService.getDelCheckSearch(pageVO.getStartIndexNo(),pageSize,delCheck);
+		}
 		model.addAttribute("pageVO",pageVO);
 		model.addAttribute("vos", vos);
 		return "admin/memberList";
@@ -104,7 +127,7 @@ public class AdminController {
 	public String memberDelListGet(Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
-		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "admin", "", "");
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "admin", "", "","");
 		
 		List<MemberVO> vos = memberService.getmemberDelList();
 		
@@ -132,7 +155,7 @@ public class AdminController {
 	public String complaintListGet(Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
-		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "complaint", "", "");
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "complaint", "", "","");
 		
 		List<ComplaintVO> vos = adminService.getComplaintList();
 		
@@ -184,7 +207,7 @@ public class AdminController {
 	public String inquiryListGet(Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
-		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "inquiry", "", "");
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "inquiry", "", "","");
 		
 		List<InquiryVO> vos = adminService.getInquiryList(pageVO.getStartIndexNo(),pageSize);
 		
@@ -226,5 +249,21 @@ public class AdminController {
 		ComplaintVO vo = adminService.getComplaintText(idx);
 		String text = vo.getComplaintText();
 		return text;
+	}
+	
+	// 운동 수정 리스트 폼 띄우기
+	@RequestMapping(value = "/healthModifyList", method = RequestMethod.GET)
+	public String healthModifyListGet(Model model,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "modify", "", "","");
+		
+		List<ModifyVO> vos = adminService.getHealthModifyList(pageVO.getStartIndexNo(),pageSize);
+		System.out.println("vos : " + vos);
+		
+		model.addAttribute("pageVO",pageVO);
+		model.addAttribute("vos",vos);
+		
+		return "admin/healthModifyList";
 	}
 }

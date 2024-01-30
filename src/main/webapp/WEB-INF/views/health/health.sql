@@ -23,3 +23,5 @@ select partIdx from interest where part = 'health' order by partIdx;
 select hName, interest from health where interest != 0 order by interest desc limit 5;
 
 select * from health where level = 1 and part = '등' order by rand() limit 2;
+
+select count(*) from modify;
