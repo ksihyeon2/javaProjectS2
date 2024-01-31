@@ -23,7 +23,7 @@ public interface AdminDAO {
 
 	public void setTodayMember();
 
-	public List<ComplaintVO> getComplaintList();
+	public List<ComplaintVO> getComplaintList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
 
 	public int getTotRecCnt();
 
@@ -56,5 +56,17 @@ public interface AdminDAO {
 	public int getDelCheckTotRecCnt(@Param("delCheck") String delCheck);
 
 	public List<MemberVO> getDelCheckSearch(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("delCheck") String delCheck);
+
+	public List<ComplaintVO> getComplaintPartList(@Param("part") String part);
+
+	public List<ComplaintVO> getComplaintTypeList(@Param("type") String type);
+
+	public List<ComplaintVO> getComplaintStateList(@Param("state") String state);
+
+	public List<ComplaintVO> getComplaintSearchList(@Param("search") String search, @Param("searchString") String searchString);
+
+	public int getModifyStateTotRecCnt(@Param("state") String state);
+
+	public List<ModifyVO> getHealthModifyStateList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("state") String state);
 
 }

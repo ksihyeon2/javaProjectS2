@@ -18,6 +18,21 @@
     }
     
   </style>
+  <script>
+  	'use strict';
+  	
+ 		// 페이징
+  	function pageSizeCheck(){
+  		let pageSize = $("#pageSize").val();
+  		let state = '${state}';
+  		location.href="healthModifyList?pageSize="+pageSize+"&state="+state;
+  	}
+ 		
+ 		// 상태별 검색
+ 		function stateCheck(state){
+ 			location.href="healthModifyList?state="+state;
+ 		}
+  </script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
@@ -50,10 +65,9 @@
 	    	<div class="input-group">
 		    	<div class="mr-3">
 		        <select name="search" id="search" class="form-control">
-		          <option selected value="">전체</option>
-		          <option value="title">아이디</option>
-		          <option value="member">운동명</option>
-		          <option value="content">날짜</option>
+		          <option ${search == "" ? "selected" : ""} value="">전체</option>
+		          <option ${search == "mid" ? "selected" : ""} value="mid">아이디</option>
+		          <option ${search == "hName" ? "selected" : ""} value="hName">운동명</option>
 		        </select>
 		    	</div>
 		      <input type="text" name="searchString" id="searchString" value="${searchString}" class="form-control mr-sm-2" placeholder="검색어를 입력해주세요"/>
@@ -75,9 +89,9 @@
   		<th>
 				<div class="dropdown-toggle" data-toggle="dropdown">상태
   				<div class="dropdown-menu">
-			      <a class="dropdown-item" href="#">전체</a>
-			      <a class="dropdown-item" href="#">미완료</a>
-			      <a class="dropdown-item" href="#">수정완료</a>
+			      <a class="dropdown-item" href="#" onclick="stateCheck('')">전체</a>
+			      <a class="dropdown-item" href="#" onclick="stateCheck('미완료')">미완료</a>
+			      <a class="dropdown-item" href="#" onclick="stateCheck('수정완료')">수정완료</a>
 			    </div>
   			</div>
 			</th>

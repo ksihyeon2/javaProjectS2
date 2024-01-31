@@ -21,7 +21,7 @@ public interface AdminService {
 
 	public void setTodayMember();
 
-	public List<ComplaintVO> getComplaintList();
+	public List<ComplaintVO> getComplaintList(int startIndexNo, int pageSize);
 
 	public int setComplaintStateUpdate(int idx, String str);
 
@@ -46,6 +46,16 @@ public interface AdminService {
 	public List<MemberVO> getMemberSearch(int startIndexNo, int pageSize, String search, String searchString);
 
 	public List<MemberVO> getDelCheckSearch(int startIndexNo, int pageSize, String delCheck);
+
+	public List<ComplaintVO> getComplaintPartList(String part);
+
+	public List<ComplaintVO> getComplaintTypeList(String type);
+
+	public List<ComplaintVO> getComplaintStateList(String state);
+
+	public List<ComplaintVO> getComplaintSearchList(String search, String searchString);
+
+	public List<ModifyVO> getHealthModifyStateList(int startIndexNo, int pageSize, String state);
 
 
 }

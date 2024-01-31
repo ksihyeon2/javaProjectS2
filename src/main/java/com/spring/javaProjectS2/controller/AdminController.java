@@ -56,10 +56,10 @@ public class AdminController {
 		int cnt = 0;
 		for(VisitVO visitVO : visitVOS) {
 			if(visitVO.getDate_diff() == 0) {
-				if(visitVO.getMember().equals("비회원")) {
-					model.addAttribute("today", visitVO.getVisit());
-				} else {
+				if(visitVO.getMember().equals("회원")) {
 					model.addAttribute("memberToday", visitVO.getVisit());
+				} else {
+					model.addAttribute("today", visitVO.getVisit());
 				}
 			}
 		}
@@ -154,13 +154,30 @@ public class AdminController {
 	@RequestMapping(value = "/complaintList", method = RequestMethod.GET)
 	public String complaintListGet(Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
-			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="part", defaultValue = "", required = false) String part,
+			@RequestParam(name="type", defaultValue = "", required = false) String type,
+			@RequestParam(name="state", defaultValue = "", required = false) String state,
+			@RequestParam(name="search", defaultValue = "", required = false) String search,
+			@RequestParam(name="searchString", defaultValue = "", required = false) String searchString) {
+		List<ComplaintVO> vos = new ArrayList<ComplaintVO>();
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "complaint", "", "","");
-		
-		List<ComplaintVO> vos = adminService.getComplaintList();
+		if(part.equals("") && type.equals("") && state.equals("") && searchString.equals("")) {
+			vos = adminService.getComplaintList(pageVO.getStartIndexNo(),pageSize);
+		} else if (!part.equals("")) {
+			vos = adminService.getComplaintPartList(part);
+		} else if (!type.equals("")) {
+			vos = adminService.getComplaintTypeList(type);
+		} else if (!state.equals("")) {
+			vos = adminService.getComplaintStateList(state);
+		} 
+//		else if ((search.equals("") && !searchString.equals("")) || !search.equals("")) {
+			else if (!searchString.equals("")) {
+			vos = adminService.getComplaintSearchList(search,searchString);
+		}
 		
 		List<BoardVO> boardVOS = adminService.getBoardList(); 
-		
+
 		model.addAttribute("pageVO",pageVO);
 		model.addAttribute("vos", vos);
 		model.addAttribute("boardVOS",boardVOS);
@@ -255,13 +272,21 @@ public class AdminController {
 	@RequestMapping(value = "/healthModifyList", method = RequestMethod.GET)
 	public String healthModifyListGet(Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
-			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
-		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "modify", "", "","");
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="state", defaultValue = "", required = false) String state) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "modify","","","");
 		
-		List<ModifyVO> vos = adminService.getHealthModifyList(pageVO.getStartIndexNo(),pageSize);
-		System.out.println("vos : " + vos);
+		List<ModifyVO> vos = new ArrayList<ModifyVO>();
 		
+		if(state.equals("")) {
+			pageVO = pageProcess.totRecCnt(pag, pageSize, "modify","","","");
+			vos = adminService.getHealthModifyList(pageVO.getStartIndexNo(),pageSize);
+		} else if(!state.equals("")) {
+			pageVO = pageProcess.totRecCnt(pag, pageSize, "modifyState","","",state);
+			vos = adminService.getHealthModifyStateList(pageVO.getStartIndexNo(),pageSize,state);
+		}
 		model.addAttribute("pageVO",pageVO);
+		model.addAttribute("state",state);
 		model.addAttribute("vos",vos);
 		
 		return "admin/healthModifyList";

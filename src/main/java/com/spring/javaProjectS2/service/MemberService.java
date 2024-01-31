@@ -55,4 +55,6 @@ public interface MemberService {
 
 	public int setHealthWrite(HealthWriteVO vo);
 
+	public List<HealthWriteVO> getHealthWriteSearchList(String mid);
+
 }

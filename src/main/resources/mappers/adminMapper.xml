@@ -7,7 +7,7 @@
 		select *,datediff(today,now()) as date_diff from visit;
 	</select>
 	<select id="getComplaintList" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
-		select * from complaint order by complaintDate desc;
+		select * from complaint order by idx desc limit #{startIndexNo}, #{pageSize};
 	</select>
 	<select id="getTotRecCnt" resultType="int">
 		select count(*) from complaint;
@@ -60,6 +60,28 @@
 	</select>
 	<select id="getDelCheckSearch" resultType="com.spring.javaProjectS2.vo.MemberVO">
 		select * from member where userDel = #{delCheck} order by idx desc limit #{startIndexNo}, #{pageSize};
+	</select>
+	<select id="getComplaintPartList" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
+		select * from complaint where complaintPart = #{part} order by idx desc;
+	</select>
+	<select id="getComplaintTypeList" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
+		select * from complaint where complaintType = #{type} order by idx desc;
+	</select>
+	<select id="getComplaintStateList" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
+		select * from complaint where complaintState = #{state} order by idx desc;
+	</select>
+	<select id="getComplaintSearchList" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
+		<!-- <if test="search == ''">
+		</if> -->
+		<if test="search != ''">
+			select * from complaint where ${search} like concat('%',#{searchString},'%') order by idx desc;
+		</if>
+	</select>
+	<select id="getModifyStateTotRecCnt" resultType="int">
+		select count(*) from modify where modifyState = #{state};
+	</select>
+	<select id="getHealthModifyStateList" resultType="com.spring.javaProjectS2.vo.ModifyVO">
+		select * from modify where modifyState = #{state} order by idx desc limit #{startIndexNo}, #{pageSize};
 	</select>
 	
 	

@@ -106,7 +106,7 @@
 	              <p class="mb-2 text-black" style="font-size:13pt">Today</p>
 	              </div>
 	              <div class="ms-3 mt-2 dropdown">
-	                <h3 class="mb-2 text-black dropdown-toggle" data-toggle="dropdown"><a href="#">${today}명</a></h3>
+	                <h3 class="mb-2 text-black dropdown-toggle" data-toggle="dropdown"><a href="#">${memberToday}명</a></h3>
 							    <div class="dropdown-menu">
 							      <a class="dropdown-item" href="#">비회원(${today}명)</a>
 							      <a class="dropdown-item" href="#">회원(${memberToday}명)</a>

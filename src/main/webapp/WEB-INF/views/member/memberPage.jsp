@@ -20,15 +20,15 @@
 
       var data = new google.visualization.DataTable();
       data.addColumn('number', 'Day');
-      data.addColumn('number', 'Guardians of the Galaxy');
-      data.addColumn('number', 'The Avengers');
-      data.addColumn('number', 'Transformers: Age of Extinction');
+      data.addColumn('number', '');
 
       data.addRows([
-        [12,  6.6,  8.4,  5.2],
-        [13,  4.8,  6.3,  3.6],
-        [14,  4.2,  6.2,  3.4]
+    	  <c:forEach var="i" begin="0" end="${size}">
+	        [${date[i]},  ${weight[i]}],
+      	</c:forEach>
       ]);
+      
+      
 
       var options = {
         chart: {
@@ -113,19 +113,17 @@
     <nav class="navbar">
       <div class="navbar-nav">
           <div class="nav-item dropdown">
-	          <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">활동</a>
+	          <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">커뮤니티</a>
 	          <div class="dropdown-menu bg-transparent border-0 show">
-	            <a href="memberInquiryList" class="dropdown-item">즐겨찾기</a>
-	            <a href="memberInquiryList" class="dropdown-item">수정 요청</a>
-	            <a href="memberInquiryList" class="dropdown-item">나의 신고물</a>
+	            <a href="#" class="dropdown-item">공지사항</a>
+	            <a href="${ctp}/board/boardMyList" class="dropdown-item">나의 활동 목록</a>
 	          </div>
           </div>
           <div class="nav-item dropdown">
-	          <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">커뮤니티</a>
+	          <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">기타</a>
 	          <div class="dropdown-menu bg-transparent border-0 show">
-	            <a href="${ctp}/board/boardMyList" class="dropdown-item">공지사항</a>
-	            <a href="${ctp}/board/boardMyList" class="dropdown-item">나의 활동 목록</a>
-	            <a href="memberInquiryList" class="dropdown-item">즐겨찾기</a>
+	            <a href="#" class="dropdown-item">수정 요청</a>
+	            <a href="#" class="dropdown-item">나의 신고물</a>
 	          </div>
           </div>
           <div class="nav-item d-block">
@@ -187,7 +185,6 @@
                 <div class="d-flex mb-1">
                 	<h3 class="mb-0 pretendard mr-2">기록 분석</h3>
                 </div>
-                <a href="#">전체보기<i class='fas fa-angle-right'></i></a>
               </div>
           		<div >
                <table class="table table-borderless mb-0" style="height: 300px">

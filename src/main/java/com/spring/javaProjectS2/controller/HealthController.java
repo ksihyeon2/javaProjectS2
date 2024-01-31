@@ -139,6 +139,7 @@ public class HealthController {
 		}
 		
 		model.addAttribute("vos",vos);
+		model.addAttribute("part",part);
 		
 		return "health/healthList";
 	}

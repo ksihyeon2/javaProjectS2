@@ -345,10 +345,26 @@ public class MemberController {
 			session.removeAttribute("pwdCheck");
 		}
 		
-		// 게시물 총 개수 구하기
-		int boardCnt = boardService.getBoardCnt(mid);
+		// 차트 분석
+		List<HealthWriteVO> vos = memberService.getHealthWriteSearchList(mid);
 		
-		model.addAttribute("boardCnt",boardCnt);
+		String[] date = new String[vos.size()];
+		int[] weight = new int[vos.size()];
+		
+		int cnt = 0;
+		for(HealthWriteVO v : vos) {
+			date[cnt] = v.getHealthDate().substring(0,10);
+			weight[cnt] = v.getWeight();
+			cnt++;
+		}
+				
+		// 게시물 총 개수 구하기
+//		int boardCnt = boardService.getBoardCnt(mid);
+//		
+//		model.addAttribute("boardCnt",boardCnt);
+		model.addAttribute("size",vos.size()-1);
+		model.addAttribute("date",date);
+		model.addAttribute("weight",weight);
 		model.addAttribute("vo",vo);
 		return "member/memberPage";
 	}

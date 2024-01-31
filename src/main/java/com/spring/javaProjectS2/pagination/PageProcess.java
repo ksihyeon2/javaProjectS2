@@ -34,7 +34,7 @@ public class PageProcess {
 		
 //		board인지 guest인지 pds인지 등을 구분하기 위해 String section으로 받아와 DAO처리
 //		board 안에서의 구분 (이름인지 제목인지 등)을 위해 part로 받아옴
-		public PageVO totRecCnt(int pag, int pageSize, String section, String search, String searchString, String delCheck) {
+		public PageVO totRecCnt(int pag, int pageSize, String section, String search, String searchString, String str) {
 			PageVO pageVO = new PageVO();
 			
 			int totRecCnt = 0;
@@ -43,12 +43,12 @@ public class PageProcess {
 			if(section.equals("board")) {
 				totRecCnt = boardDAO.getTotRecCnt();
 			} else if(section.equals("admin")){
-				if(searchString.equals("") && delCheck.equals("")) {
+				if(searchString.equals("") && str.equals("")) {
 					totRecCnt = adminDAO.getTotRecCnt();
 				} else if(search.equals("") && !searchString.equals("") || !search.equals("")){
 					totRecCnt = adminDAO.getSearchTotRecCnt(search,searchString);
-				} else if(!delCheck.equals("")) {
-					totRecCnt = adminDAO.getDelCheckTotRecCnt(delCheck);
+				} else if(!str.equals("")) {
+					totRecCnt = adminDAO.getDelCheckTotRecCnt(str);
 				}
 			} else if(section.equals("complaint")) {
 				totRecCnt = adminDAO.getTotRecCnt();
@@ -62,8 +62,11 @@ public class PageProcess {
 				totRecCnt = healthDAO.getTotRecCnt();
 			} else if(section.equals("product")) {
 				totRecCnt = productDAO.getTotRecCnt();
-			} else if(section.equals("modfiy")) {
+			} else if(section.equals("modify")) {
 				totRecCnt = adminDAO.getModifyTotRecCnt();
+			} else if(section.equals("modifyState")) {
+				System.out.println("str : " + str);
+				totRecCnt = adminDAO.getModifyStateTotRecCnt(str);
 			}
 			
 			int totPage = (totRecCnt % pageSize)==0 ? (totRecCnt / pageSize) : (totRecCnt / pageSize) + 1 ;

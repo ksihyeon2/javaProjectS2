@@ -42,8 +42,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<ComplaintVO> getComplaintList() {
-		return adminDAO.getComplaintList();
+	public List<ComplaintVO> getComplaintList(int startIndexNo, int pageSize) {
+		return adminDAO.getComplaintList(startIndexNo,pageSize);
 	}
 
 	@Override
@@ -105,5 +105,31 @@ public class AdminServiceImpl implements AdminService {
 	public List<MemberVO> getDelCheckSearch(int startIndexNo, int pageSize, String delCheck) {
 		return adminDAO.getDelCheckSearch(startIndexNo,pageSize,delCheck);
 	}
+
+	@Override
+	public List<ComplaintVO> getComplaintPartList(String part) {
+		return adminDAO.getComplaintPartList(part);
+	}
+
+	@Override
+	public List<ComplaintVO> getComplaintTypeList(String type) {
+		return adminDAO.getComplaintTypeList(type);
+	}
+
+	@Override
+	public List<ComplaintVO> getComplaintStateList(String state) {
+		return adminDAO.getComplaintStateList(state);
+	}
+
+	@Override
+	public List<ComplaintVO> getComplaintSearchList(String search, String searchString) {
+		return adminDAO.getComplaintSearchList(search,searchString);
+	}
+
+	@Override
+	public List<ModifyVO> getHealthModifyStateList(int startIndexNo, int pageSize, String state) {
+		return adminDAO.getHealthModifyStateList(startIndexNo,pageSize,state);
+	}
+
 
 }

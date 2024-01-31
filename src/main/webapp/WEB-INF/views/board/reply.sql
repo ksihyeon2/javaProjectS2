@@ -20,3 +20,10 @@ select *, datediff(wDate, now()) as date_diff, timestampdiff(hour, wDate, now())
 select count(*) from reply where boardIdx=4;
 
 update reply set re_order = re_order + 1 where boardIdx = #{boardIdx} and re_order > #{re_order};
+
+select * from complaint where complaintMid = '%4%' or complaintidx (select * from board where idx=1);
+
+select count(*) from modify;
+select * from board where idx=1;
+
+select count(*) from modify where modifyState='미완료';

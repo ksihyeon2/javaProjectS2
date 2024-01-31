@@ -57,6 +57,34 @@
   		 });
   	}
   	
+  	// 신고 파트별 보기
+  	function partCheck(part){
+  		location.href = "complaintList?part="+part;
+  	}
+  	
+  	// 신고 사유별 보기
+  	function typeCheck(type){
+  		location.href="complaintList?type="+type;
+  	}
+  	
+  	// 신고 처리 상태별 보기
+  	function stateCheck(state){
+  		location.href="complaintList?state="+state;
+  	}
+  	
+  	// 검색기
+  	function searchCheck(){
+  		let search = $("#search").val();
+  		let searchString = $("#searchString").val();
+  		
+  		location.href="complaintList?search="+search+"&searchString="+searchString;
+  	}
+  	
+  	// 페이징
+  	function pageSizeCheck(){
+  		let pageSize = $("#pageSize").val();
+  		location.href="complaintList?pageSize="+pageSize;
+  	}
   </script>
 </head>
 <body>
@@ -90,10 +118,8 @@
 	    	<div class="input-group">
 		    	<div class="mr-3">
 		        <select name="search" id="search" class="form-control">
-		          <option selected value="">선택</option>
-		          <option value="title">아이디</option>
-		          <option value="member">닉네임</option>
-		          <option value="content">성명</option>
+		        	<!-- 검색 option 더 추가하기 -->
+		          <option value="complaintMid">신고자</option>
 		        </select>
 		    	</div>
 		      <input type="text" name="searchString" id="searchString" value="${searchString}" class="form-control mr-sm-2" placeholder="검색어를 입력해주세요"/>
@@ -122,12 +148,12 @@
   		<th>
 				<div class="dropdown-toggle" data-toggle="dropdown">사유
   				<div class="dropdown-menu">
-			      <a class="dropdown-item" href="#">전체</a>
-			      <a class="dropdown-item" href="#">폭력</a>
-			      <a class="dropdown-item" href="#">거짓정보</a>
-			      <a class="dropdown-item" href="#">스팸</a>
-			      <a class="dropdown-item" href="#">혐오</a>
-			      <a class="dropdown-item" href="#">기타</a>
+			      <a class="dropdown-item" href="#" onclick="typeCheck('')">전체</a>
+			      <a class="dropdown-item" href="#" onclick="typeCheck('폭력')">폭력</a>
+			      <a class="dropdown-item" href="#" onclick="typeCheck('거짓 정보')">거짓정보</a>
+			      <a class="dropdown-item" href="#" onclick="typeCheck('스팸')">스팸</a>
+			      <a class="dropdown-item" href="#" onclick="typeCheck('혐오')">혐오</a>
+			      <a class="dropdown-item" href="#" onclick="typeCheck('기타')">기타</a>
 			    </div>
   			</div>
 			</th>
@@ -135,16 +161,21 @@
   		<th>
 				<div class="dropdown-toggle" data-toggle="dropdown">상태
   				<div class="dropdown-menu">
-			      <a class="dropdown-item" href="#">전체</a>
-			      <a class="dropdown-item" href="#">대기중</a>
-			      <a class="dropdown-item" href="#">보류</a>
-			      <a class="dropdown-item" href="#">완료</a>
+			      <a class="dropdown-item" href="#" onclick="stateCheck('')">전체</a>
+			      <a class="dropdown-item" href="#" onclick="stateCheck('대기중')">대기중</a>
+			      <a class="dropdown-item" href="#" onclick="stateCheck('보류')">보류</a>
+			      <a class="dropdown-item" href="#" onclick="stateCheck('삭제완료')">완료</a>
 			    </div>
   			</div>
 			</th>
   		<th>관리</th>
   	</tr>
   	<c:set var="curScrStartNo" value="${pageVO.curScrStartNo}" />
+  	<c:if test="${empty vos}">
+  		<tr>
+  			<td colspan="8">해당 관련 신고글이 없습니다.</td>
+  		</tr>
+  	</c:if>
   	<c:forEach var="vo" items="${vos}" varStatus="st">
   		<tr>
   			<td>${curScrStartNo}</td>

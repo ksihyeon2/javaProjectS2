@@ -9,3 +9,6 @@ create table modify(
 );
 
 select * from modify where hName = '바벨 로우' and requestMid = 'ccc1234';
+
+select * from healthWrite where mid = 'bbb1234' order by idx limit 5;
+

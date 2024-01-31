@@ -116,6 +116,16 @@
  	</table>
  	<br />
  	<table class="table table-borderless" style="width:1000px;margin-left:10%">
+ 		<tr>
+ 			<td colspan="3">
+ 				<c:if test="${empty part}">
+	 				<h3 style="color:white;">즐겨찾기</h3>
+ 				</c:if>
+ 				<c:if test="${!empty part}">
+	 				<h3 style="color:white;">${part}</h3>
+ 				</c:if>
+ 			<hr /></td>
+ 		</tr>
  		<c:if test="${!empty vos}">
 	 		<c:forEach var="vo" items="${vos}">
 		 			<tr style="height:200px">

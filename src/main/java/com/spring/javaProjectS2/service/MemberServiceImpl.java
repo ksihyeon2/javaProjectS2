@@ -138,4 +138,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.setHealthWrite(vo);
 	}
 
+	@Override
+	public List<HealthWriteVO> getHealthWriteSearchList(String mid) {
+		return memberDAO.getHealthWriteSearchList(mid);
+	}
+
 }

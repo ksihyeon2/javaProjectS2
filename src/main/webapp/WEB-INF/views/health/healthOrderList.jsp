@@ -58,7 +58,7 @@
 				 					</c:if>
 								</td>
 				 				<td >
-				 					<h3><a href="healthContent?hName=${vo.HName}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&part=${vo.part}"><b style="color: white;">${vo.HName}</b></a></h3><br />
+				 					<h3><b style="color: white;">${vo.HName}</b></h3><br />
 				 					<span style="font-size:1em;color:yellow;">
 				 						<c:if test="${strGender == '여자' && empty HealthStrLevel && vo.part != '유산소'}">
 				 							15회 X 3세트
