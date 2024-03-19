@@ -67,6 +67,8 @@ public class PageProcess {
 			} else if(section.equals("modifyState")) {
 				System.out.println("str : " + str);
 				totRecCnt = adminDAO.getModifyStateTotRecCnt(str);
+			} else if(section.equals("notice")) {
+				totRecCnt = adminDAO.getNoticeTotRecCnt();
 			}
 			
 			int totPage = (totRecCnt % pageSize)==0 ? (totRecCnt / pageSize) : (totRecCnt / pageSize) + 1 ;

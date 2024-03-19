@@ -61,5 +61,7 @@ public interface BoardDAO {
 
 	public int getTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
 
+	public List<BoardVO> getNoticeList();
+
 
 }

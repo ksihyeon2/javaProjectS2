@@ -45,17 +45,39 @@ public class BoardController {
 	// 게시물 리스트 창 띄우기
 	@RequestMapping(value = "/boardList", method = RequestMethod.GET)
 	public String boardListGet(Model model, HttpSession session,
-			@RequestParam(name = "user", defaultValue = "", required = false) String user) {
-		List<BoardVO> vos = boardService.getBoardList(0, 6,"");
-		model.addAttribute("vos", vos);
-
-		if (user.trim().equals("") || user.equals("admin")) {
-			model.addAttribute("user",user);
-			return "board/boardList";
-		} else {
-			return "board/boardMyList";
-		}
-		
+		  @RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+		  @RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+		  @RequestParam(name="part", defaultValue = "", required = false) String part,
+		  @RequestParam(name="search", defaultValue = "", required = false) String search,
+		  @RequestParam(name="searchString", defaultValue = "", required = false) String searchString,
+		  @RequestParam(name="user", defaultValue = "", required = false) String user) { 
+	  	PageVO pageVO = new PageVO();
+	  	List<BoardVO> vos = new ArrayList<BoardVO>();
+	  	if(search.equals("") && searchString.equals("")) {
+	  		pageVO = pageProcess.totRecCnt(pag,pageSize,"board","","","");
+	  		vos =  boardService.getBoardList(pageVO.getStartIndexNo(),pageSize,part);
+	  		model.addAttribute("part",part);
+	  	} else {
+	  		pageVO = pageProcess.totRecCnt(pag, pageSize, "board", search, searchString,"");
+	  		vos = boardService.getBoardSearchList(pageVO.getStartIndexNo(), pageSize, search, searchString);
+	  		model.addAttribute("search",search);
+	  		model.addAttribute("searchString",searchString);
+	  	}
+	  	
+	 // 공지사항
+	 		List<BoardVO> noticeVOS = boardService.getNoticeList();
+	 		
+	 		model.addAttribute("noticeVOS", noticeVOS);
+	  	
+		  model.addAttribute("pageVO", pageVO);
+		  model.addAttribute("vos",vos);
+		  model.addAttribute("user",user);
+		  
+		  if(part.equals("공지")) {
+		  	return "admin/noticeList";
+		  } else {
+		  	return "board/boardList";
+		  }
 	}
 	
   // 게시물 전체 리스트 창 띄우기 (검색기)
@@ -79,6 +101,11 @@ public class BoardController {
   		model.addAttribute("search",search);
   		model.addAttribute("searchString",searchString);
   	}
+  	
+ // 공지사항
+ 		List<BoardVO> noticeVOS = boardService.getNoticeList();
+ 		
+ 		model.addAttribute("noticeVOS", noticeVOS);
   	
 	  model.addAttribute("pageVO", pageVO);
 	  model.addAttribute("vos",vos);
@@ -134,14 +161,17 @@ public class BoardController {
 	// 게시물 작성 창 띄우기
 	@RequestMapping(value = "/boardInput", method = RequestMethod.GET)
 	public String boardInputGet(Model model,
-			@RequestParam(name = "user", defaultValue = "", required = false) String user) {
+			@RequestParam(name = "user", defaultValue = "", required = false) String user,
+			@RequestParam(name= "notice", defaultValue = "", required = false) String notice) {
 		model.addAttribute("user", user);
+		model.addAttribute("notice", notice);
 		return "board/boardInput";
 	}
 
 	// 게시물 작성하기
 	@RequestMapping(value = "/boardInput", method = RequestMethod.POST)
 	public String boardinputPost(BoardVO vo) {
+		System.out.println("vo : " + vo);
 		if (vo.getPart() == "") {
 			vo.setPart("기타");
 		}

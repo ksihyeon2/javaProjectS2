@@ -71,8 +71,6 @@
 		select * from complaint where complaintState = #{state} order by idx desc;
 	</select>
 	<select id="getComplaintSearchList" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
-		<!-- <if test="search == ''">
-		</if> -->
 		<if test="search != ''">
 			select * from complaint where ${search} like concat('%',#{searchString},'%') order by idx desc;
 		</if>
@@ -81,7 +79,41 @@
 		select count(*) from modify where modifyState = #{state};
 	</select>
 	<select id="getHealthModifyStateList" resultType="com.spring.javaProjectS2.vo.ModifyVO">
-		select * from modify where modifyState = #{state} order by idx desc limit #{startIndexNo}, #{pageSize};
+		select *, datediff(modifyDate,now()) as date_diff, timestampdiff(hour,modifyDate,now()) as hour_diff from modify where modifyState = #{state} order by idx desc limit #{startIndexNo}, #{pageSize};
+	</select>
+	<select id="getBoardImportant" resultType="int">
+		select count(*) from board where part = '공지' and openSw = 'OK';
+	</select>
+	<select id="getNoticeTotRecCnt" resultType="int">
+		select count(*) from board where part = '공지';
+	</select>
+	<select id="getNoticeList" resultType="com.spring.javaProjectS2.vo.BoardVO">
+		select *, datediff(wDate,now()) as date_diff, timestampdiff(hour,wDate,now()) as hour_diff from board where part = '공지' order by wDate desc limit #{startIndexNo}, #{pageSize};
+	</select>
+	<select id="getNoticeStateList" resultType="com.spring.javaProjectS2.vo.BoardVO">
+		<if test="state == '등록'">
+			select *, datediff(wDate,now()) as date_diff, timestampdiff(hour,wDate,now()) as hour_diff from board where part = '공지' and openSw = 'OK' order by wDate desc limit #{startIndexNo}, #{pageSize};
+		</if> 
+		<if test="state == '미등록'">
+			select *, datediff(wDate,now()) as date_diff, timestampdiff(hour,wDate,now()) as hour_diff from board where part = '공지' and openSw = 'NO' order by wDate desc limit #{startIndexNo}, #{pageSize};
+		</if> 
+	</select>
+	<select id="getSearchNoticeList" resultType="com.spring.javaProjectS2.vo.BoardVO">
+		<if test="search == ''">
+			select *, datediff(wDate,now()) as date_diff, timestampdiff(hour,wDate,now()) as hour_diff from board where title like concat('%',#{searchString},'%') or content like concat('%',#{searchString},'%') and part = '공지' order by wDate desc;
+		</if>
+		<if test="search != ''">
+			select *, datediff(wDate,now()) as date_diff, timestampdiff(hour,wDate,now()) as hour_diff from board where ${search} like concat('%',#{searchString},'%') and part = '공지' order by wDate desc;
+		</if>
+	</select>
+	<select id="getNoticeMainList" resultType="com.spring.javaProjectS2.vo.BoardVO">
+		select *, datediff(wDate,now()) as date_diff, timestampdiff(hour,wDate,now()) as hour_diff from board where part = '공지' and openSw = 'OK' order by wDate desc;
+	</select>
+	<select id="getHealthModifyMainList" resultType="com.spring.javaProjectS2.vo.ModifyVO">
+	 select *, datediff(modifyDate,now()) as date_diff, timestampdiff(hour,modifyDate,now()) as hour_diff from modify where modifyState = '미완료' order by modifyDate desc;
+	</select>
+	<select id="getComplaintMainList" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
+		select * from complaint where complaintState = '대기중' order by complaintDate desc;
 	</select>
 	
 	
@@ -108,5 +140,13 @@
 	</update>
 	<update id="setAdmininquiryContent">
 		update inquiry set answerMid = #{vo.answerMid}, answer = #{vo.answer}, answertime = now(), inquirystate = '답변완료' where idx = #{vo.idx};
+	</update>
+	<update id="setNoticeStateChange">
+		<if test="state == 'down'">
+			update board set openSw = 'NO' where idx = #{idx};
+		</if>
+		<if test="state == 'up'">
+			update board set openSw = 'OK', wDate = now() where idx = #{idx};
+		</if>
 	</update>
 </mapper>

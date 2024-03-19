@@ -1,9 +1,10 @@
 show tables;
 
 create table visit(
-	today datetime default now(),
-	visit int default 0
-);
+	today  datetime default now(),		 /* 오늘 날짜 */
+	visit  int default 0,							 /* 오늘 방문 수 */
+	member varchar(5) default '비회원'    /* 회원/비회원 유형 */
+	);   
 
 
 select *, timestampdiff(hour,today,now()) as hour_diff from visit;

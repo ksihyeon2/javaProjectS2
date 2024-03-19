@@ -235,17 +235,19 @@
           </div>
         </div>
     </div>
-    <div class="form-group">
+   <div class="form-group">
       <div class="form-check-inline">
-        <span class="input-group-text">성별</span>
-        <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="gender" value="남자" checked>남자
-        </label>
-      </div>
-      <div class="form-check-inline">
-        <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="gender" value="여자">여자
-        </label>
+        <div class="input-group-prepend">
+        	<div class="input-group-text mr-3">성별</div>
+		        <label class="form-check-inline mt-2">
+	            <input type="radio" class="form-check-input">남자
+	          </label>
+		        <div class="form-check-inline mt-2">
+		        <label class="form-check-inline">
+		          <input type="radio" class="form-check-input">여자
+		        </label>
+		      </div>
+        </div>
       </div>
     </div>
     <div class="form-group">

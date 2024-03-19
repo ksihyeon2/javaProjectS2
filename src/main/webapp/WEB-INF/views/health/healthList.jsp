@@ -145,12 +145,12 @@
 							<c:set var="cnt" value="0" />
 							<c:forEach var="interestVO" items="${interestVOS}">
 								<c:if test="${interestVO.partIdx == vo.idx}">
-				 					<a href="javascript:heartCheck('${vo.idx}')"><i class='fas fa-heart' style='font-size:36px'></i></a>
+				 					<a href="javascript:heartCheck('${vo.idx}')"><i class='fas fa-heart' style='font-size:20px'></i></a>
 				 					<c:set var="cnt" value="1"/>
 								</c:if>
 							</c:forEach>
 							<c:if test="${cnt != 1}">
-								<a href="javascript:heartCheck('${vo.idx}')"><i class='far fa-heart' style='font-size:36px'></i></a>
+								<a href="javascript:heartCheck('${vo.idx}')"><i class='far fa-heart' style='font-size:20px'></i></a>
 							</c:if>
 						</td>
 		 			</tr>

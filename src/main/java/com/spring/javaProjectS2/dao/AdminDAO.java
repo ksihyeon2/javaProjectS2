@@ -69,4 +69,22 @@ public interface AdminDAO {
 
 	public List<ModifyVO> getHealthModifyStateList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("state") String state);
 
+	public int getBoardImportant();
+
+	public int getNoticeTotRecCnt();
+
+	public List<BoardVO> getNoticeList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
+
+	public int setNoticeStateChange(@Param("state") String state, @Param("idx") int idx);
+
+	public List<BoardVO> getNoticeStateList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("state") String state);
+
+	public List<BoardVO> getSearchNoticeList(@Param("search") String search, @Param("searchString") String searchString);
+
+	public List<BoardVO> getNoticeMainList();
+
+	public List<ModifyVO> getHealthModifyMainList();
+
+	public List<ComplaintVO> getComplaintMainList();
+
 }

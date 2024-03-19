@@ -131,5 +131,44 @@ public class AdminServiceImpl implements AdminService {
 		return adminDAO.getHealthModifyStateList(startIndexNo,pageSize,state);
 	}
 
+	@Override
+	public int getBoardImportant() {
+		return adminDAO.getBoardImportant();
+	}
+
+	@Override
+	public List<BoardVO> getNoticeList(int startIndexNo, int pageSize) {
+		return adminDAO.getNoticeList(startIndexNo,pageSize);
+	}
+
+	@Override
+	public int setNoticeStateChange(String state, int idx) {
+		return adminDAO.setNoticeStateChange(state,idx);
+	}
+
+	@Override
+	public List<BoardVO> getNoticeStateList(int startIndexNo, int pageSize, String state) {
+		return adminDAO.getNoticeStateList(startIndexNo,pageSize,state);
+	}
+
+	@Override
+	public List<BoardVO> getSearchNoticeList(String search, String searchString) {
+		return adminDAO.getSearchNoticeList(search,searchString);
+	}
+
+	@Override
+	public List<BoardVO> getNoticeMainList() {
+		return adminDAO.getNoticeMainList();
+	}
+
+	@Override
+	public List<ModifyVO> getHealthModifyMainList() {
+		return adminDAO.getHealthModifyMainList();
+	}
+
+	@Override
+	public List<ComplaintVO> getComplaintMainList() {
+		return adminDAO.getComplaintMainList();
+	}
 
 }

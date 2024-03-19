@@ -27,3 +27,13 @@ select count(*) from modify;
 select * from board where idx=1;
 
 select count(*) from modify where modifyState='미완료';
+
+select * from board where part != '운동';
+
+select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff, (select count(*) from reply where boardIdx = board.idx) as replyCnt from board where delCheck = 'NO' and part != '공지' order by idx desc limit 0,10;
+
+select * from board order by part = '공지' desc;
+
+select * from board where part ='운동' and part ='공지' order by part = '공지' desc;
+
+select * from board where part = '운동' or part = '공지' order by part = '공지' desc;

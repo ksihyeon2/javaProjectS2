@@ -23,3 +23,14 @@ select * from board order by idx desc limit 1, 3;
 select * from board where content like '%연습%' or title like '%연습%' or mid like '%연습%';
 
 select * from board where nickName like '%관리맨%' order by idx desc limit 1,3;
+
+update board set wDate = now(), openSw = 'NO' where idx = 2;
+
+select * from board where part = '공지'	order by wDate desc;
+
+select * datediff(wDate,now()) as date_diff, timestampdiff(hour,wDate,now()) as hour_diff from board where title like concat('%',#{searchString},'%') or content like concat('%'#{searchString},'%') order by wDate desc;
+
+select * from board where title like '%24%' or content like '%24%' and part = '공지';
+
+select * from board where content like '%공지%' and part = '공지';
+

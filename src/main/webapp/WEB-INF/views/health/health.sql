@@ -12,7 +12,7 @@ create table health(
 	caution  	 text not null,									   /* 주의 사항 */
   comment  	 varchar(100),                     /* 코멘트 */
   photo 		 varchar(100),                     /* 운동 사진 */
-  interest   int not null default 0
+  interest   int not null default 0						 /* 관심 수 */
 );
 
 select * from interest;

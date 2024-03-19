@@ -189,6 +189,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getBoardSearchList(startIndexNo,pageSize,search,searchString);
 	}
 
+	@Override
+	public List<BoardVO> getNoticeList() {
+		return boardDAO.getNoticeList();
+	}
 
 
 }

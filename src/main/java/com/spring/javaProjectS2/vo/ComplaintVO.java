@@ -12,4 +12,7 @@ public class ComplaintVO {
 	private String complaintText;
 	private String complaintDate;
 	private String complaintState;
+	
+	private int hour_diff;
+	private int date_diff;
 }

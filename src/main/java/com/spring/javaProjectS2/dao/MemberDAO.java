@@ -61,4 +61,5 @@ public interface MemberDAO {
 
 	public List<HealthWriteVO> getHealthWriteSearchList(@Param("mid") String mid);
 
+
 }

@@ -26,7 +26,6 @@
 	
 	    var options = {
 	      title: '회원 인기 운동',
-	      is3D: true,
 	    };
 	
 	    var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
@@ -69,7 +68,7 @@
           <div class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle m-2" data-toggle="dropdown" id="nav-product"><b>커뮤니티</b></a>
             <div class="dropdown-menu bg-transparent border-0 show">
-	            <a href="#" class="dropdown-item">공지사항</a>
+	            <a href="noticeList" class="dropdown-item">공지사항</a>
 	            <a href="${ctp}/board/boardList?user=admin" class="dropdown-item">게시물</a>
             </div>
           </div>
@@ -121,7 +120,7 @@
                 <p class="mb-2 text-black" style="font-size:13pt">신고</p>
               </div>
               <div class="ms-3 mt-2">
-                <h3 class="mb-2 text-black"><a href="#">${complaintSize}건</a></h3>
+                <h3 class="mb-2 text-black"><a href="complaintList?main=main">${complaintSize}건</a></h3>
               </div>
             </div>
           </div>
@@ -131,7 +130,7 @@
                 <p class="mb-2 text-black"  style="font-size:13pt">수정요청</p>
               </div>
               <div class="ms-3 mt-2">
-                <h3 class="mb-2 text-black"><a href="#">${modifySize}건</a></h3>
+                <h3 class="mb-2 text-black"><a href="healthModifyList?main=main">${modifySize}건</a></h3>
               </div>
 	          </div>
           </div>
@@ -141,7 +140,7 @@
                 <p class="mb-2 text-black"  style="font-size:13pt">공지</p>
               </div>
               <div class="ms-3 mt-2">
-                <h3 class="mb-2 text-black"><a href="${ctp}/board/boardMyList" class="dropdown-item">${boardCnt}건</a></h3>
+                <h3 class="mb-2 text-black"><a href="noticeList?main=main" class="dropdown-item">${boardImportant}건</a></h3>
               </div>
 	          </div>
           </div>

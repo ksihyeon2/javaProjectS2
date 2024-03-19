@@ -57,4 +57,6 @@ public interface BoardService {
 
 	public List<BoardVO> getBoardSearchList(int startIndexNo, int pageSize, String search, String searchString);
 
+	public List<BoardVO> getNoticeList();
+
 }

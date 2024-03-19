@@ -57,5 +57,21 @@ public interface AdminService {
 
 	public List<ModifyVO> getHealthModifyStateList(int startIndexNo, int pageSize, String state);
 
+	public int getBoardImportant();
+
+	public List<BoardVO> getNoticeList(int startIndexNo, int pageSize);
+
+	public int setNoticeStateChange(String state, int idx);
+
+	public List<BoardVO> getNoticeStateList(int startIndexNo, int pageSize, String state);
+
+	public List<BoardVO> getSearchNoticeList(String search, String searchString);
+
+	public List<BoardVO> getNoticeMainList();
+
+	public List<ModifyVO> getHealthModifyMainList();
+
+	public List<ComplaintVO> getComplaintMainList();
+
 
 }
