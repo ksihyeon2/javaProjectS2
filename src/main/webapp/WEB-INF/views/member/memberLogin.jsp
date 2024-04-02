@@ -104,7 +104,6 @@
     	let mid = myform.mid.value.trim();
 	  	let pwd = myform.pwd.value;
     	
-	  	/* 정규식으로 유효성 체크 */
     	if(mid.trim() == "") {
     		alert("아이디를 입력하세요.");
     		myform.mid.focus();

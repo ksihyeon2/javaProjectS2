@@ -111,8 +111,8 @@
 	  			<td><a href="#">내용보기</a></td>
 	  			<td>${vo.requestMid}</td>
 	  			<td>
-	  				<c:if test="${vo.modifyState == '미완료'}"><a href="#">
-	  					${vo.modifyState}<i class='fas fa-caret-right' title="답변하러가기"></i></a>
+	  				<c:if test="${vo.modifyState == '미완료'}"><a href="#" title="답변하러가기">
+	  					${vo.modifyState}<i class='fas fa-caret-right'></i></a>
 	  				</c:if>
 	  				<c:if test="${vo.modifyState != '미완료'}">${vo.modifyState}</c:if>
 	  			</td>

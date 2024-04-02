@@ -22,23 +22,59 @@
   	
   	// 게시물 완전 삭제
   	function boardDelOk(idx){
-  		$("#del"+idx).checked = true;
-  		
-  		let ans = confirm("해당 게시물을 완전 삭제하시겠습니까? \n(삭제 후 복구 불가능)");
+  		//$("#del"+idx).checked = true;
+  		let ans = confirm("해당 게시물을 완전 삭제하시겠습니까? \n(삭제 후 복구 불가능합니다.)");
   		if(!ans){
   			return false;
   		}
   		
+  		$.ajax({
+  			url : "${ctp}/board/boardContentDel",
+  			type : "post",
+  			data : {idx:idx},
+  			success : function(res){
+  				if(res != 0){
+  					alert("해당 게시물이 영구 삭제되었습니다.");
+  				}else {
+  					alert("해당 게시물의 영구 삭제에 실패하였습니다.");
+  				}
+  				location.reload();
+  			},
+  			error : function(){
+  				alert("전송 오류");
+  			}
+  		});
   	}
   	
   	// 게시물 복구
   	function boardDelNo(idx){
+  		let ans = confirm("해당 게시물을 복구하시겠습니까? \n(복구 시 게시물은 비공개로 전환됩니다.)");
+  		if(!ans){
+  			return false;
+  		}
   		
+  		$.ajax({
+  			url : "${ctp}/board/boardContentDelNo",
+  			type : "post",
+  			data : {idx:idx},
+  			success : function(res){
+  				if(res != 0){
+  					alert("해당 게시물이 복구되었습니다.");
+  				}else {
+  					alert("해당 게시물 복구에 실패하였습니다.")
+  				}
+  				location.reload();
+  			},
+  			error : function(){
+  				alert("전송 오류");
+  			}
+  		});
   	}
   </script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
+<p><br /></p>
 <p><br /></p>
 <p><br /></p>
 <p><br /></p>
@@ -48,10 +84,9 @@
 			<a class="btn btn-secondary mb-4" href="${ctp}/member/memberPage" style="margin-left:20px;"><i class='fas fa-arrow-left' style='font-size:24px' title="뒤로가기"></i></a>
 		</div>
 		<div class="col-6 text-center">
-			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">휴 지 통</span>
+			<span class="text-center" style="margin:0px auto; font-size:30px; font-weight:bold; padding-bottom:20px">글 삭 제 목 록</span>
 		</div>
 		<div class="col-3 text-right">
-			<a class="btn btn-secondary" href="${ctp}/board/boardInput?user=${sMid}" style="margin-right:10px;"><i class='far fa-edit' style='font-size:25px' title="글작성"></i></a>
 			<a class="btn btn-danger" href="${ctp}/board/boardDelBox" style="margin-right:20px;"><i class='far fa-trash-alt' style='font-size:25px;color:white;' title="휴지통"></i></a>
 		</div>
 	</div>
@@ -62,15 +97,15 @@
   		<th>제목</th>
   		<th>분류</th>
   		<th>삭제일</th>
-  		<th></th>
+  		<th>기타</th>
   	</tr>
   	<tr><td colspan="6" class="p-0"></td></tr>
+		<c:if test="${empty vos}">
+			<tr>
+				<td colspan="6">삭제된 게시물이 없습니다.</td>
+			</tr>
+		</c:if>
   	<c:forEach var="vo" items="${vos}" varStatus="st">
-			<c:if test="${empty vo}">
-				<tr>
-					<td colspan="6">삭제된 게시물이 없습니다.</td>
-				</tr>
-			</c:if>
   		<tr>
   			<td><input type="checkbox" name="del" id="del${vo.idx}" value="${vo.idx}"></td>
   			<td><a href="boardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&del=${vo.delCheck}">${vo.title} </a> (${vo.replyCnt})</td>

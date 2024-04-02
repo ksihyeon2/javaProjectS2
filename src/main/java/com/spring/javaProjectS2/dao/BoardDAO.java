@@ -27,7 +27,7 @@ public interface BoardDAO {
 
 	public ComplaintVO getBoardComplanit(@Param("complaintMid") String complaintMid, @Param("idx") int idx);
 
-	public int setBoardContentDel(@Param("mid") String mid, @Param("idx") int idx);
+	//public int setBoardContentDel(@Param("mid") String mid, @Param("idx") int idx);
 
 	public GoodcheckVO getBoardGoodCheck(@Param("idx") int idx, @Param("nickName") String nickName);
 
@@ -49,7 +49,7 @@ public interface BoardDAO {
 
 	public List<BoardVO> getboardDelBox(@Param("nickName") String nickName);
 
-	public int setBoardMyContentDel(@Param("mid") String mid, @Param("delidx") String delidx);
+	//public int setBoardMyContentDel(@Param("mid") String mid, @Param("delidx") String delidx);
 
 	public List<BoardVO> getboardMyList(@Param("mid") String mid);
 
@@ -62,6 +62,14 @@ public interface BoardDAO {
 	public int getTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
 
 	public List<BoardVO> getNoticeList();
+
+	public int setBoardContentDel(@Param("mid") String mid, @Param("idx") int idx);
+
+	public int setBoardOpenSwChange(@Param("idx") int idx, @Param("openSw") String openSw);
+
+	public int setBoardContentPermanentDel(@Param("mid") String mid, @Param("idx") int idx);
+
+	public int setBoardContentDelNo(@Param("idx") int idx);
 
 
 }

@@ -25,7 +25,7 @@ public interface BoardService {
 
 	public ComplaintVO getBoardComplanit(String complaintMid, int idx);
 
-	public int setBoardContentDel(String mid, int idx);
+	//public int setBoardContentDel(String mid, int idx);
 
 	public GoodcheckVO getBoardGoodCheck(int idx, String nickName);
 
@@ -47,7 +47,7 @@ public interface BoardService {
 
 	public List<BoardVO> getboardDelBox(String nickName);
 
-	public int setBoardMyContentDel(String mid, String delidx);
+	//public int setBoardMyContentDel(String mid, String delidx);
 
 	public List<BoardVO> getboardMyList(String mid);
 
@@ -58,5 +58,13 @@ public interface BoardService {
 	public List<BoardVO> getBoardSearchList(int startIndexNo, int pageSize, String search, String searchString);
 
 	public List<BoardVO> getNoticeList();
+
+	public int setBoardContentDel(String mid, int idx);
+
+	public int setBoardOpenSwChange(int idx, String openSw);
+
+	public int setBoardContentPermanentDel(String mid, int idx);
+
+	public int setBoardContentDelNo(int idx);
 
 }

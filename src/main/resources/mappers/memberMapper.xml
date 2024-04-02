@@ -41,6 +41,12 @@
 	<select id="getHealthWriteSearchList" resultType="com.spring.javaProjectS2.vo.HealthWriteVO">
 		select * from healthWrite where mid = #{mid} order by idx limit 5;
 	</select>
+	<select id="getMyBoardList" resultType="com.spring.javaProjectS2.vo.BoardVO">
+		select *, datediff(delDate,now()) as date_diff, timestampdiff(hour,delDate,now()) as hour_diff from board where nickName = #{nickName} and delCheck = 'OK';
+	</select>
+	<select id="getComplaintList" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
+		select *, datediff(complaintDate,now()) as date_diff, timestampdiff(hour,complaintDate,now()) as hour_diff from complaint	where complaintMid = #{mid} order by idx desc;
+	</select>
 	
 	
 	<!-- insert -->
@@ -76,6 +82,9 @@
 	<update id="setMemberDelOk">
 		update member set userDel = 'OK' where mid = #{mid};
 	</update>
+	<update id="setHealthModifyChange">
+		update modify set modifyText = #{modifyText} where requestMid = #{modifyMid};
+	</update>
 	
 	<!-- delete -->
 	<delete id="setMemberDel">
@@ -83,6 +92,9 @@
 	</delete>
 	<delete id="setmemberinquiryDel">
 		delete from inquiry where idx = #{idx};
+	</delete>
+	<delete id="setBoardDel">
+		delete from board where idx = #{idx};
 	</delete>
 	
 </mapper>

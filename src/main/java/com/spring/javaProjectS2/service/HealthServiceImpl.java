@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.javaProjectS2.dao.HealthDAO;
 import com.spring.javaProjectS2.vo.HealthVO;
 import com.spring.javaProjectS2.vo.InterestVO;
+import com.spring.javaProjectS2.vo.ModifyVO;
 
 @Service
 public class HealthServiceImpl implements HealthService {
@@ -152,5 +153,20 @@ public class HealthServiceImpl implements HealthService {
 	@Override
 	public List<HealthVO> getHealthSearchList(String searchString) {
 		return healthDAO.getHealthSearchList(searchString);
+	}
+
+	@Override
+	public List<ModifyVO> getHealthMyModifyList(String mid) {
+		return healthDAO.getHealthMyModifyList(mid);
+	}
+
+	@Override
+	public ModifyVO gethealthModifyContent(String hName) {
+		return healthDAO.gethealthModifyContent(hName);
+	}
+
+	@Override
+	public int setModifyDel(int idx) {
+		return healthDAO.setModifyDel(idx);
 	}
 }

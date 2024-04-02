@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaProjectS2.vo.BoardVO;
+import com.spring.javaProjectS2.vo.ComplaintVO;
 import com.spring.javaProjectS2.vo.HealthWriteVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
@@ -61,5 +63,12 @@ public interface MemberDAO {
 
 	public List<HealthWriteVO> getHealthWriteSearchList(@Param("mid") String mid);
 
+	public int setHealthModifyChange(@Param("modifyText") String modifyText, @Param("modifyMid") String modifyMid);
+
+	public List<BoardVO> getMyBoardList(@Param("nickName") String nickName);
+
+	public void setBoardDel(@Param("idx") int idx);
+
+	public List<ComplaintVO> getComplaintList(@Param("mid") String mid);
 
 }

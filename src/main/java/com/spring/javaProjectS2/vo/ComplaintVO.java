@@ -1,4 +1,4 @@
-package com.spring.javaProjectS2.vo;
+	package com.spring.javaProjectS2.vo;
 
 import lombok.Data;
 

@@ -20,6 +20,7 @@ import com.spring.javaProjectS2.pagination.PageVO;
 import com.spring.javaProjectS2.service.HealthService;
 import com.spring.javaProjectS2.vo.HealthVO;
 import com.spring.javaProjectS2.vo.InterestVO;
+import com.spring.javaProjectS2.vo.ModifyVO;
 
 @Controller
 @RequestMapping("/health")
@@ -215,4 +216,36 @@ public class HealthController {
 		return "health/healthInputChange";
 	}
 	
+	// 나의 수정 요청건 폼 띄우기
+	@RequestMapping(value = "/healthMyModifyList", method = RequestMethod.GET)
+	public String healthMyModifyListGet(HttpSession session, Model model) {
+		String mid = (String)session.getAttribute("sMid");
+		
+		List<ModifyVO> vos = healthService.getHealthMyModifyList(mid);
+		model.addAttribute("vos",vos);
+		
+		return "health/healthMyModifyList";
+	}
+	
+	// 나의 수정 요청건 자세히 보기
+	@RequestMapping(value = "/healthModifyContent", method = RequestMethod.GET)
+	public String healthModifyContentGet(Model model,
+			@RequestParam(name="hName", defaultValue = "", required = false) String hName) {
+		ModifyVO vo = healthService.gethealthModifyContent(hName);
+		
+		model.addAttribute("vo", vo);
+		return "health/healthModifyContent";
+	}
+	
+	// 수정 요청건 삭제하기
+	@RequestMapping(value = "/modifyDel", method = RequestMethod.GET)
+	public String modifyDelGet(int idx) {
+		int res = healthService.setModifyDel(idx);
+		
+		if(res != 0) {
+			return "redirect://message/modifyDelOK";
+		} else {
+			return "redirect://message/modifyDelNO";
+		}
+	}
 }

@@ -10,6 +10,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.spring.javaProjectS2.dao.MemberDAO;
+import com.spring.javaProjectS2.vo.BoardVO;
+import com.spring.javaProjectS2.vo.ComplaintVO;
 import com.spring.javaProjectS2.vo.HealthWriteVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
@@ -141,6 +143,26 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<HealthWriteVO> getHealthWriteSearchList(String mid) {
 		return memberDAO.getHealthWriteSearchList(mid);
+	}
+
+	@Override
+	public int setHealthModifyChange(String modifyText, String modifyMid) {
+		return memberDAO.setHealthModifyChange(modifyText,modifyMid);
+	}
+
+	@Override
+	public List<BoardVO> getMyBoardList(String nickName) {
+		return memberDAO.getMyBoardList(nickName);
+	}
+
+	@Override
+	public void setBoardDel(int idx) {
+		memberDAO.setBoardDel(idx);
+	}
+
+	@Override
+	public List<ComplaintVO> getComplaintList(String mid) {
+		return memberDAO.getComplaintList(mid);
 	}
 
 }

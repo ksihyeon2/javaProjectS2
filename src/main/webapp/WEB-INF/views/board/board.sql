@@ -34,3 +34,5 @@ select * from board where title like '%24%' or content like '%24%' and part = '�
 
 select * from board where content like '%공지%' and part = '공지';
 
+select *, datediff(delDate,now()) as date_diff, timestampdiff(hour,delDate,now()) as hour_diff from board where mid = 'admin2' and delCheck='OK';
+

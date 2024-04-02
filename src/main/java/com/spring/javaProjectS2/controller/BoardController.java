@@ -73,11 +73,11 @@ public class BoardController {
 		  model.addAttribute("vos",vos);
 		  model.addAttribute("user",user);
 		  
-		  if(part.equals("공지")) {
-		  	return "admin/noticeList";
-		  } else {
+//		  if(part.equals("공지")) {
+//		  	return "admin/noticeList";
+//		  } else {
 		  	return "board/boardList";
-		  }
+//		  }
 	}
 	
   // 게시물 전체 리스트 창 띄우기 (검색기)
@@ -123,39 +123,45 @@ public class BoardController {
 			@RequestParam(name = "del", defaultValue = "", required = false) String del,
 			@RequestParam(name = "admin", defaultValue = "", required = false) String admin,
 			@RequestParam(name = "user", defaultValue = "", required = false) String user) {
-
-		String ContentIdx = (String) session.getAttribute("sContent" + idx);
-		if (ContentIdx == null) {
-			// 조회수 증가 불허를 위한 세션 저장
-			session.setAttribute("sContent" + idx, "OK");
-			boardService.setReadNumPlus(idx);
+		
+		BoardVO complaintVO = boardService.getBoardContent(idx);
+		
+		if(complaintVO == null) {
+			return "redirect:/message/boardDelOK";
+		}else {
+			String ContentIdx = (String) session.getAttribute("sContent" + idx);
+			if (ContentIdx == null) {
+				// 조회수 증가 불허를 위한 세션 저장
+				session.setAttribute("sContent" + idx, "OK");
+				boardService.setReadNumPlus(idx);
+			}
+			
+			BoardVO vo = boardService.getBoardContent(idx);
+			
+			// 이전/다음 글 가져오기
+			BoardVO preVO = boardService.getPreNextSearch(idx, "preVO");
+			BoardVO nextVO = boardService.getPreNextSearch(idx, "nextVO");
+			
+			// 좋아요 여부
+			String nickName = (String) session.getAttribute("sNickName");
+			GoodcheckVO goodCheckVO = boardService.getBoardGoodCheck(idx, nickName);
+			
+			List<ReplyVO> replyVOS = boardService.getBoardReplyList(idx);
+			model.addAttribute("replyVOS", replyVOS);
+			
+			model.addAttribute("vo", vo);
+			model.addAttribute("preVO", preVO);
+			model.addAttribute("nextVO", nextVO);
+			model.addAttribute("pag", pag);
+			model.addAttribute("pageSize", pageSize);
+			model.addAttribute("goodCheckVO", goodCheckVO);
+			model.addAttribute("mid", mid);
+			model.addAttribute("del", del);
+			model.addAttribute("admin", admin);
+			model.addAttribute("user", user);
+			
+			return "board/boardContent";
 		}
-
-		BoardVO vo = boardService.getBoardContent(idx);
-
-		// 이전/다음 글 가져오기
-		BoardVO preVO = boardService.getPreNextSearch(idx, "preVO");
-		BoardVO nextVO = boardService.getPreNextSearch(idx, "nextVO");
-
-		// 좋아요 여부
-		String nickName = (String) session.getAttribute("sNickName");
-		GoodcheckVO goodCheckVO = boardService.getBoardGoodCheck(idx, nickName);
-
-		List<ReplyVO> replyVOS = boardService.getBoardReplyList(idx);
-		model.addAttribute("replyVOS", replyVOS);
-
-		model.addAttribute("vo", vo);
-		model.addAttribute("preVO", preVO);
-		model.addAttribute("nextVO", nextVO);
-		model.addAttribute("pag", pag);
-		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("goodCheckVO", goodCheckVO);
-		model.addAttribute("mid", mid);
-		model.addAttribute("del", del);
-		model.addAttribute("admin", admin);
-		model.addAttribute("user", user);
-
-		return "board/boardContent";
 	}
 
 	// 게시물 작성 창 띄우기
@@ -212,19 +218,22 @@ public class BoardController {
 	// 게시물 삭제
 	@ResponseBody
 	@RequestMapping(value = "/boardContentDel", method = RequestMethod.POST)
-	public String boardContentDelPost(String pwd, String mid,
-			@RequestParam(name = "idx", defaultValue = "0", required = false) int idx,
-			@RequestParam(name = "delidx", defaultValue = "", required = false) String delidx) {
-		MemberVO vo = memberService.getMemberIdCheck(mid);
+	public String boardContentDelPost(HttpSession session,
+			@RequestParam(name = "idx", defaultValue = "0", required = false) int idx) {
+		String mid = (String)session.getAttribute("sMid");
+		
+		System.out.println("idx : " + idx);
+		
+		BoardVO vo = boardService.getBoardContent(idx);
+		
+		System.out.println("vo : " + vo);
+		
 		int res = 0;
-		if (passwordEncoder.matches(pwd, vo.getPwd())) {
-			if (idx != 0) {
-				res = boardService.setBoardContentDel(mid, idx);
-			} else if (delidx != "") {
-				res = boardService.setBoardMyContentDel(mid, delidx);
-			}
+		if(vo.getDelCheck().equals("NO")){
+			res = boardService.setBoardContentDel(mid,idx);
+		} else if(vo.getDelCheck().equals("OK")) {
+			res = boardService.setBoardContentPermanentDel(mid,idx);
 		}
-
 		return res + "";
 	}
 
@@ -307,12 +316,6 @@ public class BoardController {
 			@RequestParam(name = "pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
 		String mid = (String) session.getAttribute("sMid");
-//		PageVO pageVO = pageProcess.totRecCnt(pag,pageSize,"board","","");
-
-//		List<BoardVO> vos = boardService.getBoardList(pageVO.getStartIndexNo(),pageSize);
-
-//		model.addAttribute("pageVO", pageVO);
-
 		List<BoardVO> vos = boardService.getboardMyList(mid);
 
 		model.addAttribute("vos", vos);
@@ -326,26 +329,36 @@ public class BoardController {
 		String nickName = (String) session.getAttribute("sNickName");
 
 		List<BoardVO> vos = boardService.getboardDelBox(nickName);
+		
+	// 글 삭제 휴지통 이동 후 7일 이상 됐을때 영구 삭제 처리
+		List<BoardVO> delVOS = memberService.getMyBoardList(nickName);
+		for(BoardVO delVO : delVOS) {
+			if(delVO.getDate_diff() <= -7 && delVO.getHour_diff() >= 24) {
+				memberService.setBoardDel(delVO.getIdx());
+			}
+		}
 
 		model.addAttribute("vos", vos);
 		return "board/boardDelBox";
 	}
+	
+	// 공개 상태 변경하기
+	@ResponseBody
+	@RequestMapping(value = "/boardOpenSwChange", method = RequestMethod.POST)
+	public String boardOpenSwChangePost(
+			@RequestParam(name="idx", defaultValue = "0", required = false) int idx,
+			@RequestParam(name="openSw", defaultValue = "", required = false) String openSw) {
+		
+		int res = boardService.setBoardOpenSwChange(idx,openSw);
+		
+		return res + "";
+	}
 
-//	// 나의 게시물 수정 폼 띄우기
-//	@RequestMapping(value = "/boardUpdate", method = RequestMethod.GET)
-//	public String boardUpdateGet(Model model, int idx,
-//			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
-//			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
-//		// 수정 할 원본 자료에 그림 파일이 존재하면, 그림 파일을 ckeditor 폴더로 복사 처리
-//		BoardVO vo = boardService.getBoardContent(idx);
-//		if(vo.getContent().indexOf("src=\"/") != -1) {
-//			boardService.imgBackup(vo.getContent());
-//		}
-//		
-//		model.addAttribute("vo",vo);
-//		model.addAttribute("pag",pag);
-//		model.addAttribute("pageSize",pageSize);
-//		
-//		return "board/boardUpdate";
-//	}
+	// 삭제된 게시물 복구하기
+	@ResponseBody
+	@RequestMapping(value = "/boardContentDelNo", method = RequestMethod.POST)
+	public String boardContentDelNoPost(int idx) {
+		int res = boardService.setBoardContentDelNo(idx);
+		return res + "";
+	}
 }

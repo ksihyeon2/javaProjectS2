@@ -6,10 +6,10 @@
 	</select>
 	<select id="getBoardList" resultType="com.spring.javaProjectS2.vo.BoardVO">
 		<if test="part == ''">
-			select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff, (select count(*) from reply where boardIdx = board.idx) as replyCnt from board where delCheck = 'NO' and part != '공지' order by idx desc limit #{startIndexNo}, #{pageSize};
+			select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff, (select count(*) from reply where boardIdx = board.idx) as replyCnt from board where openSw = 'OK' and delCheck = 'NO' and part != '공지' order by idx desc limit #{startIndexNo}, #{pageSize};
 		</if>
 		<if test="part != ''">
-			select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff, (select count(*) from reply where boardIdx = board.idx) as replyCnt from board where delCheck = 'NO' and part = #{part} or part = '공지' order by part = '공지' desc limit #{startIndexNo}, #{pageSize};
+			select *, datediff(wDate,now()) as date_diff, timestampdiff(hour, wDate, now()) as hour_diff, (select count(*) from reply where boardIdx = board.idx) as replyCnt from board where openSw = 'OK' and delCheck = 'NO' and part = #{part} or part = '공지' order by part = '공지' desc limit #{startIndexNo}, #{pageSize};
 		</if>
 	</select>
 	<select id="getBoardContent" resultType="com.spring.javaProjectS2.vo.BoardVO">
@@ -39,7 +39,7 @@
 		select * from board where nickName = #{nickName} and delCheck = 'OK' order by idx;
 	</select>
 	<select id="getboardMyList" resultType="com.spring.javaProjectS2.vo.BoardVO">
-		select * from board where mid = #{mid} order by idx;
+		select * from board where mid = #{mid} order by idx desc;
 	</select>
 	<select id="getBoardCnt" resultType="int">
 		select count(*) from board where mid = #{mid} and delCheck = 'NO';
@@ -80,9 +80,9 @@
 	<update id="setReadNumPlus">
 		update board set readNum = readNum+1 where idx = #{idx};
 	</update>
-	<update id="setBoardContentDel">
+	<!-- <update id="setBoardContentDel">
 		update board set delCheck = 'OK', delDate = now() where idx = #{idx} and mid = #{mid};
-	</update>
+	</update> -->
 	<update id="setBoardContentGoodCheck">
 		<if test="goodCheck == 'OK'">
 			update board set good = good+1 where idx = #{idx};
@@ -94,11 +94,23 @@
 	<update id="setReplyOrderUpdate">
 		update reply set re_order = re_order + 1 where boardIdx = #{boardIdx} and re_order > #{re_order};
 	</update>
-	<update id="setBoardMyContentDel">
+	<!-- <update id="setBoardMyContentDel">
 		update board set delCheck = 'OK', delDate = now() where mid = #{mid} and idx = #{delidx};
+	</update> -->
+	<update id="setBoardContentDel">
+		update board set delCheck = 'OK', delDate = now() where mid = #{mid} and idx = #{idx};
 	</update>
-	
-	
+	<update id="setBoardOpenSwChange">
+		<if test="openSw == 'OK'">
+			update board set openSw = 'NO' where idx = #{idx};
+		</if>
+		<if test="openSw == 'NO'">
+			update board set openSw = 'OK' where idx = #{idx};
+		</if>
+	</update>
+	<update id="setBoardContentDelNo">
+		update board set delCheck = 'NO', openSw = 'NO' where idx = #{idx};
+	</update>
 	
 	<!-- delete -->
 	<delete id="setContentGoodCheckDel">
@@ -109,6 +121,9 @@
 	</delete>
 	<delete id="complaintContentDel">
 		delete from board where idx = #{idx};
+	</delete>
+	<delete id="setBoardContentPermanentDel">
+		delete from board where mid = #{mid} and idx = #{idx};
 	</delete>
 	
 </mapper>

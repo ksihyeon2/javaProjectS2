@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaProjectS2.vo.HealthVO;
 import com.spring.javaProjectS2.vo.InterestVO;
+import com.spring.javaProjectS2.vo.ModifyVO;
 
 public interface HealthService {
 
@@ -34,5 +35,12 @@ public interface HealthService {
 	public List<HealthVO> getHealthOrder(int level, String part);
 
 	public List<HealthVO> getHealthSearchList(String searchString);
+
+	public List<ModifyVO> getHealthMyModifyList(String mid);
+
+	public ModifyVO gethealthModifyContent(String hName);
+
+	public int setModifyDel(int idx);
+
 
 }

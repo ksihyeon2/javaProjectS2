@@ -26,6 +26,12 @@
 	<select id="getHealthSearchList" resultType="com.spring.javaProjectS2.vo.HealthVO">
 		select * from health where hName like concat('%',#{searchString},'%') order by idx desc;
 	</select>
+	<select id="getHealthMyModifyList" resultType="com.spring.javaProjectS2.vo.ModifyVO">
+		select * from modify where requestMid = #{mid} order by idx desc;
+	</select>
+	<select id="gethealthModifyContent" resultType="com.spring.javaProjectS2.vo.ModifyVO">
+		select * from modify where hName = #{hName};
+	</select>
 	
 	<!-- insert -->
 	<insert id="setHealthInput">
@@ -38,6 +44,9 @@
 	<!-- delete -->
 	<delete id="setHealthInterestDel">
 		delete from interest where mid = #{mid} and part = 'health' and partIdx = #{idx};
+	</delete>
+	<delete id="setModifyDel">
+		delete from modify where idx = #{idx};
 	</delete>
 	
 	<!-- update -->

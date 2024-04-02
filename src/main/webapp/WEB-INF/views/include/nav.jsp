@@ -55,6 +55,7 @@
                 </c:if>
                 <c:if test="${empty sLevel}">
 	                <li class="nav-item"><a class="nav-link" href="${ctp}/member/memberLogin">LOGIN</a></li>
+	                <li class="nav-item"><a class="nav-link" href="${ctp}/member/memberJoin">회원가입</a></li>
                 </c:if>
                 <c:if test="${sLevel <= 3 }">
 	                <li class="nav-item"><a class="nav-link" href="${ctp}/member/memberLogout">LOGOUT</a></li>

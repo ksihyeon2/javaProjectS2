@@ -2,6 +2,8 @@ package com.spring.javaProjectS2.service;
 
 import java.util.List;
 
+import com.spring.javaProjectS2.vo.BoardVO;
+import com.spring.javaProjectS2.vo.ComplaintVO;
 import com.spring.javaProjectS2.vo.HealthWriteVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
@@ -56,5 +58,14 @@ public interface MemberService {
 	public int setHealthWrite(HealthWriteVO vo);
 
 	public List<HealthWriteVO> getHealthWriteSearchList(String mid);
+
+	public int setHealthModifyChange(String modifyText, String modifyMid);
+
+	public List<BoardVO> getMyBoardList(String nickName);
+
+	public void setBoardDel(int idx);
+
+	public List<ComplaintVO> getComplaintList(String mid);
+
 
 }

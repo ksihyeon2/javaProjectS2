@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaProjectS2.vo.HealthVO;
 import com.spring.javaProjectS2.vo.InterestVO;
+import com.spring.javaProjectS2.vo.ModifyVO;
 
 public interface HealthDAO {
 
@@ -34,6 +35,12 @@ public interface HealthDAO {
 	public List<HealthVO> getHealthOrder(@Param("level") int level, @Param("part") String part);
 
 	public List<HealthVO> getHealthSearchList(@Param("searchString") String searchString);
+
+	public List<ModifyVO> getHealthMyModifyList(@Param("mid") String mid);
+
+	public ModifyVO gethealthModifyContent(@Param("hName") String hName);
+
+	public int setModifyDel(@Param("idx") int idx);
 
 
 }

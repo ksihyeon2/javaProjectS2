@@ -55,10 +55,9 @@
         <td>
         	<select class="form-control" name="part" id="part">
 		        <option selected value="">선택</option>
-		        <option>상품</option>
-		        <option>배송</option>
-		        <option>교환</option>
-		        <option>반품</option>
+		        <option>요청</option>
+		        <option>질문</option>
+		        <option>건의</option>
 	      	</select>
         </td>
       </tr>
@@ -68,7 +67,7 @@
       	</td>
       </tr>
       <tr>
-   			<td><span style="font-size:0.8em">주민번호, 전화번호, 이메일 등 개입정보를 남기면 타인에 의해 도용될 수 있습니다. 개인정보는 상품문의에 남기지 말아주세요.</span></td>
+   			<td><span style="font-size:0.8em">* 주민번호, 전화번호, 이메일 등 개입정보를 남기면 타인에 의해 도용될 수 있습니다. 개인정보는 상품문의에 남기지 말아주세요.</span></td>
       </tr>
       <tr>
       	<td>

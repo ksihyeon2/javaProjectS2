@@ -32,6 +32,8 @@ import com.spring.javaProjectS2.service.AdminService;
 import com.spring.javaProjectS2.service.BoardService;
 import com.spring.javaProjectS2.service.MemberService;
 import com.spring.javaProjectS2.vo.BoardVO;
+import com.spring.javaProjectS2.vo.ComplaintVO;
+import com.spring.javaProjectS2.vo.HealthVO;
 import com.spring.javaProjectS2.vo.HealthWriteVO;
 import com.spring.javaProjectS2.vo.InquiryVO;
 import com.spring.javaProjectS2.vo.MemberVO;
@@ -104,10 +106,8 @@ public class MemberController {
 			session.setAttribute("strLevel", strLevel);
 			
 			// 쿠키저장/삭제
-			
 			if(idSave.equals("on")) {
 				Cookie cookieMid = new Cookie("cMid", mid);
-				//cookieMid.setPath("/");
 				cookieMid.setMaxAge(60*60*24*7);
 				response.addCookie(cookieMid);
 			}	else {
@@ -453,7 +453,7 @@ public class MemberController {
 		String mid = (String)session.getAttribute("sMid");
 		
 		List<InquiryVO> vos = memberService.getMemberInquiryList(pageVO.getStartIndexNo(),pageSize,mid);
-		
+		System.out.println("vos : " + vos);
 		model.addAttribute("pageVO",pageVO);
 		model.addAttribute("vos",vos);
 		return "member/memberInquiryList";
@@ -567,5 +567,33 @@ public class MemberController {
 		List<HealthWriteVO> vos = memberService.getHealthWriteList(mid);
 		model.addAttribute("vos",vos);
 		return "member/healthWriteList";
+	}
+	
+	// 운동 수정건 재수정
+	@ResponseBody
+	@RequestMapping(value = "/healthModifyChange", method = RequestMethod.POST)
+	public String healthModifyChangePost(ModifyVO vo) {
+		
+		ModifyVO modifyVO = memberService.getHealthModify(vo.getHName(), vo.getRequestMid(), vo.getModifyPart());
+		
+		int res = 0;
+		
+		if(modifyVO != null) {
+			res = memberService.setHealthModifyChange(vo.getModifyText(),vo.getRequestMid());
+		}
+		
+		return res + "";
+	}
+	
+	// 자신의 신고 목록 폼 띄우기
+	@RequestMapping(value = "/memberComplaintList", method = RequestMethod.GET)
+	public String memberComplaintListGet(HttpSession session,  Model model) {
+		String mid = (String)session.getAttribute("sMid");
+		
+		List<ComplaintVO> vos = memberService.getComplaintList(mid);
+		System.out.println("vos : " + vos);
+		model.addAttribute("vos", vos);
+		
+		return "member/memberComplaintList";
 	}
 }

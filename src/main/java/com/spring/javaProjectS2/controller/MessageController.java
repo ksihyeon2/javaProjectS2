@@ -132,7 +132,16 @@ public class MessageController {
 		}	else if(msgFlag.equals("HealthWriteNO")) {
 			model.addAttribute("msg", "오늘은 이미 기록을 하셨습니다.");
 			model.addAttribute("url", "/member/memberPage"); 
-		}
+		} else if(msgFlag.equals("modifyDelOK")) {
+			model.addAttribute("msg", "해당 수정 요청건이 삭제되었습니다.");
+			model.addAttribute("url", "/health/healthMyModifyList"); 
+		} else if(msgFlag.equals("modifyDelNO")) {
+			model.addAttribute("msg", "해당 수정 요청건 삭제에 실패하였습니다.");
+			model.addAttribute("url", "/health/healthMyModifyList"); 
+		}else if(msgFlag.equals("boardDelOK")) {
+			model.addAttribute("msg", "해당 게시물이 삭제되었습니다.");
+			model.addAttribute("url", "/member/memberComplaintList"); 
+		} 
 		return "include/message";
 	}
 }

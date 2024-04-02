@@ -115,15 +115,17 @@
           <div class="nav-item dropdown">
 	          <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">커뮤니티</a>
 	          <div class="dropdown-menu bg-transparent border-0 show">
-	            <a href="#" class="dropdown-item">공지사항</a>
+	            <a href="${ctp}/board/boardList?part=공지" class="dropdown-item">공지사항</a>
 	            <a href="${ctp}/board/boardMyList" class="dropdown-item">나의 활동 목록</a>
+	            <a href="${ctp}/board/boardDelBox" class="dropdown-item">글 삭제 목록</a>
 	          </div>
           </div>
           <div class="nav-item dropdown">
 	          <a href="#" class="nav-link dropdown-toggle m-2 red" data-toggle="dropdown" id="nav-product">기타</a>
 	          <div class="dropdown-menu bg-transparent border-0 show">
-	            <a href="#" class="dropdown-item">수정 요청</a>
-	            <a href="#" class="dropdown-item">나의 신고물</a>
+	            <a href="memberInquiryList" class="dropdown-item">문의&요청건</a>
+	            <a href="${ctp}/health/healthMyModifyList" class="dropdown-item">수정 요청건</a>
+	            <a href="memberComplaintList" class="dropdown-item">나의 신고건</a>
 	          </div>
           </div>
           <div class="nav-item d-block">

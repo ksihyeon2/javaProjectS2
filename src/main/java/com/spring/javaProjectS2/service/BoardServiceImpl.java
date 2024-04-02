@@ -108,11 +108,11 @@ public class BoardServiceImpl implements BoardService {
 	public ComplaintVO getBoardComplanit(String complaintMid, int idx) {
 		return boardDAO.getBoardComplanit(complaintMid,idx);
 	}
-
-	@Override
-	public int setBoardContentDel(String mid, int idx) {
-		return boardDAO.setBoardContentDel(mid,idx);
-	}
+//
+//	@Override
+//	public int setBoardContentDel(String mid, int idx) {
+//		return boardDAO.setBoardContentDel(mid,idx);
+//	}
 
 	@Override
 	public GoodcheckVO getBoardGoodCheck(int idx, String nickName) {
@@ -164,10 +164,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.getboardDelBox(nickName);
 	}
 
-	@Override
-	public int setBoardMyContentDel(String mid, String delidx) {
-		return boardDAO.setBoardMyContentDel(mid,delidx);
-	}
+//	@Override
+//	public int setBoardMyContentDel(String mid, String delidx) {
+//		return boardDAO.setBoardMyContentDel(mid,delidx);
+//	}
 
 	@Override
 	public List<BoardVO> getboardMyList(String mid) {
@@ -192,6 +192,26 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardVO> getNoticeList() {
 		return boardDAO.getNoticeList();
+	}
+
+	@Override
+	public int setBoardContentDel(String mid, int idx) {
+		return boardDAO.setBoardContentDel(mid,idx);
+	}
+
+	@Override
+	public int setBoardOpenSwChange(int idx, String openSw) {
+		return boardDAO.setBoardOpenSwChange(idx,openSw);
+	}
+
+	@Override
+	public int setBoardContentPermanentDel(String mid, int idx) {
+		return boardDAO.setBoardContentPermanentDel(mid,idx);
+	}
+
+	@Override
+	public int setBoardContentDelNo(int idx) {
+		return boardDAO.setBoardContentDelNo(idx);
 	}
 
 
