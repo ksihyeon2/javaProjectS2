@@ -13,40 +13,26 @@
   <link href="${ctp}/css/styles.css" rel="stylesheet" />
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
-      google.charts.load('current', {'packages':['line']});
-      google.charts.setOnLoadCallback(drawChart);
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawVisualization);
+    function drawVisualization() {
+        var data = google.visualization.arrayToDataTable([
+          ['날짜','몸무게'],
+          <c:forEach var="i" begin="0" end="${size}">
+	        	[${date[i]},  ${weight[i]}],
+    			</c:forEach>
+        ]);
 
-    function drawChart() {
+        var options = {
+          title : '${month} 월달 운동 분석표',
+          hAxis: {title: '날짜'},
+          series: {1: {type: 'line'}}
+        };
 
-      var data = new google.visualization.DataTable();
-      data.addColumn('number', 'Day');
-      data.addColumn('number', '');
+        var chart = new google.visualization.ComboChart(document.getElementById('line_top_x'));
+        chart.draw(data, options);
+      }
 
-      data.addRows([
-    	  <c:forEach var="i" begin="0" end="${size}">
-	        [${date[i]},  ${weight[i]}],
-      	</c:forEach>
-      ]);
-      
-      
-
-      var options = {
-        chart: {
-          title: '나의 운동 분석표'
-        },
-        width: 900,
-        height: 300,
-        axes: {
-          x: {
-            0: {side: 'top'}
-          }
-        }
-      };
-
-      var chart = new google.charts.Line(document.getElementById('line_top_x'));
-
-      chart.draw(data, google.charts.Line.convertOptions(options));
-    }
   </script>
   <style>
   	a {
@@ -79,6 +65,12 @@
   	function memberDelOk(){
   		let pwd = $("#delPwd").val();
   		let mid = $("#delMid").val();
+  		
+  		let ans = confirm("회원을 탈퇴하겠습니다.");
+  		
+  		if(!ans){
+  			return false;
+  		}
   		
   		let query = {
   				pwd:pwd,

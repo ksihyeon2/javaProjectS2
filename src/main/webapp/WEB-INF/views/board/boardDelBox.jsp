@@ -20,7 +20,7 @@
   <script>
   	'use strcit';
   	
-  	// 게시물 완전 삭제
+  	// 게시물 영구 삭제
   	function boardDelOk(idx){
   		//$("#del"+idx).checked = true;
   		let ans = confirm("해당 게시물을 완전 삭제하시겠습니까? \n(삭제 후 복구 불가능합니다.)");

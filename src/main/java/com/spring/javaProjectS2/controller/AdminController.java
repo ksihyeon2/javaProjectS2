@@ -66,13 +66,14 @@ public class AdminController {
 		}
 		
 		// 문의 대기건 수 구하기
-		List<InquiryVO> inquiryVO = adminService.getInquiryStandby();
+		int inquirySize = adminService.getInquiryStandby();
 		
 		// 신고 대기건 수 구하기
 		int complaintSize = adminService.getComplaintSize();
 		
 		// 수정 요청건 수 구하기
 		int modifySize = adminService.getModifySize();
+		
 		
 		// 차트 분석 구하기(인기 운동 순서)
 		List<HealthVO> healthVOS = adminService.getHealthInterestList();
@@ -86,15 +87,14 @@ public class AdminController {
 			cnt++;
 		}
 		
-		// 공지건 수 구하기
-		int boardImportant = adminService.getBoardImportant();
 		
 		model.addAttribute("hName",hName);
 		model.addAttribute("interest",interest);
 		model.addAttribute("healthVOS",healthVOS);
 		model.addAttribute("complaintSize",complaintSize);
 		model.addAttribute("modifySize",modifySize);
-		model.addAttribute("boardImportant",boardImportant);
+		model.addAttribute("inquirySize",inquirySize);
+		//model.addAttribute("boardImportant",boardImportant);
 		model.addAttribute("vo", vo);
 		return "/admin/adminPage";
 	}
@@ -229,10 +229,16 @@ public class AdminController {
 	@RequestMapping(value = "/inquiryList", method = RequestMethod.GET)
 	public String inquiryListGet(Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
-			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize) {
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="main", defaultValue = "", required = false) String main) {
+		List<InquiryVO> vos = new ArrayList<InquiryVO>();
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "inquiry", "", "","");
 		
-		List<InquiryVO> vos = adminService.getInquiryList(pageVO.getStartIndexNo(),pageSize);
+		if(main.equals("")) {
+			vos = adminService.getInquiryList(pageVO.getStartIndexNo(),pageSize);
+		}else {
+			vos = adminService.getInquiryMianList();
+		}
 		
 		model.addAttribute("pageVO",pageVO);
 		model.addAttribute("vos",vos);

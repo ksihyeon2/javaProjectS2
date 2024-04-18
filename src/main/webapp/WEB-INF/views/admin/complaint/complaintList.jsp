@@ -21,7 +21,7 @@
   	'use strict';
   	
   	function complaintNO(complaintidx){
-  		let ans = confirm("해당 신고물의 상태를 '보류'로 변경하시겠습니까?");
+  		let ans = confirm("해당 신고물의 상태를 '반려'로 변경하시겠습니까?");
   		
   		if(!ans){
   			return false;
@@ -163,7 +163,7 @@
   				<div class="dropdown-menu">
 			      <a class="dropdown-item" href="#" onclick="stateCheck('')">전체</a>
 			      <a class="dropdown-item" href="#" onclick="stateCheck('대기중')">대기중</a>
-			      <a class="dropdown-item" href="#" onclick="stateCheck('보류')">보류</a>
+			      <a class="dropdown-item" href="#" onclick="stateCheck('반려')">반려</a>
 			      <a class="dropdown-item" href="#" onclick="stateCheck('삭제완료')">완료</a>
 			    </div>
   			</div>
@@ -209,7 +209,7 @@
   				<c:if test="${vo.complaintState == '대기중'}">
 	  				<div class="dropdown-toggle" data-toggle="dropdown">${vo.complaintState}
 		  				<div class="dropdown-menu">
-					      <a class="dropdown-item" href="#" onclick="complaintNO(${vo.complaintidx})">보류</a>
+					      <a class="dropdown-item" href="#" onclick="complaintNO(${vo.complaintidx})">반려</a>
 					    </div>
 		  			</div>
   				</c:if>
@@ -222,10 +222,10 @@
   					<c:if test="${vo.complaintState == '삭제완료'}">
   						검토완료
   					</c:if>
-  					<c:if test="${vo.complaintState == '보류'}">
+  					<c:if test="${vo.complaintState == '반려'}">
   						<a href="complaintCheck?complaintidx=${vo.complaintidx}">검토완료</a>
   					</c:if>
-  					<c:if test="${vo.complaintState != '삭제완료' && vo.complaintState != '보류'}">
+  					<c:if test="${vo.complaintState != '삭제완료' && vo.complaintState != '반려'}">
   						<a href="complaintCheck?complaintidx=${vo.complaintidx}">검토하기 <i class='fas fa-caret-right'></i></a>
   					</c:if>
   				</c:if>

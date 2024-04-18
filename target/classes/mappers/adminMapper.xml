@@ -18,7 +18,7 @@
 	<select id="getInquiryList" resultType="com.spring.javaProjectS2.vo.InquiryVO">
 		select *, datediff(asktime,now()) as date_diff, timestampdiff(hour,asktime,now()) as hour_diff from inquiry order by idx desc limit #{startIndexNo}, #{pageSize};
 	</select>
-	<select id="getInquiryStandby" resultType="com.spring.javaProjectS2.vo.InquiryVO">
+	<select id="getInquiryStandby" resultType="int">
 		select count(*) from inquiry where inquirystate = '미완료';
 	</select>
 	<select id="getComplaintText" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
@@ -115,6 +115,9 @@
 	<select id="getComplaintMainList" resultType="com.spring.javaProjectS2.vo.ComplaintVO">
 		select * from complaint where complaintState = '대기중' order by complaintDate desc;
 	</select>
+	<select id="getInquiryMianList" resultType="com.spring.javaProjectS2.vo.inquiryVO">
+		select * from inquiry where inquirystate = '미완료' order by asktime desc;
+	</select>
 	
 	
 	<!-- insert -->
@@ -135,7 +138,7 @@
 			update complaint set complaintState = '삭제완료' where complaintidx = #{idx};
 		</if>
 		<if test="str == 'NO'">
-			update complaint set complaintState = '보류' where complaintidx = #{idx};
+			update complaint set complaintState = '반려' where complaintidx = #{idx};
 		</if>
 	</update>
 	<update id="setAdmininquiryContent">

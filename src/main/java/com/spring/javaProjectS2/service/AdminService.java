@@ -31,7 +31,7 @@ public interface AdminService {
 
 	public void setAdmininquiryContent(InquiryVO vo);
 
-	public List<InquiryVO> getInquiryStandby();
+	public int getInquiryStandby();
 
 	public ComplaintVO getComplaintText(int idx);
 
@@ -72,6 +72,8 @@ public interface AdminService {
 	public List<ModifyVO> getHealthModifyMainList();
 
 	public List<ComplaintVO> getComplaintMainList();
+
+	public List<InquiryVO> getInquiryMianList();
 
 
 }

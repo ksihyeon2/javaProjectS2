@@ -39,7 +39,7 @@
 		select *, datediff(today,now()) as date_diff from healthWrite where mid = #{mid};
 	</select>
 	<select id="getHealthWriteSearchList" resultType="com.spring.javaProjectS2.vo.HealthWriteVO">
-		select * from healthWrite where mid = #{mid} order by idx limit 5;
+		select * from healthWrite where mid = #{mid} order by healthDate limit 10;
 	</select>
 	<select id="getMyBoardList" resultType="com.spring.javaProjectS2.vo.BoardVO">
 		select *, datediff(delDate,now()) as date_diff, timestampdiff(hour,delDate,now()) as hour_diff from board where nickName = #{nickName} and delCheck = 'OK';

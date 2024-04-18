@@ -12,3 +12,12 @@ select * from modify where hName = '바벨 로우' and requestMid = 'ccc1234';
 
 select * from healthWrite where mid = 'bbb1234' order by idx limit 5;
 
+select count(*) from modify where modifyState = '미완료';
+
+select * from inquiry where inquirystate = '미완료' order by asktime desc;
+
+select * from modify where modifyState = '미완료' and (select * from inquiry where inquirystate = '미완료');
+
+select sum(count(*) as modifySize from modify where modifyState = '미완료') from modify;
+
+select * from modify as m left join inquiry as i on m.modifyState = i.inquirystate;

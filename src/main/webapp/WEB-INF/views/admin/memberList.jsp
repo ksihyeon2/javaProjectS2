@@ -129,7 +129,7 @@
   	</c:if>
   	<c:forEach var="vo" items="${vos}" varStatus="st">
   		<tr>
-  			<td>${curScrStartNo}</td>
+  			<td>${st.count}</td>
   			<td>${vo.mid}</td>
   			<td>${vo.nickName}</td>
   			<td>${vo.name}</td>
@@ -143,7 +143,6 @@
   			</td>
   			<td><a href="#" onclick="memberInfor('${vo.mid}')" title="상세보기" data-toggle="modal" data-target="#myModal"><i class='fas fa-info-circle'></i></a></td>
   		</tr>  
-  		<c:set var="curScrStartNo" value="${curScrStartNo -1}"/>
   	</c:forEach>
   </table>
 </div>

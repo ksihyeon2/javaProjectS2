@@ -67,7 +67,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<InquiryVO> getInquiryStandby() {
+	public int getInquiryStandby() {
 		return adminDAO.getInquiryStandby();
 	}
 
@@ -169,6 +169,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<ComplaintVO> getComplaintMainList() {
 		return adminDAO.getComplaintMainList();
+	}
+
+	@Override
+	public List<InquiryVO> getInquiryMianList() {
+		return adminDAO.getInquiryMianList();
 	}
 
 }

@@ -35,7 +35,7 @@ public interface AdminDAO {
 
 	public void setAdmininquiryContent(@Param("vo") InquiryVO vo);
 
-	public List<InquiryVO> getInquiryStandby();
+	public int getInquiryStandby();
 
 	public ComplaintVO getComplaintText(@Param("idx") int idx);
 
@@ -86,5 +86,7 @@ public interface AdminDAO {
 	public List<ModifyVO> getHealthModifyMainList();
 
 	public List<ComplaintVO> getComplaintMainList();
+
+	public List<InquiryVO> getInquiryMianList();
 
 }

@@ -35,12 +35,6 @@
 	<form name="searchForm">
 		<div class="row mb-5">
 			<div class="col-7 text-left">
-				<select class="form-control mb-3" style="width:150px;" onchange="searchCheck()">
-	        <option selected>전체</option>
-	        <option>운동</option>
-	        <option>식단</option>
-	        <option>기타</option>
-	      </select>
 				<select name="pageSize" id="pageSize" onchange="pageSizeCheck()">
           <option ${pageVO.pageSize==3 ? "selected" : ""}>3</option>
           <option ${pageVO.pageSize==5 ? "selected" : ""}>5</option>
@@ -54,9 +48,9 @@
 		    	<div class="mr-3">
 		        <select name="search" id="search" class="form-control">
 		          <option selected value="">선택</option>
-		          <option value="title">제목</option>
-		          <option value="member">작성자</option>
-		          <option value="content">내용</option>
+		          <option value="title">아이디</option>
+		          <option value="member">닉네임</option>
+		          <option value="content">성명</option>
 		        </select>
 		    	</div>
 		      <input type="text" name="searchString" id="searchString" value="${searchString}" class="form-control mr-sm-2" placeholder="검색어를 입력해주세요"/>
@@ -81,16 +75,16 @@
 		<c:if test="${empty vos}">
 			<tr>
 				<td colspan="6">탈퇴 회원이 없습니다.</td>
-			</tr>
+			</tr>ㄴ
 		</c:if>
   	<c:forEach var="vo" items="${vos}" varStatus="st">
   		<tr>
-  			<td>${curScrStartNo}</td>
+  			<td>${st.count}</td>
   			<td>${vo.mid}</td>
   			<td>${vo.nickName}</td>
   			<td>${vo.name}</td>
   			<td>${vo.email}</td>
-  			<td>${fn:substring(vo.modifyDate,0,10)}</td>
+  			<td>${fn:substring(vo.lastDate,0,10)}</td>
   		</tr>  
   		<c:set var="curScrStartNo" value="${curScrStartNo -1}"/>
   	</c:forEach>

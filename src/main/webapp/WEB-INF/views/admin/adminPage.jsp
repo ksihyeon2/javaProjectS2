@@ -76,6 +76,7 @@
 	          <a href="#" class="nav-link dropdown-toggle m-2" data-toggle="dropdown" id="nav-product"><b>관리</b></a>
 	          <div class="dropdown-menu bg-transparent border-0 show">
 	          	<a href="healthModifyList" class="dropdown-item">수정 요청 관리</a>
+	          	<a href="inquiryList" class="dropdown-item">문의건&요청 관리</a>
 	            <a href="complaintList" class="dropdown-item">신고 관리</a>
 	          </div>
           </div>
@@ -137,10 +138,10 @@
           <div class="col-sm-2 col-xl-2">
 	          <div class="d-flex flex-column align-items-center justify-content-between p-3">
               <div class="ms-3 mt-3">
-                <p class="mb-2 text-black"  style="font-size:13pt">공지</p>
+                <p class="mb-2 text-black"  style="font-size:13pt">문의</p>
               </div>
               <div class="ms-3 mt-2">
-                <h3 class="mb-2 text-black"><a href="noticeList?main=main" class="dropdown-item">${boardImportant}건</a></h3>
+                <h3 class="mb-2 text-black"><a href="inquiryList?main=main" class="dropdown-item">${inquirySize}건</a></h3>
               </div>
 	          </div>
           </div>

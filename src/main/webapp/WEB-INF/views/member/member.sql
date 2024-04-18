@@ -39,3 +39,5 @@ select datediff(modifyDate,now()) as date_diff, timestampdiff(hour,modifyDate,no
 select * from member where userDel = 'OK' order by idx desc;
 
 select count(*) from member where mid like '%ad%' or nickName like '%ad%' or name like '%홍%';
+
+select * from healthWrite order by healthDate desc;

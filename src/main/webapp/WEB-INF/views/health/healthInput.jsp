@@ -250,6 +250,7 @@
 			        </select>
 						</td>
 		      </tr>
+		      
 		     	<tr>
 		        <th>사진 추가</th>
 		        <td colspan="3"><input type="file" name="fName" id="photo" class="form-control-file border form-control"/></td>

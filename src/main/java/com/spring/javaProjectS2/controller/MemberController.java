@@ -1,6 +1,9 @@
 package com.spring.javaProjectS2.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -345,27 +348,36 @@ public class MemberController {
 			session.removeAttribute("pwdCheck");
 		}
 		
-		// 차트 분석
+		// 월별 차트 분석
+		LocalDate now = LocalDate.now();
+		String year = now.getYear()+"";
+		String month = now.getMonthValue()+"";
+		if(month.length() == 1) {
+			month = "0" + month;
+		}
+		
 		List<HealthWriteVO> vos = memberService.getHealthWriteSearchList(mid);
 		
+		System.out.println("vos : " + vos);
 		String[] date = new String[vos.size()];
 		int[] weight = new int[vos.size()];
 		
 		int cnt = 0;
 		for(HealthWriteVO v : vos) {
-			date[cnt] = v.getHealthDate().substring(0,10);
-			weight[cnt] = v.getWeight();
+			System.out.println("v : " + v);
+			if(v.getHealthDate().substring(0,4).equals(year) && v.getHealthDate().substring(5,7).equals(month)) {
+				date[cnt] = v.getHealthDate().substring(8,10);
+				weight[cnt] = v.getWeight();
+				System.out.println("date : " + date[cnt]);
+			}
 			cnt++;
 		}
 				
-		// 게시물 총 개수 구하기
-//		int boardCnt = boardService.getBoardCnt(mid);
-//		
-//		model.addAttribute("boardCnt",boardCnt);
 		model.addAttribute("size",vos.size()-1);
 		model.addAttribute("date",date);
 		model.addAttribute("weight",weight);
 		model.addAttribute("vo",vo);
+		model.addAttribute("month",month);
 		return "member/memberPage";
 	}
 	
@@ -434,6 +446,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "/memberDelOk", method = RequestMethod.POST)
 	public String memberDelOkPost(String pwd, String mid) {
+		System.out.println("pwd : " + pwd + ", mid : " + mid);
 		MemberVO vo = memberService.getMemberIdCheck(mid);
 		
 		int res = 0;

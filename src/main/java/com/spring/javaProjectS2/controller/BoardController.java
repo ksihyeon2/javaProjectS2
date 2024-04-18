@@ -73,11 +73,7 @@ public class BoardController {
 		  model.addAttribute("vos",vos);
 		  model.addAttribute("user",user);
 		  
-//		  if(part.equals("공지")) {
-//		  	return "admin/noticeList";
-//		  } else {
-		  	return "board/boardList";
-//		  }
+		  return "board/boardList";
 	}
 	
   // 게시물 전체 리스트 창 띄우기 (검색기)
@@ -138,10 +134,6 @@ public class BoardController {
 			
 			BoardVO vo = boardService.getBoardContent(idx);
 			
-			// 이전/다음 글 가져오기
-			BoardVO preVO = boardService.getPreNextSearch(idx, "preVO");
-			BoardVO nextVO = boardService.getPreNextSearch(idx, "nextVO");
-			
 			// 좋아요 여부
 			String nickName = (String) session.getAttribute("sNickName");
 			GoodcheckVO goodCheckVO = boardService.getBoardGoodCheck(idx, nickName);
@@ -150,8 +142,6 @@ public class BoardController {
 			model.addAttribute("replyVOS", replyVOS);
 			
 			model.addAttribute("vo", vo);
-			model.addAttribute("preVO", preVO);
-			model.addAttribute("nextVO", nextVO);
 			model.addAttribute("pag", pag);
 			model.addAttribute("pageSize", pageSize);
 			model.addAttribute("goodCheckVO", goodCheckVO);
